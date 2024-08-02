@@ -36,7 +36,7 @@ table KeyMeasures
 
 		changedProperty = FormatString
 
-	measure 'Direct Transport' = IF(SELECTEDVALUE(FACT_ATR[OthHospTransCodeId]) in { 1,-99},"Direct", "Transfer")
+	measure 'Direct Transport' = IF(SELECTEDVALUE(FACT_ATR[OtherHospTransfer]) in { 1,-99},"Direct", "Transfer")
 		lineageTag: 3ea327f3-0e48-4bf0-92c8-e590a5f0bd12
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -157,7 +157,7 @@ table KeyMeasures
 			    NOT(ISBLANK(FACT_ATR[TimeToED]))
 			)
 			
-			VAR calculation_table = SUMMARIZE(initial_table,FACT_ATR[RegId],FACT_ATR[InstCodeId],FACT_ATR[TimeToED])
+			VAR calculation_table = SUMMARIZE(initial_table,FACT_ATR[RegId],FACT_ATR[InstitutionID],FACT_ATR[TimeToED])
 			
 			VAR Q1 = CALCULATE(
 			    PERCENTILE.INC(FACT_ATR[TimeToED],0.25),

@@ -10,41 +10,6 @@ table FACT_NATIONAL
 
 		annotation SummarizationSetBy = Automatic
 
-	column InstCodeId
-		dataType: string
-		lineageTag: 7b49ce2c-4a6c-4917-8d83-b6afa2903321
-		summarizeBy: none
-		sourceColumn: InstCodeId
-
-		annotation SummarizationSetBy = Automatic
-
-	column PatAge
-		dataType: int64
-		formatString: 0
-		lineageTag: 7e03e741-09fe-4e79-9ba6-07033027c24d
-		summarizeBy: none
-		sourceColumn: PatAge
-
-		annotation SummarizationSetBy = Automatic
-
-	column ATR_AGE
-		dataType: int64
-		formatString: 0
-		lineageTag: 80ba1145-8223-4e96-aa44-1f53926d870f
-		summarizeBy: sum
-		sourceColumn: ATR_AGE
-
-		annotation SummarizationSetBy = Automatic
-
-	column PatGenderCodeId
-		dataType: int64
-		formatString: 0
-		lineageTag: 5fab239f-0ad8-4da5-a266-8cff39c15da8
-		summarizeBy: none
-		sourceColumn: PatGenderCodeId
-
-		annotation SummarizationSetBy = Automatic
-
 	column InjuryDt
 		dataType: dateTime
 		formatString: Long Date
@@ -55,67 +20,6 @@ table FACT_NATIONAL
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date
-
-	column CauseICDCodeId
-		dataType: string
-		lineageTag: acfbbbd4-c3e0-4939-8884-2051611b3ad6
-		summarizeBy: none
-		sourceColumn: CauseICDCodeId
-
-		annotation SummarizationSetBy = Automatic
-
-	column InjuryTypeCodeId
-		dataType: int64
-		formatString: 0
-		lineageTag: 24ddd22d-c32f-4ecb-b9b8-dde660bbcea7
-		summarizeBy: none
-		sourceColumn: InjuryTypeCodeId
-
-		annotation SummarizationSetBy = Automatic
-
-	column InjuryIntentCodeId
-		dataType: int64
-		formatString: 0
-		lineageTag: e80f7088-5638-4d52-aa9c-8387993c0fb3
-		summarizeBy: none
-		sourceColumn: InjuryIntentCodeId
-
-		annotation SummarizationSetBy = Automatic
-
-	column InjuryPlaceCodeId
-		dataType: string
-		lineageTag: 3426f2cf-5354-4217-b1d6-0612e71df434
-		summarizeBy: none
-		sourceColumn: InjuryPlaceCodeId
-
-		annotation SummarizationSetBy = Automatic
-
-	column TransModeCodeId
-		dataType: int64
-		formatString: 0
-		lineageTag: 1ace8850-26f9-4798-850f-b464f676117f
-		summarizeBy: none
-		sourceColumn: TransModeCodeId
-
-		annotation SummarizationSetBy = Automatic
-
-	column OthHospTransCodeId
-		dataType: int64
-		formatString: 0
-		lineageTag: 7997524a-e250-451a-b112-528aa347b32a
-		summarizeBy: count
-		sourceColumn: OthHospTransCodeId
-
-		annotation SummarizationSetBy = Automatic
-
-	column DischargeDestCodeId
-		dataType: int64
-		formatString: 0
-		lineageTag: 5b83eadf-2924-4cc3-bdd1-08c5b4535dc8
-		summarizeBy: none
-		sourceColumn: DischargeDestCodeId
-
-		annotation SummarizationSetBy = Automatic
 
 	column ISS
 		dataType: int64
@@ -144,14 +48,6 @@ table FACT_NATIONAL
 		annotation SummarizationSetBy = Automatic
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column InjuryActivityCodeId
-		dataType: string
-		lineageTag: 793d35f0-2ff9-40d2-8f8e-cfd99012e01c
-		summarizeBy: none
-		sourceColumn: InjuryActivityCodeId
-
-		annotation SummarizationSetBy = Automatic
 
 	column country
 		dataType: string
@@ -203,6 +99,100 @@ table FACT_NATIONAL
 		lineageTag: c7b2b66a-9a07-491e-93a9-baf864e5324c
 		summarizeBy: sum
 		sourceColumn: Index
+
+		annotation SummarizationSetBy = Automatic
+
+	column InstitutionID
+		dataType: string
+		lineageTag: f753f976-e0b0-49b6-91fa-44f463978310
+		summarizeBy: none
+		sourceColumn: InstitutionID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Age
+		dataType: int64
+		formatString: 0
+		lineageTag: f8f14875-11ba-4c57-b703-6ac4f0edd908
+		summarizeBy: none
+		sourceColumn: Age
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sex
+		dataType: int64
+		formatString: 0
+		lineageTag: 412a5ac8-a633-4181-9ce2-8678ebde08c0
+		summarizeBy: sum
+		sourceColumn: Sex
+
+		annotation SummarizationSetBy = Automatic
+
+	column InjuryCause
+		dataType: string
+		lineageTag: 89811f6d-de71-4a5e-8633-c48a00e4e3df
+		summarizeBy: none
+		sourceColumn: InjuryCause
+
+		annotation SummarizationSetBy = Automatic
+
+	column InjuryType
+		dataType: int64
+		formatString: 0
+		lineageTag: 52155a4b-80f1-4d8d-bd98-8840e343bcd6
+		summarizeBy: sum
+		sourceColumn: InjuryType
+
+		annotation SummarizationSetBy = Automatic
+
+	column InjuryIntent
+		dataType: int64
+		formatString: 0
+		lineageTag: 17c78931-86e9-4d76-a348-7c70381f20c4
+		summarizeBy: sum
+		sourceColumn: InjuryIntent
+
+		annotation SummarizationSetBy = Automatic
+
+	column InjuryPlace
+		dataType: string
+		lineageTag: 5cc8413d-4bd5-4eee-8f16-d75f96bb7f4f
+		summarizeBy: none
+		sourceColumn: InjuryPlace
+
+		annotation SummarizationSetBy = Automatic
+
+	column TranspMode
+		dataType: string
+		lineageTag: 5b526fb6-8c62-475a-adb2-1e01fe183c1b
+		summarizeBy: none
+		sourceColumn: TranspMode
+
+		annotation SummarizationSetBy = Automatic
+
+	column OtherHospTransfer
+		dataType: int64
+		formatString: 0
+		lineageTag: e70bae20-6b0a-44c2-a858-381a68d68564
+		summarizeBy: sum
+		sourceColumn: OtherHospTransfer
+
+		annotation SummarizationSetBy = Automatic
+
+	column DischargeDest
+		dataType: int64
+		formatString: 0
+		lineageTag: 3c78a780-4cdd-473e-9834-72dc9e3b8a12
+		summarizeBy: sum
+		sourceColumn: DischargeDest
+
+		annotation SummarizationSetBy = Automatic
+
+	column ActEngaged
+		dataType: string
+		lineageTag: 750754d4-d274-4fb0-8d6b-706c76dc5130
+		summarizeBy: none
+		sourceColumn: ActEngaged
 
 		annotation SummarizationSetBy = Automatic
 

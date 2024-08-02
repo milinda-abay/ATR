@@ -547,6 +547,7 @@
     "defaultFilterActionIsDataFilter": true,
     "defaultDrillFilterOtherVisuals": true,
     "allowChangeFilterTypes": true,
+    "useEnhancedTooltips": true,
     "customMemoryLimit": "1048576",
     "customTimeoutLimit": "225"
   },

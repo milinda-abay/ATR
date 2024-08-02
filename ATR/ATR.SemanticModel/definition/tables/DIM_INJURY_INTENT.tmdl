@@ -5,7 +5,7 @@ table DIM_INJURY_INTENT
 		dataType: int64
 		formatString: 0
 		lineageTag: 6e2653e5-0ff3-4f19-baa8-6b7fa9cab31c
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: injury_intent_code_id
 
 		annotation SummarizationSetBy = Automatic
@@ -28,4 +28,6 @@ table DIM_INJURY_INTENT
 				    Source
 
 	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
 

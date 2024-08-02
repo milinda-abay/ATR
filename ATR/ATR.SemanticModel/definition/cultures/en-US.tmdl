@@ -15,7 +15,7 @@ cultureInfo en-US
 			      "State": "Generated",
 			      "Terms": [
 			        {
-			          "Hospital": {
+			          "Hospital name": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -25,7 +25,7 @@ cultureInfo en-US
 			          }
 			        },
 			        {
-			          "Hospital name": {
+			          "Hospital": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -45,6 +45,16 @@ cultureInfo en-US
 			      },
 			      "State": "Generated",
 			      "Terms": [
+			        {
+			          "Number of injuries": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
 			        {
 			          "Injuries (%)": {
 			            "State": "Suggested",
@@ -127,19 +137,7 @@ cultureInfo en-US
 			          "ConceptualProperty": "description"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "Mode of Transport": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "calendar.monthyear": {
 			      "Definition": {
@@ -148,19 +146,7 @@ cultureInfo en-US
 			          "ConceptualProperty": "MonthYear"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "Month-Year": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "dim_dischagre.discharge_description": {
 			      "Definition": {
@@ -173,6 +159,36 @@ cultureInfo en-US
 			      "Terms": [
 			        {
 			          "Discharge destination": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dim_body_region.description": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "DIM_BODY_REGION",
+			          "ConceptualProperty": "description"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "fact_atr.transfertype": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "FACT_ATR",
+			          "ConceptualProperty": "TransferType"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Transfer Type": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",

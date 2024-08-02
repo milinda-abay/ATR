@@ -62,7 +62,8 @@
                   "Property": "Time to ED"
                 }
               },
-              "queryRef": "KeyMeasures.IQR Measure"
+              "queryRef": "KeyMeasures.Time to ED",
+              "nativeQueryRef": "Time to ED"
             }
           ]
         }
