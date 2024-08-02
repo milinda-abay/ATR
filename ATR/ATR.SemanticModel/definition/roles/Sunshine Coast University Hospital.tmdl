@@ -1,0 +1,7 @@
+role 'Sunshine Coast University Hospital'
+	modelPermission: read
+
+	tablePermission RESTRICTED_HOSPITAL = [InstCodeId] = "310000032"
+
+	annotation PBI_Id = 2672a4c1471f4178a9cbd966e7362de3
+

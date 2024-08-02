@@ -1,0 +1,31 @@
+table DIM_GENDER
+	lineageTag: 0ae4c4ec-3eaf-4226-9740-0cd8db420aa6
+
+	column pat_gender_code_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 42744483-3f30-4664-8307-ab7dea1fc75e
+		summarizeBy: none
+		sourceColumn: pat_gender_code_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column description
+		dataType: string
+		lineageTag: 8b0ca44a-eb30-4260-b9ce-a7302798fad4
+		summarizeBy: none
+		sourceColumn: description
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DIM_GENDER-99a6b7be-39d2-4fcb-979a-402399aa9cad = m
+		mode: import
+		queryGroup: Dimension
+		source =
+				let
+				    Source = #table( type table [pat_gender_code_id=Int64.Type, description=text],{{1,"Male"}, {2,"Female"},{3,"Intersex or indeterminate"},{9,"Not stated/inadequately described"}})
+				in
+				    Source
+
+	annotation PBI_ResultType = Table
+

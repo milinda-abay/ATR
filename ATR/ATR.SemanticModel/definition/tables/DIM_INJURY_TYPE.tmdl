@@ -1,0 +1,31 @@
+table DIM_INJURY_TYPE
+	lineageTag: ec7427fe-baac-40b0-ac83-0ee93cb2b448
+
+	column injury_type_code_id
+		dataType: int64
+		formatString: 0
+		lineageTag: e72b29d8-9587-4704-872c-cee056e7991c
+		summarizeBy: none
+		sourceColumn: injury_type_code_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column description
+		dataType: string
+		lineageTag: ab51ea04-e09b-45b6-baeb-9504ee9f0509
+		summarizeBy: none
+		sourceColumn: description
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DIM_INJURY_TYPE-83701f0e-6879-4f66-89a2-47ca94f20979 = m
+		mode: import
+		queryGroup: Dimension
+		source =
+				let
+				    Source = #table( type table [injury_type_code_id=Int64.Type, description=text],{{1,"Blunt"}, {2,"Penetrating"},{3,"Burn"},{8,"Other trauma"},{9,"Not stated/inadequately described"}})
+				in
+				    Source
+
+	annotation PBI_ResultType = Table
+

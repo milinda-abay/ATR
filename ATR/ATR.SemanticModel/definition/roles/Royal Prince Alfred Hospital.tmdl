@@ -1,0 +1,7 @@
+role 'Royal Prince Alfred Hospital'
+	modelPermission: read
+
+	tablePermission RESTRICTED_HOSPITAL = [InstCodeId] = "110000019"
+
+	annotation PBI_Id = 6f3d5bed16b044838b23f3fb9c291595
+

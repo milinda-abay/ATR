@@ -1,0 +1,7 @@
+role 'Royal Brisbane and Women’s Hospital'
+	modelPermission: read
+
+	tablePermission RESTRICTED_HOSPITAL = [InstCodeId] = "310000022"
+
+	annotation PBI_Id = b6c10c28ace74e2dadbe9aef235014a8
+

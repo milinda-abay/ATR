@@ -1,0 +1,7 @@
+role 'Sydney Children’s Hospital'
+	modelPermission: read
+
+	tablePermission RESTRICTED_HOSPITAL = [InstCodeId] = "110000021"
+
+	annotation PBI_Id = d0baefeade1a49dea6b7c75548d5cf0a
+

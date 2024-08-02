@@ -1,0 +1,116 @@
+relationship 6ee85764-264d-4855-81b7-b25afc1e8c8e
+	fromColumn: FACT_ATR.CauseICDCodeId
+	toColumn: DIM_INJURY_CAUSE.cause_icd_code_id
+
+relationship 9a1fad0a-a6ef-4e25-8c44-0c853ae7799e
+	fromColumn: FACT_ATR.country
+	toColumn: 'DIM COUNTRY'.country
+
+relationship 4cfd7cd8-808d-46e8-83f9-3a97bc41de42
+	fromColumn: FACT_ATR.DischargeDestCodeId
+	toColumn: DIM_DISCHAGRE.destination_id
+
+relationship e3d8ea07-4fee-436d-9f76-076d7c0b157c
+	fromColumn: FACT_ATR.InjuryActivityCodeId
+	toColumn: DIM_INJURY_ACTIVITY.InjuryActivityCodeId
+
+relationship eb71839f-ebed-41c9-bb46-96379a95aa5a
+	fromColumn: FACT_ATR.InjuryDt
+	toColumn: Calendar.cal_date
+
+relationship bfbbaf3a-89c9-43d3-b139-e695cb2eadf2
+	fromColumn: FACT_ATR.InjuryIntentCodeId
+	toColumn: DIM_INJURY_INTENT.injury_intent_code_id
+
+relationship 746d942c-e104-4e6b-9c3c-9115e7e41414
+	fromColumn: FACT_ATR.InjuryTypeCodeId
+	toColumn: DIM_INJURY_TYPE.injury_type_code_id
+
+relationship 28d0cf65-6b3a-4abf-8a5f-3c506d923426
+	fromColumn: FACT_ATR.InstCodeId
+	toColumn: DIM_HOSPITAL.InstCodeId
+
+relationship b0bf6363-60bb-4c15-b50d-41b467b6a901
+	fromColumn: FACT_ATR.ISS
+	toColumn: DIM_INJURY_SEVERITY.iss_id
+
+relationship 8719b6f9-3023-4c47-8c49-c34657d0ef46
+	fromColumn: FACT_ATR.PatAge
+	toColumn: DIM_AGE.age
+
+relationship 31bee3e2-32fd-415b-b3f1-667f9540cc37
+	fromColumn: FACT_ATR.PatGenderCodeId
+	toColumn: DIM_GENDER.pat_gender_code_id
+
+relationship 308005dc-a5dc-4d67-ab54-d2d5815bf47e
+	fromColumn: FACT_ATR.TransModeCodeId
+	toColumn: DIM_TRANSPORT.trans_mode_code_id
+
+relationship 115d2dc7-85ac-4375-b15a-0025e39e112c
+	fromColumn: FACT_ATR.InjuryPlaceCodeId
+	toColumn: DIM_INJURY_PLACE.injury_place_code_id
+
+relationship 25e9c266-ad41-4e7b-af1e-2dd065a782cf
+	fromColumn: FACT_ATR.body_region
+	toColumn: DIM_BODY_REGION.body_region
+
+relationship 40ce290c-2389-4dce-b906-8abe1dc0b76d
+	fromColumn: FACT_ATR.InstCodeId
+	toColumn: RESTRICTED_HOSPITAL.InstCodeId
+
+relationship 88193cba-cc15-4757-993c-cf7834f7ba03
+	fromColumn: FACT_NATIONAL.PatGenderCodeId
+	toColumn: DIM_GENDER.pat_gender_code_id
+
+relationship 6fe59770-a64d-4122-bc67-b65895885bcf
+	fromColumn: FACT_NATIONAL.InstCodeId
+	toColumn: DIM_HOSPITAL.InstCodeId
+
+relationship 9fa8d5a7-a073-4292-ac06-024f6dfe58e5
+	fromColumn: FACT_NATIONAL.country
+	toColumn: 'DIM COUNTRY'.country
+
+relationship efb48105-5bad-46e6-9ee9-8e83c14ebea0
+	fromColumn: FACT_NATIONAL.CauseICDCodeId
+	toColumn: DIM_INJURY_CAUSE.cause_icd_code_id
+
+relationship 0172e135-a34b-448b-bfad-bed6f6cd0145
+	fromColumn: FACT_NATIONAL.body_region
+	toColumn: DIM_BODY_REGION.body_region
+
+relationship 6fba7c10-581b-4a19-8112-df6f785d840c
+	fromColumn: FACT_NATIONAL.ISS
+	toColumn: DIM_INJURY_SEVERITY.iss_id
+
+relationship c30d9f91-b3a1-43a3-b495-5020a39a47a0
+	fromColumn: FACT_NATIONAL.InjuryPlaceCodeId
+	toColumn: DIM_INJURY_PLACE.injury_place_code_id
+
+relationship d620e0d4-3b66-41fa-a7b4-28424c7461b1
+	fromColumn: FACT_NATIONAL.DischargeDestCodeId
+	toColumn: DIM_DISCHAGRE.destination_id
+
+relationship 161348bf-2fa4-4f4a-831c-051a5b76af22
+	fromColumn: FACT_NATIONAL.InjuryActivityCodeId
+	toColumn: DIM_INJURY_ACTIVITY.InjuryActivityCodeId
+
+relationship 419bb1c9-dadd-491b-9037-4ba73c030deb
+	fromColumn: FACT_NATIONAL.InjuryIntentCodeId
+	toColumn: DIM_INJURY_INTENT.injury_intent_code_id
+
+relationship 7d61f465-30bc-435f-8d8d-1f7d12b80426
+	fromColumn: FACT_NATIONAL.TransModeCodeId
+	toColumn: DIM_TRANSPORT.trans_mode_code_id
+
+relationship 42dadd19-0e4c-485b-a129-a9216a9d3604
+	fromColumn: FACT_NATIONAL.PatAge
+	toColumn: DIM_AGE.age
+
+relationship 4a00594d-944d-49d9-8bce-01809c3ff871
+	fromColumn: FACT_NATIONAL.InjuryTypeCodeId
+	toColumn: DIM_INJURY_TYPE.injury_type_code_id
+
+relationship 65af9cc9-a14e-405a-bcc4-70933dffc40d
+	fromColumn: FACT_NATIONAL.InjuryDt
+	toColumn: Calendar.cal_date
+

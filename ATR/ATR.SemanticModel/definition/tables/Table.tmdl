@@ -1,0 +1,69 @@
+table Table
+	lineageTag: d7e7b4c6-1c77-49f9-bc9a-b3c379da4745
+
+	column RegId
+		dataType: int64
+		formatString: 0
+		lineageTag: 81d8e0cb-8d44-4738-8f47-59629999b431
+		summarizeBy: count
+		isNameInferred
+		isDataTypeInferred
+		sourceColumn: FACT_ATR[RegId]
+
+		annotation SummarizationSetBy = Automatic
+
+	column InstCodeId
+		dataType: string
+		lineageTag: 9154d201-ee62-4e12-8e46-a9465a8daf9f
+		summarizeBy: none
+		isNameInferred
+		isDataTypeInferred
+		sourceColumn: FACT_ATR[InstCodeId]
+
+		annotation SummarizationSetBy = Automatic
+
+	column TimeToED
+		dataType: double
+		lineageTag: a3602d08-0f37-4b93-ac72-769422de7ba7
+		summarizeBy: sum
+		isNameInferred
+		isDataTypeInferred
+		sourceColumn: FACT_ATR[TimeToED]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Table-7d0619ac-f8a3-4cb8-96c6-cee61158ddae = calculated
+		mode: import
+		source =
+				
+				VAR initial_table = SUMMARIZE(allselected(FACT_ATR),FACT_ATR[RegId],FACT_ATR[InstCodeId],FACT_ATR[TimeToED])
+				
+				VAR calculation_table = FILTER(initial_table, NOT(ISBLANK(FACT_ATR[TimeToED])))
+				
+				VAR Q1 = CALCULATE(
+				    PERCENTILE.INC(FACT_ATR[TimeToED],0.25),
+				    calculation_table
+				)
+				
+				VAR Q3 = CALCULATE(
+				    PERCENTILE.INC(FACT_ATR[TimeToED],0.75),
+				    calculation_table
+				)
+				
+				VAR IQR = Q3-Q1
+				
+				VAR lower_bound = (Q1 - 1.5 * IQR)
+				VAR upper_bound = (Q3 + 1.5 * IQR)
+				
+				VAR final_table = FILTER(
+				    calculation_table,
+				    FACT_ATR[TimeToED] > lower_bound && FACT_ATR[TimeToED] < upper_bound
+				)
+				
+				RETURN
+				final_table
+
+	annotation PBI_Id = 082ec2a89e0247a0abbb9a6950003ccc
+

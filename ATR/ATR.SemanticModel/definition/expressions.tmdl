@@ -1,0 +1,1092 @@
+expression hospital =
+		let
+		    Source = #"01_TotalCasesPerHospitalAndFinancialYear"[[InstCodeId], [HospitalName]],
+		    #"Removed Duplicates" = Table.Distinct(Source, {"InstCodeId"})
+		in
+		    #"Removed Duplicates"
+	lineageTag: b988c2d5-8f4c-48bd-bd60-14b38bf9f32d
+	queryGroup: Pre-process
+
+	annotation PBI_ResultType = Exception
+
+expression ATRCompleteDataset =
+		let
+		    Source = #"07_ATRCompleteDataset",
+		    #"Merged Queries" = Table.NestedJoin(Source, {"InstCodeId"}, hospital_features, {"InstCodeId"}, "hospital_features", JoinKind.LeftOuter),
+		    #"Expanded hospital_features" = Table.ExpandTableColumn(#"Merged Queries", "hospital_features", {"country"}, {"country"}),
+		    Add_TransferType = Table.AddColumn(#"Expanded hospital_features", "TransferType", each if [OthHospTransCodeId] = 2 or [OthHospTransCodeId] = -99 then "Direct Transport" else "Transfer",type text),
+		    #"Added KnownArrDt" =
+		        Table.AddColumn(
+		            Add_TransferType,
+		            "KnownArrDt",
+		            each
+		                [ArrDt]
+		                <> #date(1900, 01, 01)
+		                and not ([ArrDt] = null),
+		            type logical
+		        ),
+		    #"Added KnownArrTime" =
+		        Table.AddColumn(
+		            #"Added KnownArrDt",
+		            "KnownArrTime",
+		            each
+		                [ArrTime]
+		                <> #time(0, 0, 0)
+		                and not ([ArrTime] = null),
+		            type logical
+		        ),
+		    #"Added KnownInjuryDt" =
+		        Table.AddColumn(
+		            #"Added KnownArrTime",
+		            "KnownInjurtyDt",
+		            each
+		                [InjuryDt]
+		                <> #date(1900, 01, 01)
+		                and not ([InjuryDt] = null),
+		            type logical
+		        ),
+		    #"Added KnownInjuryTime" =
+		        Table.AddColumn(
+		            #"Added KnownInjuryDt",
+		            "KnownInjuryTime",
+		            each
+		                [InjuryTime]
+		                <> #time(0, 0, 0)
+		                and not ([InjuryTime] = null),
+		            type logical
+		        ),
+		    #"Added KnownEDDischargeDt" =
+		        Table.AddColumn(
+		            #"Added KnownInjuryTime",
+		            "KnownEDDischargeDt",
+		            each
+		                [EDDischargeDt]
+		                <> #date(1900, 1, 1)
+		                and not ([EDDischargeDt] = null),
+		            type logical
+		        ),
+		    #"Added KnownEDDischargeTime" =
+		        Table.AddColumn(
+		            #"Added KnownEDDischargeDt",
+		            "KnownEDDischargeTime",
+		            each
+		                [EDDischargeTime]
+		                <> #time(0, 0, 0)
+		                and not ([EDDischargeTime] = null),
+		            type logical
+		        ),
+		    #"Add TimeToED" =
+		        Table.AddColumn(
+		            #"Added KnownEDDischargeTime",
+		            "TimeToED",
+		            each
+		                if
+		                    [OthHospTransCodeId]
+		                    = 2
+		                    and [KnownInjurtyDt]
+		                    and [KnownInjuryTime]
+		                    and [KnownArrDt]
+		                    and [KnownArrTime]
+		                    and [ArrDtTime]
+		                    >= [InjuryDateTime]
+		                then
+		                    [ArrDtTime] - [InjuryDateTime]
+		                else
+		                    null,
+		            Duration.Type
+		        ),
+		    #"Add TimeInED" =
+		        Table.AddColumn(
+		            #"Add TimeToED",
+		            "TimeInED",
+		            each
+		                if
+		                    [KnownArrDt]
+		                    and [KnownArrTime]
+		                    and [KnownEDDischargeDt]
+		                    and [KnownEDDischargeTime]
+		                    and [EDDischargeDtTime]
+		                    >= [ArrDtTime]
+		                then
+		                    [EDDischargeDtTime] - [ArrDtTime]
+		                else
+		                    null,
+		            Duration.Type
+		        ),
+		    #"Replaced Value" =
+		        Table.ReplaceValue(
+		            #"Add TimeInED",
+		            "",
+		            null,
+		            Replacer.ReplaceValue,
+		            {
+		                "SevereComplications",
+		                "OperationProcedures",
+		                "ComorbCodeIds"
+		            }
+		        ),
+		    #"Replaced Value2" =
+		        Table.ReplaceValue(
+		            #"Replaced Value",
+		            each
+		                [PatDOB]
+		                = #date(1901, 1, 1)
+		                or [PatDOB]
+		                = #date(1900, 1, 1),
+		            null,
+		            (x, y, z) as nullable date =>
+		                if y then
+		                    z
+		                else
+		                    x,
+		            {"PatDOB"}
+		        ),
+		    #"Replaced Value3" =
+		        Table.ReplaceValue(
+		            #"Replaced Value2",
+		            each [PatAge] = 999 or[PatAge] = 9999 or [PatAge] = null,
+		            -1,
+		            (x, y, z) as nullable number =>
+		                if y then
+		                    z
+		                else
+		                    x,
+		            {"PatAge"}
+		        ),
+		    Custom1 = Table.ReplaceValue(#"Replaced Value3", each [InjuryPcode]=-99, null, (x,y,z) as nullable number => if y then z else x, {"InjuryPcode"}),
+		    #"Changed Type" =
+		        Table.TransformColumnTypes(Custom1,{{"PatAge", Int64.Type}, {"InjuryPcode", type text}}),
+		    #"Split Column by Delimiter" = Table.ExpandListColumn(Table.TransformColumns(#"Changed Type", {{"OperationProcedures", Splitter.SplitTextByDelimiter(";", QuoteStyle.Csv), let itemType = (type nullable text) meta [Serialized.Text = true] in type {itemType}}}), "OperationProcedures"),
+		    #"Split Column by Delimiter1" = Table.ExpandListColumn(Table.TransformColumns(#"Split Column by Delimiter", {{"SevereComplications", Splitter.SplitTextByDelimiter(";", QuoteStyle.None), let itemType = (type nullable text) meta [Serialized.Text = true] in type {itemType}}}), "SevereComplications"),
+		    #"Split Column by Delimiter2" = Table.ExpandListColumn(Table.TransformColumns(#"Split Column by Delimiter1", {{"AIS", Splitter.SplitTextByDelimiter(";", QuoteStyle.None), let itemType = (type nullable text) meta [Serialized.Text = true] in type {itemType}}}), "AIS"),
+		    #"Split Column by Delimiter3" = Table.ExpandListColumn(Table.TransformColumns(#"Split Column by Delimiter2", {{"ComorbCodeIds", Splitter.SplitTextByDelimiter(";", QuoteStyle.None), let itemType = (type nullable text) meta [Serialized.Text = true] in type {itemType}}}), "ComorbCodeIds"),
+		    /*bufer_table = Table.Buffer(#"Split Column by Delimiter3"),
+		    test =
+		        Table.AddColumn(
+		            bufer_table,
+		            "Custom",
+		            each
+		                Table.FromColumns(
+		                    {
+		                        try Text.Split([OperationProcedures], ";") otherwise
+		                            {
+		                                null
+		                            },
+		                        try Text.Split([SevereComplications], ";") otherwise
+		                            {
+		                                null
+		                            },
+		                        try Text.Split([AIS], ";") otherwise
+		                            {
+		                                null
+		                            },
+		                        try Text.Split([ComorbCodeIds], ";") otherwise
+		                            {
+		                                null
+		                            }
+		                    },
+		                    type table [
+		                        OpProcCodeId = text,
+		                        SevCompCodeId = text,
+		                        AISCodeId = text,
+		                        ComorbCodeId = text
+		                    ]
+		                ),
+		            type table [
+		                OpProcCodeId = text,
+		                SevCompCodeId = text,
+		                AISCodeId = text,
+		                ComorbCodeId = text
+		            ]
+		        ),
+		    #"Expanded Custom" =
+		        Table.ExpandTableColumn(
+		            test,
+		            "Custom",
+		            {
+		                "OpProcCodeId",
+		                "SevCompCodeId",
+		                "AISCodeId",
+		                "ComorbCodeId"
+		            },
+		            {
+		                "OpProcCodeId",
+		                "SevCompCodeId",
+		                "AISCodeId",
+		                "ComorbCodeId"
+		            }
+		        ),*/
+		    #"Calculated Total Hours" = Table.TransformColumns(#"Split Column by Delimiter3",{{"TimeToED", Duration.TotalHours, type number}, {"TimeInED", Duration.TotalHours, type number}}),
+		    apply_body_region_func = Table.AddColumn(#"Calculated Total Hours", "BodyRegion", each BodyRegion(_), type record),
+		    #"Expanded BodyRegion" = Table.ExpandRecordColumn(apply_body_region_func, "BodyRegion", {"iso", "head_other", "serious_spinal", "extrem_spine", "chest_abdo", "no_code", "multiple"}, {"iso", "head_other", "serious_spinal", "extrem_spine", "chest_abdo", "no_code", "multiple"}),
+		    #"Changed Type2" = Table.TransformColumnTypes(#"Expanded BodyRegion",{{"iso", Int64.Type}, {"head_other", Int64.Type}, {"serious_spinal", Int64.Type}, {"extrem_spine", Int64.Type}, {"chest_abdo", Int64.Type}, {"no_code", Int64.Type}, {"multiple", Int64.Type}}),
+		    #"Replaced Value4" = Table.ReplaceValue(#"Changed Type2",0,null,Replacer.ReplaceValue,{"iso", "head_other", "serious_spinal", "extrem_spine", "chest_abdo", "no_code", "multiple"}),
+		    #"Unpivoted Only Selected Columns" = Table.Unpivot(#"Replaced Value4", {"iso", "head_other", "serious_spinal", "extrem_spine", "chest_abdo", "no_code", "multiple"}, "body_region", "Value"),
+		    #"Removed Columns" = Table.RemoveColumns(#"Unpivoted Only Selected Columns",{"Value"})
+		in
+		    #"Removed Columns"
+	lineageTag: 59bffb0f-9707-41e1-86e7-7df75762dcc5
+	queryGroup: Pre-process
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+
+expression hospital_features =
+		let
+		    Source = hospital_features_1,
+		    #"Capitalized Each Word" = Table.TransformColumns(Source,{{"country", Text.Proper, type text}})
+		in
+		    #"Capitalized Each Word"
+	lineageTag: a8501b6b-9642-403c-8913-52634d0a179a
+	queryGroup: Pre-process
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+
+expression injury_place_old = ```
+		let
+		    Source = icd_am,
+		    #"Renamed Columns" = Table.RenameColumns(Source,{{"ICD-10-AM Code", "injury_place_code_id"}}),
+		    #"Filtered Rows" = Table.SelectRows(#"Renamed Columns", each Text.StartsWith([injury_place_code_id], "Y92")),
+		    #"Extracted Text After Delimiter" = Table.TransformColumns(#"Filtered Rows", {{"ICD-10 Map", each Text.AfterDelimiter(_, "="), type text}}),
+		    table_type = TableType(#"Extracted Text After Delimiter"),
+		    table_code = #table( table_type, {
+		        {"Y92","Place of occurrence","0"},
+		        {"Y92.1","Residential institution","1"},
+		        {"Y92.2","School, other institution and public administrative area","2"},
+		        {"Y92.3","Sports and athletics area","3"},
+		        {"Y92.4","Street and highway","4"},
+		        {"Y92.5","Trade and service area","5"},
+		        {"Y92.6","Industrial and construction area","6"},
+		        {"Y92.8","Other specified place of occurrence","8"}        
+		        } ),
+		    Custom1 = table_code,
+		    #"Appended Query" = Table.Combine({Custom1, #"Extracted Text After Delimiter"})
+		in
+		    #"Appended Query"
+		```
+	lineageTag: f8a80579-6490-485b-a549-9f59bbf0f74c
+	queryGroup: 'To delete'
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+
+expression injury_activity =
+		let
+		    Source = icd_am,
+		    #"Renamed Columns" = Table.RenameColumns(Source,{{"ICD-10-AM Code", "InjuryActivityCodeId"}}),
+		    #"Filtered Rows" = Table.SelectRows(#"Renamed Columns", each Text.StartsWith([InjuryActivityCodeId], "U")),
+		    #"Extracted Text After Delimiter" = Table.TransformColumns(#"Filtered Rows", {{"ICD-10 Map", each Text.AfterDelimiter(_, "="), type text}}),
+		    table_type = TableType(#"Extracted Text After Delimiter"),
+		    table_code = #table( table_type, {
+		        {"U50","Team ball sports","0"},
+		        {"U51","Team bat or stick sports","0"},
+		        {"U52","Team water sports","0"},
+		        {"U53","Boating sports","0"},
+		        {"U54","Individual water sports","0"},
+		        {"U56","Individual athletic activities","0"},
+		        {"U57","Acrobatic sports","0"},
+		        {"U58","Aesthetic activities","0"},
+		        {"U59","Racquet sports","0"},
+		        {"U60","Target and precision sports","0"},
+		        {"U61","Combative sports","0"},
+		        {"U62","Power sports","0"},
+		        {"U63","Equestrian activities","0"},
+		        {"U64","Adventure sports","0"},
+		        {"U65","Wheeled motor sports","0"},
+		        {"U66","Wheeled non-motored sports","0"},
+		        {"U67","Multidiscipline sports","0"},
+		        {"U68","Aero sports","0"},
+		        {"U70","Other specified sport and exercise activity","0"},
+		        {"U73","Other activity","0"}
+		        } ),
+		    Custom1 = table_code,
+		    #"Appended Query" = Table.Combine({Custom1, #"Extracted Text After Delimiter"})
+		in
+		    #"Appended Query"
+	lineageTag: dc80e1a1-1878-4852-a24c-05c8bd9c3f7c
+	queryGroup: Pre-process
+
+	annotation PBI_ResultType = Exception
+
+expression injury_cause = ```
+		let
+		    Source = List.RemoveMatchingItems(List.Distinct( #"07_ATRCompleteDataset"[CauseICDCodeId]), {""}),
+		    #"Converted to Table" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+		    #"Renamed Columns" = Table.RenameColumns(#"Converted to Table",{{"Column1", "cause_icd_code_id"}}),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Renamed Columns",{{"cause_icd_code_id", type text}}),
+		    #"Merged Queries" = Table.NestedJoin(#"Changed Type", {"cause_icd_code_id"}, icd_am, {"ICD-10-AM Code"}, "icd_am", JoinKind.LeftOuter),
+		    #"Expanded icd_am" = Table.ExpandTableColumn(#"Merged Queries", "icd_am", {"ICD-10 code descriptor", "ICD-10 Map"}, {"ICD-10 code descriptor", "ICD-10 Map"}),
+		    table_type = TableType(#"Expanded icd_am"),
+		    table_code = #table( table_type, {
+		        {"U50","Team ball sports","0"},
+		        {"U51","Team bat or stick sports","0"},
+		        {"U52","Team water sports","0"},
+		        {"U53","Boating sports","0"},
+		        {"U54","Individual water sports","0"},
+		        {"U56","Individual athletic activities","0"},
+		        {"U57","Acrobatic sports","0"},
+		        {"U58","Aesthetic activities","0"},
+		        {"U59","Racquet sports","0"},
+		        {"U60","Target and precision sports","0"},
+		        {"U61","Combative sports","0"},
+		        {"U62","Power sports","0"},
+		        {"U63","Equestrian activities","0"},
+		        {"U64","Adventure sports","0"},
+		        {"U65","Wheeled motor sports","0"},
+		        {"U66","Wheeled non-motored sports","0"},
+		        {"U67","Multidiscipline sports","0"},
+		        {"U68","Aero sports","0"},
+		        {"U70","Other specified sport and exercise activity","0"},
+		        {"U73","Other activity","0"}
+		        } ),
+		    
+		    #"Appended Query" = #"Expanded icd_am"
+		in
+		    #"Appended Query"
+		```
+	lineageTag: b0088671-d192-45c5-82c0-3488d02945c9
+	queryGroup: Pre-process
+
+	annotation PBI_ResultType = Table
+
+expression body_region =
+		let
+		    Source = #table(type table [body_region=text],{{"iso"},{"head_other"},{"serious_spinal"},{"extrem_spine"},{"chest_abdo"},{"no_code"},{"multiple"}}),
+		    Custom1 = Source[body_region],
+		    description = {"Isolated head injury","Head and other injuries","Serious spinal cord injury","Extremity and/or spine injuries only","Chest and/or abdominal injuries only","No coded injuries","Multiple injuries, burns or other"},
+		    code = {"iso","head_other","serious_spinal","extrem_spine","chest_abdo","no_code","multiple"},
+		    Custom4 = #table(type table [body_region=text, description=text], List.Zip({code,description})),
+		    #"Added Index" = Table.AddIndexColumn(Custom4, "sort_body_region", 1, 1, Int64.Type)
+		in
+		    #"Added Index"
+	lineageTag: 4b73e34f-1fbd-4231-8016-53abaffcfd67
+	queryGroup: Pre-process
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+
+expression 'National ATRCompleteDataset' =
+		let
+		    Source = ATRCompleteDataset,
+		    #"Removed Other Columns" = Table.SelectColumns(Source,{"RegId", "InstCodeId", "HospitalName", "State", "PatAge", "PatGenderCodeId", "InjuryDt", "CauseICDCodeId", "InjuryTypeCodeId", "InjuryIntentCodeId", "InjuryPlaceCodeId", "TransModeCodeId", "DischargeDestCodeId", "ISS", "InjuryActivityCodeId", "country", "body_region"}),
+		    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns")
+		in
+		    #"Removed Duplicates"
+	lineageTag: 17e55262-5151-46ad-a3f3-b36bb1bf5f3b
+	queryGroup: DEV
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 01_TotalCasesPerHospitalAndFinancialYear =
+		let
+		    Source = Excel.Workbook(File.Contents(data_path&"01_TotalCasesPerHospitalAndFinancialYear.xlsx"), null, true),
+		    Query_Sheet = Source{[Item="Query",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(Query_Sheet, [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"InstCodeId", type text}, {"HospitalName", type text}, {"FinancialYear", Int64.Type}, {"Q1", Int64.Type}, {"Q2", Int64.Type}, {"Q3", Int64.Type}, {"Q4", Int64.Type}, {"TotalForYear", Int64.Type}})
+		in
+		    #"Changed Type"
+	lineageTag: 2d631906-e335-44e9-ab44-4f7127acafe3
+	queryGroup: Source
+
+	annotation PBI_ResultType = Exception
+
+expression 06_ATRDataExported_tbl_precomorb =
+		let
+		    Source = Excel.Workbook(File.Contents(data_path&"06_ATRDataExported.xls"), null, true),
+		    tbl_precomorb_Sheet = Source{[Item="tbl_precomorb",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(tbl_precomorb_Sheet, [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"RegId", Int64.Type}, {"ComorbCodeId", type text}, {"UpdatedBy", type text}, {"UpdatedDt", type datetime}, {"CreatedBy", type text}, {"CreatedDt", type datetime}})
+		in
+		    #"Changed Type"
+	lineageTag: 41d9d3bb-0c2c-46c0-b444-59a4a53e78aa
+	queryGroup: Source
+
+expression 06_ATRDataExported_tbl_prehospital =
+		let
+		    Source = Excel.Workbook(File.Contents(data_path&"06_ATRDataExported.xls"), null, true),
+		    tbl_prehospital_Sheet = Source{[Item="tbl_prehospital",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(tbl_prehospital_Sheet, [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"PreHospId", Int64.Type}, {"RegId", Int64.Type}, {"TransModeCodeId", Int64.Type}, {"AmbArrDateTime", type datetime}, {"OthHospTransCodeId", Int64.Type}, {"PreBloodTransfCodeId", Int64.Type}, {"PreCPRCodeId", Int64.Type}, {"PreArrestCodeId", Int64.Type}, {"FirstPulse", Int64.Type}, {"FirstSysBP", Int64.Type}, {"FirstRespRate", Int64.Type}, {"FirstTemp", type number}, {"FirstGCSEyeCodeId", Int64.Type}, {"FirstGCSVceCodeId", Int64.Type}, {"FirstGCSMtrCodeId", Int64.Type}, {"FirstTotalGCS", Int64.Type}, {"UpdatedBy", type text}, {"UpdatedDt", type datetime}, {"CreatedBy", type text}, {"CreatedDt", type datetime}})
+		in
+		    #"Changed Type"
+	lineageTag: 3887b755-09ed-40c3-9351-5ff3d5d48baa
+	queryGroup: Source
+
+expression 06_ATRDataExported_tbl_refhospital =
+		let
+		    Source = Excel.Workbook(File.Contents(data_path&"06_ATRDataExported.xls"), null, true),
+		    tbl_refhospital_Sheet = Source{[Item="tbl_refhospital",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(tbl_refhospital_Sheet, [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"RegId", Int64.Type}, {"RefHospCodeId", type text}, {"RefHospArrDt", type datetime}, {"RefHospDeptDt", type datetime}, {"RefHospTranspModeCodeId", Int64.Type}, {"UpdatedBy", type text}, {"UpdatedDt", type datetime}, {"CreatedBy", type text}, {"CreatedDt", type datetime}})
+		in
+		    #"Changed Type"
+	lineageTag: 53a16cd7-ee6a-448a-b4e6-5a0e14233e9d
+	queryGroup: Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 06_ATRDataExported_tbl_safetydvc =
+		let
+		    Source = Excel.Workbook(File.Contents(data_path&"06_ATRDataExported.xls"), null, true),
+		    tbl_safetydvc_Sheet = Source{[Item="tbl_safetydvc",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(tbl_safetydvc_Sheet, [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"RegId", Int64.Type}, {"SafeDvcCodeId", Int64.Type}, {"UpdatedBy", type text}, {"UpdatedDt", type datetime}, {"CreatedBy", type text}, {"CreatedDt", type datetime}})
+		in
+		    #"Changed Type"
+	lineageTag: 5b7bd45f-c28b-494d-94cb-894452e08931
+	queryGroup: Source
+
+expression 07_ATRCompleteDataset =
+		let
+		    Source = Csv.Document(File.Contents(data_path&"07_ATRCompleteDataset.csv"),[Delimiter=",", Columns=110, Encoding=1252, QuoteStyle=QuoteStyle.Csv]),
+		    #"Cleaned Text" = Table.TransformColumns(Source,{{"Column1", Text.Clean, type text}, {"Column2", Text.Clean, type text}, {"Column3", Text.Clean, type text}, {"Column4", Text.Clean, type text}, {"Column5", Text.Clean, type text}, {"Column6", Text.Clean, type text}, {"Column7", Text.Clean, type text}, {"Column8", Text.Clean, type text}, {"Column9", Text.Clean, type text}, {"Column10", Text.Clean, type text}, {"Column11", Text.Clean, type text}, {"Column12", Text.Clean, type text}, {"Column13", Text.Clean, type text}, {"Column14", Text.Clean, type text}, {"Column15", Text.Clean, type text}, {"Column16", Text.Clean, type text}, {"Column17", Text.Clean, type text}, {"Column18", Text.Clean, type text}, {"Column19", Text.Clean, type text}, {"Column20", Text.Clean, type text}, {"Column21", Text.Clean, type text}, {"Column22", Text.Clean, type text}, {"Column23", Text.Clean, type text}, {"Column24", Text.Clean, type text}, {"Column25", Text.Clean, type text}, {"Column26", Text.Clean, type text}, {"Column27", Text.Clean, type text}, {"Column28", Text.Clean, type text}, {"Column29", Text.Clean, type text}, {"Column30", Text.Clean, type text}, {"Column31", Text.Clean, type text}, {"Column32", Text.Clean, type text}, {"Column33", Text.Clean, type text}, {"Column34", Text.Clean, type text}, {"Column35", Text.Clean, type text}, {"Column36", Text.Clean, type text}, {"Column37", Text.Clean, type text}, {"Column38", Text.Clean, type text}, {"Column39", Text.Clean, type text}, {"Column40", Text.Clean, type text}, {"Column41", Text.Clean, type text}, {"Column42", Text.Clean, type text}, {"Column43", Text.Clean, type text}, {"Column44", Text.Clean, type text}, {"Column45", Text.Clean, type text}, {"Column46", Text.Clean, type text}, {"Column47", Text.Clean, type text}, {"Column48", Text.Clean, type text}, {"Column49", Text.Clean, type text}, {"Column50", Text.Clean, type text}, {"Column51", Text.Clean, type text}, {"Column52", Text.Clean, type text}, {"Column53", Text.Clean, type text}, {"Column54", Text.Clean, type text}, {"Column55", Text.Clean, type text}, {"Column56", Text.Clean, type text}, {"Column57", Text.Clean, type text}, {"Column58", Text.Clean, type text}, {"Column59", Text.Clean, type text}, {"Column60", Text.Clean, type text}, {"Column61", Text.Clean, type text}, {"Column62", Text.Clean, type text}, {"Column63", Text.Clean, type text}, {"Column64", Text.Clean, type text}, {"Column65", Text.Clean, type text}, {"Column66", Text.Clean, type text}, {"Column67", Text.Clean, type text}, {"Column68", Text.Clean, type text}, {"Column69", Text.Clean, type text}, {"Column70", Text.Clean, type text}, {"Column71", Text.Clean, type text}, {"Column72", Text.Clean, type text}, {"Column73", Text.Clean, type text}, {"Column74", Text.Clean, type text}, {"Column75", Text.Clean, type text}, {"Column76", Text.Clean, type text}, {"Column77", Text.Clean, type text}, {"Column78", Text.Clean, type text}, {"Column79", Text.Clean, type text}, {"Column80", Text.Clean, type text}, {"Column81", Text.Clean, type text}, {"Column82", Text.Clean, type text}, {"Column83", Text.Clean, type text}, {"Column84", Text.Clean, type text}, {"Column85", Text.Clean, type text}, {"Column86", Text.Clean, type text}, {"Column87", Text.Clean, type text}, {"Column88", Text.Clean, type text}, {"Column89", Text.Clean, type text}, {"Column90", Text.Clean, type text}, {"Column91", Text.Clean, type text}, {"Column92", Text.Clean, type text}, {"Column93", Text.Clean, type text}, {"Column94", Text.Clean, type text}, {"Column95", Text.Clean, type text}, {"Column96", Text.Clean, type text}, {"Column97", Text.Clean, type text}, {"Column98", Text.Clean, type text}, {"Column99", Text.Clean, type text}, {"Column100", Text.Clean, type text}, {"Column101", Text.Clean, type text}, {"Column102", Text.Clean, type text}, {"Column103", Text.Clean, type text}, {"Column104", Text.Clean, type text}, {"Column105", Text.Clean, type text}, {"Column106", Text.Clean, type text}, {"Column107", Text.Clean, type text}, {"Column108", Text.Clean, type text}, {"Column109", Text.Clean, type text}, {"Column110", Text.Clean, type text}}),
+		    #"Trimmed Text" = Table.TransformColumns(#"Cleaned Text",{{"Column1", Text.Trim, type text}, {"Column2", Text.Trim, type text}, {"Column3", Text.Trim, type text}, {"Column4", Text.Trim, type text}, {"Column5", Text.Trim, type text}, {"Column6", Text.Trim, type text}, {"Column7", Text.Trim, type text}, {"Column8", Text.Trim, type text}, {"Column9", Text.Trim, type text}, {"Column10", Text.Trim, type text}, {"Column11", Text.Trim, type text}, {"Column12", Text.Trim, type text}, {"Column13", Text.Trim, type text}, {"Column14", Text.Trim, type text}, {"Column15", Text.Trim, type text}, {"Column16", Text.Trim, type text}, {"Column17", Text.Trim, type text}, {"Column18", Text.Trim, type text}, {"Column19", Text.Trim, type text}, {"Column20", Text.Trim, type text}, {"Column21", Text.Trim, type text}, {"Column22", Text.Trim, type text}, {"Column23", Text.Trim, type text}, {"Column24", Text.Trim, type text}, {"Column25", Text.Trim, type text}, {"Column26", Text.Trim, type text}, {"Column27", Text.Trim, type text}, {"Column28", Text.Trim, type text}, {"Column29", Text.Trim, type text}, {"Column30", Text.Trim, type text}, {"Column31", Text.Trim, type text}, {"Column32", Text.Trim, type text}, {"Column33", Text.Trim, type text}, {"Column34", Text.Trim, type text}, {"Column35", Text.Trim, type text}, {"Column36", Text.Trim, type text}, {"Column37", Text.Trim, type text}, {"Column38", Text.Trim, type text}, {"Column39", Text.Trim, type text}, {"Column40", Text.Trim, type text}, {"Column41", Text.Trim, type text}, {"Column42", Text.Trim, type text}, {"Column43", Text.Trim, type text}, {"Column44", Text.Trim, type text}, {"Column45", Text.Trim, type text}, {"Column46", Text.Trim, type text}, {"Column47", Text.Trim, type text}, {"Column48", Text.Trim, type text}, {"Column49", Text.Trim, type text}, {"Column50", Text.Trim, type text}, {"Column51", Text.Trim, type text}, {"Column52", Text.Trim, type text}, {"Column53", Text.Trim, type text}, {"Column54", Text.Trim, type text}, {"Column55", Text.Trim, type text}, {"Column56", Text.Trim, type text}, {"Column57", Text.Trim, type text}, {"Column58", Text.Trim, type text}, {"Column59", Text.Trim, type text}, {"Column60", Text.Trim, type text}, {"Column61", Text.Trim, type text}, {"Column62", Text.Trim, type text}, {"Column63", Text.Trim, type text}, {"Column64", Text.Trim, type text}, {"Column65", Text.Trim, type text}, {"Column66", Text.Trim, type text}, {"Column67", Text.Trim, type text}, {"Column68", Text.Trim, type text}, {"Column69", Text.Trim, type text}, {"Column70", Text.Trim, type text}, {"Column71", Text.Trim, type text}, {"Column72", Text.Trim, type text}, {"Column73", Text.Trim, type text}, {"Column74", Text.Trim, type text}, {"Column75", Text.Trim, type text}, {"Column76", Text.Trim, type text}, {"Column77", Text.Trim, type text}, {"Column78", Text.Trim, type text}, {"Column79", Text.Trim, type text}, {"Column80", Text.Trim, type text}, {"Column81", Text.Trim, type text}, {"Column82", Text.Trim, type text}, {"Column83", Text.Trim, type text}, {"Column84", Text.Trim, type text}, {"Column85", Text.Trim, type text}, {"Column86", Text.Trim, type text}, {"Column87", Text.Trim, type text}, {"Column88", Text.Trim, type text}, {"Column89", Text.Trim, type text}, {"Column90", Text.Trim, type text}, {"Column91", Text.Trim, type text}, {"Column92", Text.Trim, type text}, {"Column93", Text.Trim, type text}, {"Column94", Text.Trim, type text}, {"Column95", Text.Trim, type text}, {"Column96", Text.Trim, type text}, {"Column97", Text.Trim, type text}, {"Column98", Text.Trim, type text}, {"Column99", Text.Trim, type text}, {"Column100", Text.Trim, type text}, {"Column101", Text.Trim, type text}, {"Column102", Text.Trim, type text}, {"Column103", Text.Trim, type text}, {"Column104", Text.Trim, type text}, {"Column105", Text.Trim, type text}, {"Column106", Text.Trim, type text}, {"Column107", Text.Trim, type text}, {"Column108", Text.Trim, type text}, {"Column109", Text.Trim, type text}, {"Column110", Text.Trim, type text}}),
+		    #"Promoted Headers" = Table.PromoteHeaders(#"Trimmed Text", [PromoteAllScalars=true]),
+		    #"Replaced Value" = Table.ReplaceValue(#"Promoted Headers","-99","99",(x,y,z) as text=> if x=y then z else x,{"ISS","DischargeDestCodeId"}),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Replaced Value",{{"RegId", Int64.Type}, {"InstCodeId", type text}, {"InstTraumaId", type text}, {"IncidentId", type text}, {"Diagnosis24HrCodeId", Int64.Type}, {"PatDOB", type datetime}, {"PatAge", Int64.Type}, {"PatGenderCodeId", Int64.Type}, {"InjuryDateTime", type datetime}, {"InjuryDt", type datetime}, {"InjuryTime", type time}, {"CauseICDCodeId", type text}, {"InjuryTypeCodeId", Int64.Type}, {"InjuryIntentCodeId", Int64.Type}, {"InjuryPcode", Int64.Type}, {"InjuryPlaceCodeId", type text}, {"TransModeCodeId", Int64.Type}, {"AmbArrDateTime", type datetime}, {"AmbArrDate", type datetime}, {"AmbArrTime", type time}, {"OthHospTransCodeId", Int64.Type}, {"TotalHospTransfer", Int64.Type}, {"RefHospID1", type text}, {"RefHospArrDt1", type datetime}, {"RefHospDeptDt1", type datetime}, {"RefHospTranspModeCodeId1", Int64.Type}, {"RefHospID2", type text}, {"RefHospArrDt2", type datetime}, {"RefHospDeptDt2", type datetime}, {"RefHospTranspModeCodeId2", Int64.Type}, {"RefHospID3", type text}, {"RefHospArrDt3", type datetime}, {"RefHospDeptDt3", type datetime}, {"RefHospTranspModeCodeId3", type text}, {"ArrDtTime", type datetime}, {"ArrDt", type datetime}, {"ArrTime", type time}, {"ArrBloodAC", type number}, {"PreBloodTransfCodeId", Int64.Type}, {"PreCPRCodeId", Int64.Type}, {"PreArrestCodeId", Int64.Type}, {"FirstPulse", Int64.Type}, {"FirstSysBP", Int64.Type}, {"FirstRespRate", Int64.Type}, {"FirstTemp", type number}, {"FirstGCSEyeCodeId", Int64.Type}, {"FirstGCSVceCodeId", Int64.Type}, {"FirstGCSMtrCodeId", Int64.Type}, {"FirstTotalGCS", Int64.Type}, {"ArrPulse", Int64.Type}, {"ArrSysBP", Int64.Type}, {"ArrRespRate", Int64.Type}, {"ArrTemp", type number}, {"ArrGCSEyeCodeId", Int64.Type}, {"ArrGCSVceCodeId", Int64.Type}, {"ArrGCSMtrCodeId", Int64.Type}, {"ArrTotalGCS", Int64.Type}, {"ArrCPRCodeId", Int64.Type}, {"ArrBloodTransfCodeId", Int64.Type}, {"ArrIntubCodeId", Int64.Type}, {"ArrIntubDt", type datetime}, {"ArrRespQualCodeId", Int64.Type}, {"FirstArteBaseEx", Int64.Type}, {"FirstINR", type number}, {"EDDischargeDtTime", type datetime}, {"EDDischargeDt", type datetime}, {"EDDischargeTime", type time}, {"EDDispCodeId", Int64.Type}, {"DischargeDtTime", type datetime}, {"DischargeDt", type datetime}, {"DischargeTime", type time}, {"DischargeDestCodeId", Int64.Type}, {"ISS", Int64.Type}, {"LOS", type number}, {"ICULOS", type number}, {"ComorbCodeIds", type text}, {"InjuryActivityCodeId", type text}, {"EventDesc", type text}, {"SafetyDevices", type text}, {"AIS", type text}, {"AISCount", type text}, {"AIS_BodyRegion", Int64.Type}, {"Abd_MaxAIS", Int64.Type}, {"Abdo", Int64.Type}, {"Ext_MaxAIS", Int64.Type}, {"External", Int64.Type}, {"Face_MaxAIS", Int64.Type}, {"Face", Int64.Type}, {"Head_MaxAIS", Int64.Type}, {"Head", Int64.Type}, {"LoEx_MaxAIS", Int64.Type}, {"Lowerextrem", Int64.Type}, {"Neck_MaxAIS", Int64.Type}, {"Neck", Int64.Type}, {"Spine_MaxAIS", Int64.Type}, {"Spine", Int64.Type}, {"Thor_MaxAIS", Int64.Type}, {"Thorax", Int64.Type}, {"UpEx_MaxAIS", Int64.Type}, {"Upperextrem", Int64.Type}, {"NISS", Int64.Type}, {"SevereComplications", type text}, {"OperationProcedures", type text}, {"VentDays", Int64.Type}, {"ED_LOS", type number}, {"ATR_AGE", Int64.Type}, {"ATR_ISS", Int64.Type}}),
+		    #"Extracted Date" = Table.TransformColumns(#"Changed Type",{{"PatDOB", DateTime.Date, type date}, {"InjuryDt", DateTime.Date, type date}, {"AmbArrDate", DateTime.Date, type date}, {"RefHospArrDt1", DateTime.Date, type date}, {"RefHospDeptDt1", DateTime.Date, type date}, {"RefHospArrDt2", DateTime.Date, type date}, {"RefHospDeptDt2", DateTime.Date, type date}, {"RefHospArrDt3", DateTime.Date, type date}, {"RefHospDeptDt3", DateTime.Date, type date}, {"ArrDt", DateTime.Date, type date}, {"EDDischargeDt", DateTime.Date, type date}, {"DischargeDt", DateTime.Date, type date}}),
+		    #"Extracted Text Between Delimiters" = Table.TransformColumns(#"Extracted Date", {{"EventDesc", each Text.BetweenDelimiters(_, """", """"), type text},{"AIS", each Text.BetweenDelimiters(_, """", """"), type text},{"AISCount", each Text.BetweenDelimiters(_, """", """"), type text},{"OperationProcedures", each Text.BetweenDelimiters(_, """", """"), type text},{"SafetyDevices", each Text.BetweenDelimiters(_, """", """"), type text},{"SevereComplications", each Text.BetweenDelimiters(_, """", """"), type text},{"ComorbCodeIds", each Text.BetweenDelimiters(_, """", """"), type text}}),
+		    #"Changed Type1" = Table.TransformColumnTypes(#"Extracted Text Between Delimiters",{{"AISCount", Int64.Type}})
+		in
+		    #"Changed Type1"
+	lineageTag: d483fa6c-fc92-46b8-9ad6-c8de7ac3123c
+	queryGroup: Source
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+
+expression icd_am =
+		let
+		    Source = Csv.Document(Web.Contents("https://www.ihacpa.gov.au/sites/default/files/2022-08/e18_icd-10-am_eleventh_edition_to_icd-10_2016_0.txt"),[Delimiter=",", Columns=null, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+		    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}, {"Column2", type text}, {"Column3", type text}}),
+		    #"Promoted Headers" = Table.PromoteHeaders(#"Changed Type", [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+	lineageTag: 0ad2adee-7652-489c-be89-01403e6554ec
+	queryGroup: Source
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+
+expression TableType =
+		let
+		  Source = (InputTable as table) as type =>
+		    let
+		      Source = Table.Schema(InputTable),
+		      SortRows = Table.Sort(Source, {{"Position", Order.Ascending}}),
+		      AddCustom = Table.AddColumn(
+		        SortRows,
+		        "TypeNames",
+		        each Expression.Identifier([Name]) & " = " & [Kind]
+		      ),
+		      TypeString = "type table [" & Text.Combine(AddCustom[TypeNames], ", ") & "]",
+		      Output = Expression.Evaluate(TypeString)
+		    in
+		      Output
+		in
+		  Source
+	lineageTag: 4a7dce2a-aa5b-4161-af1c-9d3b1223f1bf
+	queryGroup: Functions
+
+	annotation PBI_ResultType = Function
+
+	annotation PBI_NavigationStepName = Navigation
+
+expression BodyRegion =
+		let
+		  Source = (_) =>
+		    let
+		      UE_NN = [Upperextrem] <> null,
+		      LE_NN = [Lowerextrem] <> null,
+		      S_NN = [Spine] <> null,
+		      H_NN = [Head] <> null,
+		      F_NN = [Face] <> null,
+		      N_NN = [Neck] <> null,
+		      E_NN = [External] <> null,
+		      T_NN = [Thorax] <> null,
+		      A_NN = [Abdo] <> null,
+		      ortho =
+		        if ([Upperextrem] > 1 and UE_NN)
+		          or ([Lowerextrem] > 1 and LE_NN)
+		          or ([Spine] = 2 and S_NN)
+		          or ([Spine] = 3 and S_NN)
+		        then
+		          true
+		        else
+		          false,
+		      sci = if ([Spine] > 3 and S_NN) then true else false,
+		      heads = if ([Head] > 2 and H_NN) then true else false,
+		      othchestabdo =
+		        if (
+		          ([Thorax] = 2 and [Abdo] = 2)
+		            or ([Thorax] = 2 and [Abdo] = 1)
+		            or ([Thorax] = 2 and A_NN)
+		            or ([Abdo] = 2 and [Thorax] = 1)
+		            or ([Abdo] = 2 and T_NN)
+		        )
+		        then
+		          true
+		        else
+		          false,
+		      otherinj =
+		        if (
+		          ([Head] = 2 and H_NN)
+		            or ([Face] > 1 and F_NN)
+		            or ([Neck] > 1 and N_NN)
+		            or ([External] > 1 and E_NN)
+		            or othchestabdo
+		            and not sci
+		        )
+		        then
+		          true
+		        else
+		          false,
+		      thoraxoth =
+		        if (([Thorax] > 2 and T_NN) and (heads or ortho or otherinj) and not sci) then
+		          true
+		        else
+		          false,
+		      abdooth =
+		        if (([Abdo] > 2 and A_NN) and (heads or ortho or otherinj) and not sci) then
+		          true
+		        else
+		          false,
+		      chestabdo =
+		        if (
+		          (
+		            ([Thorax] > 2 and T_NN and [Abdo] > 1 and A_NN)
+		              or ([Abdo] > 2 and A_NN and [Thorax] > 1 and T_NN)
+		          )
+		            and ([Head] < 2 or H_NN)
+		            and not thoraxoth
+		            and not abdooth
+		            and not ortho
+		            and not otherinj
+		            and not sci
+		        )
+		        then
+		          true
+		        else
+		          false,
+		      isothorax =
+		        if (
+		          ([Thorax] > 2 and T_NN)
+		            and ([Head] < 2 or [Head] = null)
+		            and ([Abdo] > 2 or [Abdo] = null)
+		            and not thoraxoth
+		            and not abdooth
+		            and not ortho
+		            and not otherinj
+		            and not sci
+		        )
+		        then
+		          true
+		        else
+		          false,
+		      isoabdo =
+		        if (
+		          ([Abdo] > 2 and A_NN)
+		            and ([Head] < 2 or [Head] = null)
+		            and ([Thorax] < 2 or [Thorax] = null)
+		            and not abdooth
+		            and not ortho
+		            and not otherinj
+		            and not isothorax
+		            and not sci
+		        )
+		        then
+		          true
+		        else
+		          false,
+		      abdches =
+		        if ((isothorax and isoabdo) or (not isothorax and isoabdo) or (isothorax and not isoabdo)) then
+		          true
+		        else
+		          false,
+		      noinj =
+		        if (not (H_NN or F_NN or N_NN or T_NN or A_NN or S_NN or UE_NN or LE_NN or E_NN)) then
+		          true
+		        else
+		          false,
+		      Isolated_head_injury =
+		        if (
+		          heads
+		            and not sci
+		            and not otherinj
+		            and not thoraxoth
+		            and not abdooth
+		            and not chestabdo
+		            and not isothorax
+		            and not isoabdo
+		            and not abdches
+		            and not ortho
+		        )
+		        then
+		          true
+		        else
+		          false,
+		      Head_and_other_injuries =
+		        if (
+		          heads
+		            and (otherinj or ortho or thoraxoth or abdooth or chestabdo or isothorax or isoabdo)
+		            and not sci
+		        )
+		        then
+		          true
+		        else
+		          false,
+		      Serious_spinal_cord_injury = if sci then true else false,
+		      Extremity_and_or_spine_injuries_only =
+		        if (
+		          ortho
+		            and not heads
+		            and not sci
+		            and not thoraxoth
+		            and not abdooth
+		            and not chestabdo
+		            and not isothorax
+		            and not isoabdo
+		            and not abdches
+		            and not otherinj
+		        )
+		        then
+		          true
+		        else
+		          false,
+		      Chest_and_or_abdominal_injuries_only =
+		        if (abdches and not heads and not sci and not ortho and not otherinj) then
+		          true
+		        else
+		          false,
+		      No_coded_injuries = if noinj then true else false,
+		      Multiple_injuries_burns_or_other =
+		        if not Isolated_head_injury
+		          and not Head_and_other_injuries
+		          and not Serious_spinal_cord_injury
+		          and not Extremity_and_or_spine_injuries_only
+		          and not Chest_and_or_abdominal_injuries_only
+		          and not No_coded_injuries
+		        then
+		          true
+		        else
+		          false
+		    in
+		      [
+		        iso            = Isolated_head_injury,
+		        head_other     = Head_and_other_injuries,
+		        serious_spinal = Serious_spinal_cord_injury,
+		        extrem_spine   = Extremity_and_or_spine_injuries_only,
+		        chest_abdo     = Chest_and_or_abdominal_injuries_only,
+		        no_code        = No_coded_injuries,
+		        multiple       = Multiple_injuries_burns_or_other
+		      ]
+		in
+		  Source
+	lineageTag: 6b458418-9f5f-4d6c-bcbd-8e234fe981a2
+	queryGroup: Functions
+
+	annotation PBI_ResultType = Function
+
+	annotation PBI_NavigationStepName = Navigation
+
+expression 'ATRCompleteDataset (2)' =
+		let
+		    Source = #"07_ATRCompleteDataset",
+		    #"Added KnownArrDt" =
+		        Table.AddColumn(
+		            Source,
+		            "KnownArrDt",
+		            each
+		                [ArrDt]
+		                <> #date(1900, 01, 01)
+		                and not ([ArrDt] = null),
+		            type logical
+		        ),
+		    #"Added KnownArrTime" =
+		        Table.AddColumn(
+		            #"Added KnownArrDt",
+		            "KnownArrTime",
+		            each
+		                [ArrTime]
+		                <> #time(0, 0, 0)
+		                and not ([ArrTime] = null),
+		            type logical
+		        ),
+		    #"Added KnownInjuryDt" =
+		        Table.AddColumn(
+		            #"Added KnownArrTime",
+		            "KnownInjurtyDt",
+		            each
+		                [InjuryDt]
+		                <> #date(1900, 01, 01)
+		                and not ([InjuryDt] = null),
+		            type logical
+		        ),
+		    #"Added KnownInjuryTime" =
+		        Table.AddColumn(
+		            #"Added KnownInjuryDt",
+		            "KnownInjuryTime",
+		            each
+		                [InjuryTime]
+		                <> #time(0, 0, 0)
+		                and not ([InjuryTime] = null),
+		            type logical
+		        ),
+		    #"Added KnownEDDischargeDt" =
+		        Table.AddColumn(
+		            #"Added KnownInjuryTime",
+		            "KnownEDDischargeDt",
+		            each
+		                [EDDischargeDt]
+		                <> #date(1900, 1, 1)
+		                and not ([EDDischargeDt] = null),
+		            type logical
+		        ),
+		    #"Added KnownEDDischargeTime" =
+		        Table.AddColumn(
+		            #"Added KnownEDDischargeDt",
+		            "KnownEDDischargeTime",
+		            each
+		                [EDDischargeTime]
+		                <> #time(0, 0, 0)
+		                and not ([EDDischargeTime] = null),
+		            type logical
+		        ),
+		    #"Add TimeToED" =
+		        Table.AddColumn(
+		            #"Added KnownEDDischargeTime",
+		            "TimeToED",
+		            each
+		                if
+		                    [OthHospTransCodeId]
+		                    = 2
+		                    and [KnownInjurtyDt]
+		                    and [KnownInjuryTime]
+		                    and [KnownArrDt]
+		                    and [KnownArrTime]
+		                    and [ArrDtTime]
+		                    >= [InjuryDateTime]
+		                then
+		                    [ArrDtTime] - [InjuryDateTime]
+		                else
+		                    null,
+		            Duration.Type
+		        ),
+		    #"Add TimeInED" =
+		        Table.AddColumn(
+		            #"Add TimeToED",
+		            "TimeInED",
+		            each
+		                if
+		                    [KnownArrDt]
+		                    and [KnownArrTime]
+		                    and [KnownEDDischargeDt]
+		                    and [KnownEDDischargeTime]
+		                    and [EDDischargeDtTime]
+		                    >= [ArrDtTime]
+		                then
+		                    [EDDischargeDtTime] - [ArrDtTime]
+		                else
+		                    null,
+		            Duration.Type
+		        ),
+		    #"Replaced Value" =
+		        Table.ReplaceValue(
+		            #"Add TimeInED",
+		            "",
+		            null,
+		            Replacer.ReplaceValue,
+		            {
+		                "SevereComplications",
+		                "OperationProcedures",
+		                "ComorbCodeIds"
+		            }
+		        ),
+		    #"Replaced Value2" =
+		        Table.ReplaceValue(
+		            #"Replaced Value",
+		            each
+		                [PatDOB]
+		                = #date(1901, 1, 1)
+		                or [PatDOB]
+		                = #date(1900, 1, 1),
+		            null,
+		            (x, y, z) as nullable date =>
+		                if y then
+		                    z
+		                else
+		                    x,
+		            {"PatDOB"}
+		        ),
+		    #"Replaced Value3" =
+		        Table.ReplaceValue(
+		            #"Replaced Value2",
+		            each [PatAge] = 999 or[PatAge] = 9999 or [PatAge] = null,
+		            -1,
+		            (x, y, z) as nullable number =>
+		                if y then
+		                    z
+		                else
+		                    x,
+		            {"PatAge"}
+		        ),
+		    Custom1 = Table.ReplaceValue(#"Replaced Value3", each [InjuryPcode]=-99, null, (x,y,z) as nullable number => if y then z else x, {"InjuryPcode"}),
+		    #"Changed Type" =
+		        Table.TransformColumnTypes(Custom1,{{"PatAge", Int64.Type}, {"InjuryPcode", type text}}),
+		    bufer_table = Table.Buffer(#"Changed Type"),
+		    test =
+		        Table.AddColumn(
+		            bufer_table,
+		            "Custom",
+		            each
+		                Table.FromColumns(
+		                    {
+		                        try Text.Split([OperationProcedures], ";") otherwise
+		                            {
+		                                null
+		                            },
+		                        try Text.Split([SevereComplications], ";") otherwise
+		                            {
+		                                null
+		                            },
+		                        try Text.Split([AIS], ";") otherwise
+		                            {
+		                                null
+		                            },
+		                        try Text.Split([ComorbCodeIds], ";") otherwise
+		                            {
+		                                null
+		                            }
+		                    },
+		                    type table [
+		                        OpProcCodeId = text,
+		                        SevCompCodeId = text,
+		                        AISCodeId = text,
+		                        ComorbCodeId = text
+		                    ]
+		                ),
+		            type table [
+		                OpProcCodeId = text,
+		                SevCompCodeId = text,
+		                AISCodeId = text,
+		                ComorbCodeId = text
+		            ]
+		        ),
+		    #"Expanded Custom" =
+		        Table.ExpandTableColumn(
+		            test,
+		            "Custom",
+		            {
+		                "OpProcCodeId",
+		                "SevCompCodeId",
+		                "AISCodeId",
+		                "ComorbCodeId"
+		            },
+		            {
+		                "OpProcCodeId",
+		                "SevCompCodeId",
+		                "AISCodeId",
+		                "ComorbCodeId"
+		            }
+		        ),
+		    #"Calculated Total Hours" = Table.TransformColumns(#"Expanded Custom",{{"TimeToED", Duration.TotalHours, type number}, {"TimeInED", Duration.TotalHours, type number}}),
+		    #"Invoked Custom Function" = Table.AddColumn(#"Calculated Total Hours", "BodyRegion", each BodyRegion(_), type record),
+		    #"Expanded BodyRegion" = Table.ExpandRecordColumn(#"Invoked Custom Function", "BodyRegion", {"iso", "head_other", "serious_spinal", "extrem_spine", "chest_abdo", "no_code", "multiple"}, {"iso", "head_other", "serious_spinal", "extrem_spine", "chest_abdo", "no_code", "multiple"}),
+		    #"Changed Type2" = Table.TransformColumnTypes(#"Expanded BodyRegion",{{"iso", Int64.Type}, {"head_other", Int64.Type}, {"serious_spinal", Int64.Type}, {"extrem_spine", Int64.Type}, {"chest_abdo", Int64.Type}, {"no_code", Int64.Type}, {"multiple", Int64.Type}}),
+		    #"Replaced Value4" = Table.ReplaceValue(#"Changed Type2",0,null,Replacer.ReplaceValue,{"iso", "head_other", "serious_spinal", "extrem_spine", "chest_abdo", "no_code", "multiple"}),
+		    #"Added Custom" = Table.AddColumn(#"Replaced Value4", "Custom", each [iso] +[head_other] +[serious_spinal] +[extrem_spine] +[chest_abdo] +[no_code] +[multiple]),
+		    #"Unpivoted Only Selected Columns" = Table.Unpivot(#"Added Custom", {"iso", "head_other", "serious_spinal", "extrem_spine", "chest_abdo", "no_code", "multiple"}, "Attribute", "Value")
+		in
+		    #"Unpivoted Only Selected Columns"
+	lineageTag: 7453b666-baad-4e5a-b504-fe302fc4a529
+	queryGroup: DEV
+
+expression StartDate = #date(2000, 1, 1) meta [IsParameterQuery=true, Type="Date", IsParameterQueryRequired=true]
+	lineageTag: dbba15e3-e954-483a-abd0-4a0c45a47d3a
+
+	annotation PBI_ResultType = Date
+
+expression EndDate = #date(2024, 1, 1) meta [IsParameterQuery=true, Type="Date", IsParameterQueryRequired=true]
+	lineageTag: 16342a7d-b4f0-4441-86e7-acf24a077aba
+
+	annotation PBI_ResultType = Date
+
+expression data_path = "C:\Users\staff\projects\ATR\data\" meta [IsParameterQuery=true, List={"C:\Users\staff\projects\ATR\data\", "C:\Users\maba0001\Projects\ATR\", "C:\Users\bose_nivea\projects\ATR\"}, DefaultValue="C:\Users\staff\projects\ATR\data\", Type="Text", IsParameterQueryRequired=true]
+	lineageTag: d33d6cbc-baeb-411c-a777-0043c198ad8f
+
+	annotation PBI_ResultType = Text
+
+	annotation PBI_NavigationStepName = Navigation
+
+expression #shared =
+		let
+		    Source = #shared,
+		    #"Converted to Table" = Record.ToTable(Source),
+		    #"Filtered Rows" = Table.SelectRows(#"Converted to Table", each ([Name] = "Table.ExpandRecordColumn")),
+		    Value = #"Filtered Rows"{0}[Value]
+		in
+		    Value
+	lineageTag: dd38ae48-f8bd-4e13-8cf7-d5b194d428d4
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Function
+
+expression 'A  ICD-10 to ICD-10-AM' =
+		let
+		    Source = Excel.Workbook(Web.Contents(#"ICD-10-AM_mapping_table"), null, true),
+		    #"A. ICD-10 to ICD-10-AM_Sheet" = Source{[Item="A. ICD-10 to ICD-10-AM",Kind="Sheet"]}[Data],
+		    #"Removed Top Rows" = Table.Skip(#"A. ICD-10 to ICD-10-AM_Sheet",1),
+		    #"Promoted Headers" = Table.PromoteHeaders(#"Removed Top Rows", [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ICD-10 code", type text}})
+		in
+		    #"Changed Type"
+	lineageTag: d55acbe0-8022-4ade-b6df-0c3574c7b749
+	queryGroup: Source\ICD-10-AM/ACHI\ICD-10
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'C  ICD-10 Activity' =
+		let
+		    Source = Excel.Workbook(Web.Contents(#"ICD-10-AM_mapping_table"), null, true),
+		    #"C. ICD-10 Activity_Sheet" = Source{[Item="C. ICD-10 Activity",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(Table.Skip(#"C. ICD-10 Activity_Sheet",1), [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ICD-10 Activity category", type text}, {"ICD-10-AM map", type text}, {"ICD-10 category descriptor", type text}})
+		in
+		    #"Changed Type"
+	lineageTag: df093c78-779e-4377-ab7f-4588957adea9
+	queryGroup: Source\ICD-10-AM/ACHI\ICD-10
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression ICD-10-AM_mapping_table = "https://www.ihacpa.gov.au/sites/default/files/2022-12/ICD-10%20and%20ICD-10-AM%20mapping%20tables%20-%20Twelfth%20Edition.XLSX" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 025a5e7f-5921-4c20-a5e4-07c63998852a
+
+	annotation PBI_ResultType = Text
+
+expression 'B  ICD-10 Place of occurrence' =
+		let
+		    Source = Excel.Workbook(Web.Contents(#"ICD-10-AM_mapping_table"), null, true),
+		    #"B. ICD-10 Place of occurrence_Sheet" = Table.Skip(Source{[Item="B. ICD-10 Place of occurrence",Kind="Sheet"]}[Data],1),
+		    #"Promoted Headers" = Table.PromoteHeaders(#"B. ICD-10 Place of occurrence_Sheet", [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ICD-10 Place of occurence category", type text}, {"WHO update", type any}, {"ICD-10 category descriptor", type text}, {"ICD-10-AM map", type text}, {"Australian update", type any}, {"ICD-10-AM code descriptor of map", type text}, {"Column7", type any}})
+		in
+		    #"Changed Type"
+	lineageTag: 491feb52-a71b-41df-81d1-83f2d76128bd
+	queryGroup: Source\ICD-10-AM/ACHI\ICD-10
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression hospital_features_1 =
+		let
+		    Source = Csv.Document(File.Contents(data_path &"Hospital features.csv"),[Delimiter=",", Columns=7, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+		    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"InstCodeId", type text}, {"HospitalName", type text}, {"lat", type number}, {"long", type number}, {"postcode", type text}, {"state", type text}, {"country", type text}})
+		in
+		    #"Changed Type"
+	lineageTag: 7bde0b26-8c73-4fc9-98ec-458d498d9450
+	queryGroup: Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression '07_ATRCompleteDataset (2)' =
+		let
+		    Source = Csv.Document(File.Contents(data_path&"07_ATRCompleteDataset.csv"),[Delimiter=",", Columns=110, Encoding=1252, QuoteStyle=QuoteStyle.Csv]),
+		    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"RegId", Int64.Type}, {"InstCodeId", Int64.Type}, {"HospitalName", type text}, {"State", type text}, {"InstTraumaId", Int64.Type}, {"IncidentId", type text}, {"Diagnosis24HrCodeId", Int64.Type}, {"PatDOB", type datetime}, {"PatAge", Int64.Type}, {"ATR_AGE", Int64.Type}, {"PatGenderCodeId", Int64.Type}, {"InjuryDateTime", type datetime}, {"InjuryDt", type datetime}, {"InjuryTime", type time}, {"CauseICDCodeId", type text}, {"InjuryTypeCodeId", Int64.Type}, {"InjuryIntentCodeId", Int64.Type}, {"InjuryPcode", Int64.Type}, {"InjuryPlaceCodeId", Int64.Type}, {"TransModeCodeId", Int64.Type}, {"AmbArrDateTime", type datetime}, {"AmbArrDate", type datetime}, {"AmbArrTime", type time}, {"OthHospTransCodeId", Int64.Type}, {"TotalHospTransfer", Int64.Type}, {"RefHospID1", type text}, {"RefHospArrDt1", type datetime}, {"RefHospDeptDt1", type datetime}, {"RefHospTranspModeCodeId1", Int64.Type}, {"RefHospID2", type text}, {"RefHospArrDt2", type datetime}, {"RefHospDeptDt2", type datetime}, {"RefHospTranspModeCodeId2", Int64.Type}, {"RefHospID3", type text}, {"RefHospArrDt3", type text}, {"RefHospDeptDt3", type text}, {"RefHospTranspModeCodeId3", type text}, {"ArrDtTime", type datetime}, {"ArrDt", type datetime}, {"ArrTime", type time}, {"ArrBloodAC", type number}, {"PreBloodTransfCodeId", Int64.Type}, {"PreCPRCodeId", Int64.Type}, {"PreArrestCodeId", Int64.Type}, {"FirstPulse", Int64.Type}, {"FirstSysBP", Int64.Type}, {"FirstRespRate", Int64.Type}, {"FirstTemp", type number}, {"FirstGCSEyeCodeId", Int64.Type}, {"FirstGCSVceCodeId", Int64.Type}, {"FirstGCSMtrCodeId", Int64.Type}, {"FirstTotalGCS", Int64.Type}, {"ArrPulse", Int64.Type}, {"ArrSysBP", Int64.Type}, {"ArrRespRate", Int64.Type}, {"ArrTemp", type number}, {"ArrGCSEyeCodeId", Int64.Type}, {"ArrGCSVceCodeId", Int64.Type}, {"ArrGCSMtrCodeId", Int64.Type}, {"ArrTotalGCS", Int64.Type}, {"ArrCPRCodeId", Int64.Type}, {"ArrBloodTransfCodeId", Int64.Type}, {"ArrIntubCodeId", Int64.Type}, {"ArrIntubDt", type datetime}, {"ArrRespQualCodeId", Int64.Type}, {"FirstArteBaseEx", Int64.Type}, {"FirstINR", type number}, {"EDDischargeDtTime", type datetime}, {"EDDischargeDt", type datetime}, {"EDDischargeTime", type time}, {"ED_LOS", Int64.Type}, {"EDDispCodeId", Int64.Type}, {"DischargeDtTime", type datetime}, {"DischargeDt", type datetime}, {"DischargeTime", type time}, {"DischargeDestCodeId", Int64.Type}, {"ISS", Int64.Type}, {"ATR_ISS", Int64.Type}, {"ATR_NISS", type text}, {"LOS", type number}, {"ICULOS", Int64.Type}, {"VentDays", Int64.Type}, {"ComorbCodeIds", type text}, {"InjuryActivityCodeId", Int64.Type}, {"EventDesc", type text}, {"SafetyDevices", type text}, {"AIS", type text}, {"AISCount", type text}, {"AIS_BodyRegion", Int64.Type}, {"Abd_MaxAIS", Int64.Type}, {"Abdo", Int64.Type}, {"Ext_MaxAIS", Int64.Type}, {"External", Int64.Type}, {"Face_MaxAIS", Int64.Type}, {"Face", Int64.Type}, {"Head_MaxAIS", Int64.Type}, {"Head", Int64.Type}, {"LoEx_MaxAIS", Int64.Type}, {"Lowerextrem", Int64.Type}, {"Neck_MaxAIS", Int64.Type}, {"Neck", Int64.Type}, {"Spine_MaxAIS", Int64.Type}, {"Spine", Int64.Type}, {"Thor_MaxAIS", Int64.Type}, {"Thorax", Int64.Type}, {"UpEx_MaxAIS", Int64.Type}, {"Upperextrem", Int64.Type}, {"NISS", Int64.Type}, {"SevereComplications", type text}, {"OperationProcedures", type text}}),
+		    #"Filtered Rows" = Table.SelectRows(#"Changed Type", each ([ISS] = -99 or [DischargeDestCodeId]= -99)),
+		    #"Removed Other Columns" = Table.SelectColumns(#"Filtered Rows",{"DischargeDestCodeId", "ISS"}),
+		    #"Changed Type1" = Table.TransformColumnTypes(#"Removed Other Columns",{{"DischargeDestCodeId", type text}, {"ISS", type text}}),
+		    Custom1 = Table.ReplaceValue(#"Changed Type1","-99","99",(x,y,z) as text=> if x=y then z else x,{"ISS","DischargeDestCodeId"})
+		in
+		    Custom1
+	lineageTag: e3266644-219c-41bb-830c-0e4906b292f7
+	queryGroup: DEV
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression ATRCompleteDataset_Aggregated =
+		let
+		    Source = ATRCompleteDataset,
+		    #"Removed Other Columns" = Table.SelectColumns(Source,{"RegId", "InstCodeId", "PatAge", "ATR_AGE", "PatGenderCodeId", "InjuryDt", "CauseICDCodeId", "InjuryTypeCodeId", "InjuryIntentCodeId", "InjuryPlaceCodeId", "TransModeCodeId", "OthHospTransCodeId", "DischargeDestCodeId", "ISS", "ATR_ISS", "LOS", "InjuryActivityCodeId", "country", "TransferType", "TimeToED", "TimeInED", "body_region"}),
+		    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns"),
+		    #"Added Index" = Table.AddIndexColumn(#"Removed Duplicates", "Index", 1, 1, Int64.Type)
+		in
+		    #"Added Index"
+	lineageTag: f8379ab5-21b8-4e25-94d0-2a18bde20899
+	queryGroup: Pre-process
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression injury_place =
+		let
+		    Source = #"ICD-10-AM_injury_place",
+		    #"Renamed Columns" = Table.RenameColumns(Source,{{"icd_code", "injury_place_code_id"}})
+		in
+		    #"Renamed Columns"
+	lineageTag: 195f24db-7a56-4351-acc8-30cc2889c2f6
+	queryGroup: Pre-process
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression ICD-10-AM_injury_place =
+		let
+		    Source = #"ICD-10-AM",
+		    #"Filtered Rows" = Table.SelectRows(Source, each Text.StartsWith([icd_code], "Y92")),
+		    #"Merged Queries" = Table.NestedJoin(#"Filtered Rows", {"icd_code"}, #"B  ICD-10 Place of occurrence", {"ICD-10-AM map"}, "B  ICD-10 Place of occurrence", JoinKind.LeftOuter),
+		    #"Expanded B  ICD-10 Place of occurrence" = Table.ExpandTableColumn(#"Merged Queries", "B  ICD-10 Place of occurrence", {"ICD-10 category descriptor"}, {"icd_place_category"}),
+		    #"Sorted Rows" = Table.Sort(#"Expanded B  ICD-10 Place of occurrence",{{"icd_code", Order.Ascending}}),
+		    #"Removed Duplicates" = Table.Distinct(#"Sorted Rows", {"icd_code"}),
+		    replace_record = [Y92="Other specified places",Y92.22="Medical hospital",Y92.63="Mine or quarry",Y92.89 ="Other specified places",Y92.40="Street and highway"],
+		    #"Replaced Value" = Table.ReplaceValue(#"Removed Duplicates",each [icd_code] ,replace_record,(x,y,z) as text => if Record.HasFields(z, y) then Record.Field(z,y) else x,{"icd_place_category"}),
+		    #"Filled Up" = Table.FillUp(#"Replaced Value",{"icd_place_category"})
+		in
+		    #"Filled Up"
+	lineageTag: 18630809-4bd0-4161-9b5f-438ca988fc9b
+	queryGroup: Source\ICD-10-AM/ACHI
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression ICD-10-AM_injury_activity =
+		let
+		    Source = #"ICD-10-AM",
+		    #"Filtered Rows" = Table.SelectRows(Source, each Text.StartsWith([icd_code], "U5") or Text.StartsWith([icd_code], "U6") or Text.StartsWith([icd_code], "U7") and not Text.StartsWith([icd_code], "U78") and not Text.StartsWith([icd_code], "U79")),
+		    #"Merged Queries" = Table.NestedJoin(#"Filtered Rows", {"icd_code"}, #"C  ICD-10 Activity", {"ICD-10-AM map"}, "C  ICD-10 Activity", JoinKind.LeftOuter),
+		    #"Expanded C  ICD-10 Activity" = Table.ExpandTableColumn(#"Merged Queries", "C  ICD-10 Activity", {"ICD-10 category descriptor"}, {"icd_activity_category"}),
+		    #"Sorted Rows" = Table.Sort(#"Expanded C  ICD-10 Activity",{{"icd_code", Order.Ascending}})
+		in
+		    #"Sorted Rows"
+	lineageTag: daf77e64-dfd6-45bf-9726-ce4f1c4e9542
+	queryGroup: Source\ICD-10-AM/ACHI
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

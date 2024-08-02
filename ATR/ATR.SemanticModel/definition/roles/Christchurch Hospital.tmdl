@@ -1,0 +1,7 @@
+role 'Christchurch Hospital'
+	modelPermission: read
+
+	tablePermission RESTRICTED_HOSPITAL = [InstCodeId] = "910000006"
+
+	annotation PBI_Id = 7d87ae77cb4b4c41be52cf496b50b1be
+

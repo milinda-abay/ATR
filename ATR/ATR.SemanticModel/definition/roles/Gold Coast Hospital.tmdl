@@ -1,0 +1,7 @@
+role 'Gold Coast Hospital'
+	modelPermission: read
+
+	tablePermission RESTRICTED_HOSPITAL = [InstCodeId] = "313230936"
+
+	annotation PBI_Id = f80b27d67f6d4121a58730907c498f35
+

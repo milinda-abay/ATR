@@ -1,0 +1,7 @@
+role 'Royal North Shore Hospital'
+	modelPermission: read
+
+	tablePermission RESTRICTED_HOSPITAL = [InstCodeId] = "110000018"
+
+	annotation PBI_Id = bc7439b67abe4f0cb5d795d50e86564c
+

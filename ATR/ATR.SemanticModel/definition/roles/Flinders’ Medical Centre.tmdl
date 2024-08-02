@@ -1,0 +1,7 @@
+role 'Flinders’ Medical Centre'
+	modelPermission: read
+
+	tablePermission RESTRICTED_HOSPITAL = [InstCodeId] = "410000005"
+
+	annotation PBI_Id = 1cc0a5251bc34a0690c3de5c814f35e9
+

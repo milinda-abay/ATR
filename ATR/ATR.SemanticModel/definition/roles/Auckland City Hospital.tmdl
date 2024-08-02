@@ -1,0 +1,7 @@
+role 'Auckland City Hospital'
+	modelPermission: read
+
+	tablePermission RESTRICTED_HOSPITAL = [InstCodeId] = "910000001"
+
+	annotation PBI_Id = bb6bd29106674a12abac57285354b730
+

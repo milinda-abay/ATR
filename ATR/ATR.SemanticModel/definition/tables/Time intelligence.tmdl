@@ -1,0 +1,80 @@
+table 'Time intelligence'
+	lineageTag: d5768129-e9a7-4d78-8368-cb9590915c2d
+
+	calculationGroup
+
+		calculationItem Current = SELECTEDMEASURE()
+
+		calculationItem YTD =
+				VAR
+				last_date = LASTNONBLANK('CALENDAR'[cal_date],SELECTEDMEASURE())
+				
+				VAR
+				max_day = {max('CALENDAR'[cal_date])}
+				
+				VAR
+				fiscal_YTD = CALCULATE(
+				    SELECTEDMEASURE(),
+				    DATESYTD(last_date)
+				)
+				
+				RETURN
+				fiscal_YTD
+
+		calculationItem 'PY YTD' = ```
+				VAR
+				last_year_date =  DATEADD(LASTNONBLANK('CALENDAR'[cal_date],SELECTEDMEASURE()),-1,YEAR)
+				
+				VAR
+				last_ytd = CALCULATE(
+				    SELECTEDMEASURE(),
+				    DATESYTD(last_year_date)
+				)
+				
+				RETURN
+				last_ytd
+				
+				```
+
+		calculationItem 'YTD (%)' =
+				VAR
+				last_date = LASTNONBLANK('CALENDAR'[cal_date],SELECTEDMEASURE())
+				
+				VAR
+				last_year_date =  DATEADD(LASTNONBLANK('CALENDAR'[cal_date],SELECTEDMEASURE()),-1,YEAR)
+				
+				VAR
+				fiscal_YTD = CALCULATE(
+				    SELECTEDMEASURE(),
+				    DATESYTD(last_date)
+				)
+				
+				VAR
+				last_ytd = CALCULATE(
+				    SELECTEDMEASURE(),
+				    DATESYTD(last_year_date)
+				)
+				
+				RETURN
+				DIVIDE((fiscal_YTD-last_ytd), last_ytd)
+
+			formatStringDefinition = "0.0%"
+
+	column Formula
+		dataType: string
+		lineageTag: 6d555cfc-1ba7-4b7f-8aa2-8f917ebedeba
+		summarizeBy: none
+		sourceColumn: Name
+		sortByColumn: Ordinal
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ordinal
+		dataType: int64
+		isHidden
+		lineageTag: 8028f5cf-cbd3-4aec-a8ca-ce76d4d8fdc6
+		summarizeBy: sum
+		sourceColumn: Ordinal
+
+		annotation SummarizationSetBy = Automatic
+

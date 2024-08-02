@@ -1,0 +1,7 @@
+role 'Canberra Hospital'
+	modelPermission: read
+
+	tablePermission RESTRICTED_HOSPITAL = [InstCodeId] = "810000008"
+
+	annotation PBI_Id = 235ecd0a52a94be487472a0ee17f2003
+

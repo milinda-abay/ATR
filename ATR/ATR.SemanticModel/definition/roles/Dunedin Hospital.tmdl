@@ -1,0 +1,7 @@
+role 'Dunedin Hospital'
+	modelPermission: read
+
+	tablePermission RESTRICTED_HOSPITAL = [InstCodeId] = "910000007"
+
+	annotation PBI_Id = 3f9ef2d9c7f44b539d9d6ad9cf02cdd0
+

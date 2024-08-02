@@ -1,0 +1,7 @@
+role 'St George Hospital'
+	modelPermission: read
+
+	tablePermission RESTRICTED_HOSPITAL = [InstCodeId] = "110000015"
+
+	annotation PBI_Id = ef5ec16b2c2349828b673a5052d895d3
+

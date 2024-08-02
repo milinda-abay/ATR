@@ -1,0 +1,7 @@
+role 'Women’s and Children’s Hospital SA'
+	modelPermission: read
+
+	tablePermission RESTRICTED_HOSPITAL = [InstCodeId] = "410000006"
+
+	annotation PBI_Id = 628d4d5a05bd45efa8566a053cd4d30b
+

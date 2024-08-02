@@ -1,0 +1,7 @@
+role 'Royal Darwin Hospital'
+	modelPermission: read
+
+	tablePermission RESTRICTED_HOSPITAL = [InstCodeId] = "710000007"
+
+	annotation PBI_Id = 371cfc62ae514f45a6f985771b682b32
+

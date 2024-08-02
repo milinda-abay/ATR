@@ -1,0 +1,7 @@
+role 'Perth Children''s Hospital'
+	modelPermission: read
+
+	tablePermission RESTRICTED_HOSPITAL = [InstCodeId] = "510000010"
+
+	annotation PBI_Id = 2403959a4cb040419890e6fd0646d280
+

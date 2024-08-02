@@ -1,0 +1,7 @@
+role 'Royal Hobart Hospital'
+	modelPermission: read
+
+	tablePermission RESTRICTED_HOSPITAL = [InstCodeId] = "610000011"
+
+	annotation PBI_Id = e4e86b20a9514f298e706edeedb498a9
+

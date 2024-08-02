@@ -1,0 +1,41 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json",
+  "name": "dc2ea5931e0784513c51",
+  "position": {
+    "x": 639.78810010711857,
+    "y": 59.0328172168663,
+    "z": 5000,
+    "width": 211.13539130717044,
+    "height": 129.76583244067908,
+    "tabOrder": 5000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "KeyMeasures"
+                    }
+                  },
+                  "Property": "National Injuries"
+                }
+              },
+              "queryRef": "KeyMeasures.National Injuries",
+              "nativeQueryRef": "National Injuries"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

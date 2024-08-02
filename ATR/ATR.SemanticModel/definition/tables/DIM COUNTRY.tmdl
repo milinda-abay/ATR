@@ -1,0 +1,22 @@
+table 'DIM COUNTRY'
+	lineageTag: 040ee51b-e479-4456-b9de-32547dde189f
+
+	column country
+		dataType: string
+		lineageTag: 34d199b0-935d-49eb-844f-2f18cef45e92
+		summarizeBy: none
+		sourceColumn: country
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'DIM COUNTRY-efa80d95-46ab-4280-9bbb-b8882c489d1f' = m
+		mode: import
+		queryGroup: Dimension
+		source =
+				let
+				    Source = #table(type table [country = text], {{"Australia"}, {"New Zealand"}})
+				in
+				    Source
+
+	annotation PBI_ResultType = Table
+

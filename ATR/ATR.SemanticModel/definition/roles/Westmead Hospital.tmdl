@@ -1,0 +1,7 @@
+role 'Westmead Hospital'
+	modelPermission: read
+
+	tablePermission RESTRICTED_HOSPITAL = [InstCodeId] = "110000016"
+
+	annotation PBI_Id = 856e417106f244faaeb23dbf08604f0f
+

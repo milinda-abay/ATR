@@ -1,0 +1,7 @@
+role 'St Vincent’s Hospital'
+	modelPermission: read
+
+	tablePermission RESTRICTED_HOSPITAL = [InstCodeId] = "110000020"
+
+	annotation PBI_Id = 6a9d609236674086b19bef46f732aa12
+

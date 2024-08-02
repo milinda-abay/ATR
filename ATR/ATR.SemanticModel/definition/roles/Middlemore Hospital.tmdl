@@ -1,0 +1,7 @@
+role 'Middlemore Hospital'
+	modelPermission: read
+
+	tablePermission RESTRICTED_HOSPITAL = [InstCodeId] = "910000003"
+
+	annotation PBI_Id = 629a5b57a3984f48bcb272cd0ea978e0
+

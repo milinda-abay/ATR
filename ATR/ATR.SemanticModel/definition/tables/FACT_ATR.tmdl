@@ -1,0 +1,221 @@
+table FACT_ATR
+	lineageTag: cf5fb583-fad1-460b-bba1-284a8ef1dcc4
+
+	column InstCodeId
+		dataType: string
+		lineageTag: 5f514989-63e1-4f2f-b235-368b46ffbbda
+		summarizeBy: none
+		sourceColumn: InstCodeId
+
+		annotation SummarizationSetBy = Automatic
+
+	column PatAge
+		dataType: int64
+		formatString: 0
+		lineageTag: d9ec6fb1-f6c3-48f5-a3b1-7c02dc362f94
+		summarizeBy: none
+		sourceColumn: PatAge
+
+		annotation SummarizationSetBy = Automatic
+
+	column ATR_AGE
+		dataType: int64
+		formatString: 0
+		lineageTag: af7f8be9-d19b-40dd-a9aa-b5ab8fa0992f
+		summarizeBy: sum
+		sourceColumn: ATR_AGE
+
+		annotation SummarizationSetBy = Automatic
+
+	column PatGenderCodeId
+		dataType: int64
+		formatString: 0
+		lineageTag: 7c83b245-1336-4a26-9ba0-4a2cbd72c4c8
+		summarizeBy: none
+		sourceColumn: PatGenderCodeId
+
+		annotation SummarizationSetBy = Automatic
+
+	column InjuryDt
+		dataType: dateTime
+		formatString: dd-mmm-yy
+		lineageTag: be93ab34-a9b8-4fe7-8838-b3196d384a35
+		summarizeBy: none
+		sourceColumn: InjuryDt
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column CauseICDCodeId
+		dataType: string
+		lineageTag: 179e0655-34cd-4d85-bfe9-b9c26a634676
+		summarizeBy: none
+		sourceColumn: CauseICDCodeId
+
+		annotation SummarizationSetBy = Automatic
+
+	column InjuryTypeCodeId
+		dataType: int64
+		formatString: 0
+		lineageTag: 983d5b8d-c94d-462b-a815-0b92b102fb0b
+		summarizeBy: none
+		sourceColumn: InjuryTypeCodeId
+
+		annotation SummarizationSetBy = Automatic
+
+	column InjuryIntentCodeId
+		dataType: int64
+		formatString: 0
+		lineageTag: d006c39d-b6d2-4410-be73-45cf6a05917a
+		summarizeBy: none
+		sourceColumn: InjuryIntentCodeId
+
+		annotation SummarizationSetBy = Automatic
+
+	column InjuryPlaceCodeId
+		dataType: string
+		lineageTag: 43fd7a39-3043-46a9-9a3c-2f93aaf827a6
+		summarizeBy: none
+		sourceColumn: InjuryPlaceCodeId
+
+		annotation SummarizationSetBy = Automatic
+
+	column TransModeCodeId
+		dataType: int64
+		formatString: 0
+		lineageTag: 31579749-c367-497d-8bc2-a326949495c0
+		summarizeBy: none
+		sourceColumn: TransModeCodeId
+
+		annotation SummarizationSetBy = Automatic
+
+	column DischargeDestCodeId
+		dataType: int64
+		formatString: 0
+		lineageTag: f1044459-413b-416f-b683-c4fcf8c713e3
+		summarizeBy: none
+		sourceColumn: DischargeDestCodeId
+
+		annotation SummarizationSetBy = Automatic
+
+	column ISS
+		dataType: int64
+		formatString: 0
+		lineageTag: 7d6429da-f9b1-489f-a883-e4af66402e55
+		summarizeBy: none
+		sourceColumn: ISS
+
+		annotation SummarizationSetBy = Automatic
+
+	column ATR_ISS
+		dataType: int64
+		formatString: 0
+		lineageTag: 5a403ecf-9fb3-40ae-ac4b-0d109d97f974
+		summarizeBy: sum
+		sourceColumn: ATR_ISS
+
+		annotation SummarizationSetBy = Automatic
+
+	column InjuryActivityCodeId
+		dataType: string
+		lineageTag: ba9594b9-b1ba-4ae1-a351-f0c59ea3171c
+		summarizeBy: none
+		sourceColumn: InjuryActivityCodeId
+
+		annotation SummarizationSetBy = Automatic
+
+	column country
+		dataType: string
+		lineageTag: 43b53163-99d5-4d85-9b2a-9b37689e3bec
+		summarizeBy: none
+		sourceColumn: country
+
+		annotation SummarizationSetBy = Automatic
+
+	column body_region
+		dataType: string
+		lineageTag: 6659b9c4-5fe5-466f-af64-bb8f4b0145b9
+		summarizeBy: none
+		sourceColumn: body_region
+
+		annotation SummarizationSetBy = Automatic
+
+	column RegId
+		dataType: int64
+		formatString: 0
+		lineageTag: 03d787b9-9e96-4793-80a6-fc897378f7a6
+		summarizeBy: count
+		sourceColumn: RegId
+
+		annotation SummarizationSetBy = Automatic
+
+	column TimeToED
+		dataType: double
+		lineageTag: b5660c65-55ca-4d77-86aa-c705ce1af124
+		summarizeBy: sum
+		sourceColumn: TimeToED
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TimeInED
+		dataType: double
+		lineageTag: c7080461-ba09-4e6c-bb8a-2102dd95b2b1
+		summarizeBy: sum
+		sourceColumn: TimeInED
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column LOS
+		dataType: double
+		lineageTag: 291e4b76-483b-4128-9ae8-ab42c8c39f7d
+		summarizeBy: sum
+		sourceColumn: LOS
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Index
+		dataType: int64
+		formatString: 0
+		lineageTag: ada13e61-0690-4787-8388-b81ca04c6bc2
+		summarizeBy: sum
+		sourceColumn: Index
+
+		annotation SummarizationSetBy = Automatic
+
+	column OthHospTransCodeId
+		dataType: int64
+		formatString: 0
+		lineageTag: e165a881-e46e-44bd-92c4-43d72537c788
+		summarizeBy: count
+		sourceColumn: OthHospTransCodeId
+
+		annotation SummarizationSetBy = Automatic
+
+	column TransferType
+		dataType: string
+		lineageTag: 1c8d47d5-4de7-43aa-937a-cd2dc9f8effb
+		summarizeBy: none
+		sourceColumn: TransferType
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FACT_ATR-b7345b84-909a-4cd6-a621-22392146446f = m
+		mode: import
+		queryGroup: Production
+		source =
+				let
+				    Source = ATRCompleteDataset_Aggregated
+				in
+				    Source
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,84 @@
+table RESTRICTED_HOSPITAL
+	lineageTag: 69b05caa-ae27-4cd9-9d6b-b0eca080af72
+
+	column InstCodeId
+		dataType: string
+		lineageTag: 1c30aca8-8faa-41a1-9112-adcb110072aa
+		summarizeBy: none
+		sourceColumn: InstCodeId
+
+		annotation SummarizationSetBy = Automatic
+
+	column HospitalName
+		dataType: string
+		lineageTag: 5ec7cfee-6d69-45ca-933f-6e0a17357649
+		summarizeBy: none
+		sourceColumn: HospitalName
+
+		annotation SummarizationSetBy = Automatic
+
+	column site_access_email
+		dataType: string
+		lineageTag: 9704ac54-bf8f-47a6-8a62-6a2bb1c3e51e
+		summarizeBy: none
+		sourceColumn: site_access_email
+
+		annotation SummarizationSetBy = Automatic
+
+	column lat
+		dataType: double
+		lineageTag: 4db53ae8-1243-428f-a0db-08bdc6c055ca
+		summarizeBy: none
+		sourceColumn: lat
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column long
+		dataType: double
+		lineageTag: af8e2d12-03f9-47ba-92c1-c40f9403b850
+		summarizeBy: none
+		sourceColumn: long
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column postcode
+		dataType: string
+		lineageTag: e417f9d4-de86-4eb7-9b26-1f8f558dba81
+		summarizeBy: none
+		sourceColumn: postcode
+
+		annotation SummarizationSetBy = Automatic
+
+	column state
+		dataType: string
+		lineageTag: bdbffc71-1e3c-4863-aff6-6ea13c37f891
+		summarizeBy: none
+		sourceColumn: state
+
+		annotation SummarizationSetBy = Automatic
+
+	column country
+		dataType: string
+		lineageTag: 0ae494a3-ee72-441d-a262-7f8ea287fc37
+		summarizeBy: none
+		sourceColumn: country
+
+		annotation SummarizationSetBy = Automatic
+
+	partition RESTRICTED_HOSPITAL-43baed47-821a-4119-b248-637e1f4683b0 = m
+		mode: import
+		queryGroup: Dimension
+		source =
+				let
+				    Source = hospital_features,
+				    #"Added Custom" = Table.AddColumn(Source, "site_access_email", each if [HospitalName]="Alfred Hospital" then "milinda.abayawardana@monash.edu" else "x", type text) //#table(type table [hospital=text],{{"x"},{"y"}} )
+				
+				in
+				    #"Added Custom"
+
+	annotation PBI_ResultType = Table
+

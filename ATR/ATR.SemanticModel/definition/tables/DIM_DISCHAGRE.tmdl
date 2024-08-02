@@ -1,0 +1,40 @@
+table DIM_DISCHAGRE
+	lineageTag: 1433fcf5-b67e-478d-ba83-2ff01f5845f8
+
+	column destination_id
+		dataType: int64
+		formatString: 0
+		lineageTag: fe65b0bb-5c50-4d06-bc29-dee1980b8ee7
+		summarizeBy: none
+		sourceColumn: destination_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column discharge_description
+		dataType: string
+		lineageTag: 95804127-a147-4def-9d86-d10cae2e5230
+		summarizeBy: none
+		sourceColumn: discharge_description
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mortality
+		dataType: string
+		lineageTag: 52ab8039-26c1-4ef2-b640-d2d441a3a745
+		summarizeBy: none
+		sourceColumn: Mortality
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DIM_DISCHAGRE-5cd5d96f-2257-47d6-afcf-4c26790b616a = m
+		mode: import
+		queryGroup: Dimension
+		source =
+				let
+				    Source = #table(type table [destination_id= Int64.Type, discharge_description=text],{{1, "Home"},{2,"Rehabilitation"},{3,"Residential aged care"},{4,"Special accommodation"},{5,"Hospital for convalescence"},{6,"Left against medical advice"},{7,"Death"},{8,"Other"}, {9,"Acute hospital for further definitive care" },{99,"Not stated/inadequately described"}}),
+				    #"Added Conditional Column" = Table.AddColumn(Source, "Mortality", each if [destination_id] = 7 then "Deaths" else if [destination_id] = 99 then "Not stated" else "Survivors",type text)
+				in
+				    #"Added Conditional Column"
+
+	annotation PBI_ResultType = Table
+

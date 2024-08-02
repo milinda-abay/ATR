@@ -1,0 +1,7 @@
+role 'Princess Alexandra Hospital'
+	modelPermission: read
+
+	tablePermission RESTRICTED_HOSPITAL = [InstCodeId] = "310000023"
+
+	annotation PBI_Id = a99ecb98f2a64b76a985f2836d5056e6
+

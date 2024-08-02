@@ -1,0 +1,7 @@
+role 'John Hunter Children’s Hospital'
+	modelPermission: read
+
+	tablePermission RESTRICTED_HOSPITAL = [InstCodeId] = "110000013"
+
+	annotation PBI_Id = 816809f8292c4d0fba81f3fda25abf8c
+

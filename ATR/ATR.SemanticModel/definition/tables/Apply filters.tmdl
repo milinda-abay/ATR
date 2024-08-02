@@ -1,0 +1,36 @@
+table 'Apply filters'
+	lineageTag: fa2deb29-7d00-4390-8d60-315b7d39e23d
+
+	calculationGroup
+		precedence: 1
+
+		calculationItem 'Hospital filter' = ```
+				
+				VAR selected_hospital =
+				    INTERSECT ( VALUES('DIM_HOSPITAL'[InstCodeId]), VALUES('RESTRICTED_HOSPITAL'[InstCodeId]) )
+				RETURN
+				    CALCULATE (
+				        SELECTEDMEASURE(),
+				        'DIM_HOSPITAL'[InstCodeId] IN selected_hospital
+				        
+				    )
+				```
+
+	column Filters
+		dataType: string
+		lineageTag: 72e6a193-8f23-454d-bd7b-4e9e33930061
+		summarizeBy: none
+		sourceColumn: Name
+		sortByColumn: Ordinal
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ordinal
+		dataType: int64
+		formatString: 0
+		lineageTag: 35b1cb0a-ee5b-4d2f-af39-b2a2f4568b71
+		summarizeBy: sum
+		sourceColumn: Ordinal
+
+		annotation SummarizationSetBy = Automatic
+

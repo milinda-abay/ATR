@@ -1,0 +1,7 @@
+role 'Wellington Hospital'
+	modelPermission: read
+
+	tablePermission RESTRICTED_HOSPITAL = [InstCodeId] = "910000005"
+
+	annotation PBI_Id = 1822ad87c51e443b816afbc2b5f59192
+

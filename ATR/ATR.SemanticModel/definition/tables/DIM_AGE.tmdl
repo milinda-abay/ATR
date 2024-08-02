@@ -1,0 +1,224 @@
+table DIM_AGE
+	lineageTag: bbda7cb2-f964-4241-817d-d7bd147de2cf
+
+	column age
+		dataType: int64
+		formatString: 0
+		lineageTag: f95765d2-e9f6-40d6-a7ad-363623195704
+		summarizeBy: none
+		sourceColumn: age
+
+		annotation SummarizationSetBy = Automatic
+
+	column age_5y
+		dataType: string
+		lineageTag: 24148776-8f16-42ed-93f7-f6defd77ac8d
+		summarizeBy: none
+		sourceColumn: age_5y
+		sortByColumn: order_age_5y
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation __PBI_SemanticLinks = [{"LinkTarget":{"TableName":"DIM_AGE","TableItemName":"Age 5Y (80+)","ObjectType":4},"LinkType":"UsedInGroup"}]
+
+	column order_age_5y
+		dataType: int64
+		formatString: 0
+		lineageTag: 51f8c37a-e566-4730-b17d-607eebf2829b
+		summarizeBy: sum
+		sourceColumn: order_age_5y
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_age_85
+		dataType: int64
+		formatString: 0
+		lineageTag: 3963b6b7-bbc7-44cb-84f9-63706a37092e
+		summarizeBy: sum
+		sourceColumn: order_age_85
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Age 5Y (80+)' =
+			SWITCH(
+			  TRUE,
+			  ISBLANK('DIM_AGE'[age_5y]),
+			  "(Blank)",
+			  'DIM_AGE'[age_5y] IN {"100-104",
+			    "105-109",
+			    "110-114",
+			    "115-119",
+			    "120-124",
+			    "125-129",
+			    "130-134",
+			    "80-84",
+			    "85-89",
+			    "90-94",
+			    "95-99"},
+			  "80+",
+			  'DIM_AGE'[age_5y]
+			)
+		dataType: string
+		lineageTag: 34f02fa1-ed21-41c2-9b35-64233f4b20c2
+		summarizeBy: none
+		isDataTypeInferred
+		sortByColumn: order_age_85
+
+		extendedProperty GroupingMetadata =
+				{
+				  "version": 0,
+				  "groupedColumns": [
+				    {
+				      "Column": {
+				        "Expression": {
+				          "SourceRef": {
+				            "Entity": "DIM_AGE"
+				          }
+				        },
+				        "Property": "age_5y"
+				      }
+				    }
+				  ]
+				}
+
+		changedProperty = SortByColumn
+
+		annotation GroupingDesignState = {"Version":0,"Sources":[{"Name":"d","Entity":"DIM_AGE"}],"GroupedColumns":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"age_5y"}}],"GroupItems":[{"DisplayName":"(Blank)","BlankDefaultPlaceholder":true},{"DisplayName":"80+","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"age_5y"}}],"Values":[[{"Literal":{"Value":"'100-104'"}}],[{"Literal":{"Value":"'105-109'"}}],[{"Literal":{"Value":"'110-114'"}}],[{"Literal":{"Value":"'115-119'"}}],[{"Literal":{"Value":"'120-124'"}}],[{"Literal":{"Value":"'125-129'"}}],[{"Literal":{"Value":"'130-134'"}}],[{"Literal":{"Value":"'80-84'"}}],[{"Literal":{"Value":"'85-89'"}}],[{"Literal":{"Value":"'90-94'"}}],[{"Literal":{"Value":"'95-99'"}}]]}}}]}
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation __PBI_SemanticLinks = [{"LinkTarget":{"TableName":"DIM_AGE","TableItemName":"Age 10Y","ObjectType":4},"LinkType":"UsedInGroup"},{"LinkTarget":{"TableName":"DIM_AGE","TableItemName":"Adult/Child","ObjectType":4},"LinkType":"UsedInGroup"}]
+
+	column 'Age 10Y' =
+			SWITCH(
+			  TRUE,
+			  ISBLANK('DIM_AGE'[Age 5Y (80+)]),
+			  "(Blank)",
+			  'DIM_AGE'[Age 5Y (80+)] IN {"0-4",
+			    "5-9"},
+			  "0-9",
+			  'DIM_AGE'[Age 5Y (80+)] IN {"10-14",
+			    "15-19"},
+			  "10-19",
+			  'DIM_AGE'[Age 5Y (80+)] IN {"20-24",
+			    "25-29"},
+			  "20-29",
+			  'DIM_AGE'[Age 5Y (80+)] IN {"30-34",
+			    "35-39"},
+			  "30-39",
+			  'DIM_AGE'[Age 5Y (80+)] IN {"40-44",
+			    "45-49"},
+			  "40-49",
+			  'DIM_AGE'[Age 5Y (80+)] IN {"50-54",
+			    "55-59"},
+			  "50-59",
+			  'DIM_AGE'[Age 5Y (80+)] IN {"60-64",
+			    "65-69"},
+			  "60-69",
+			  'DIM_AGE'[Age 5Y (80+)] IN {"70-74",
+			    "75-79"},
+			  "70-79",
+			  'DIM_AGE'[Age 5Y (80+)] IN {"80+"},
+			  "80+",
+			  'DIM_AGE'[Age 5Y (80+)]
+			)
+		dataType: string
+		lineageTag: dc996470-b871-41c9-ba83-9c9bcb92a571
+		summarizeBy: none
+		isDataTypeInferred
+
+		extendedProperty GroupingMetadata =
+				{
+				  "version": 0,
+				  "groupedColumns": [
+				    {
+				      "Column": {
+				        "Expression": {
+				          "SourceRef": {
+				            "Entity": "DIM_AGE"
+				          }
+				        },
+				        "Property": "Age 5Y (80+)"
+				      }
+				    }
+				  ]
+				}
+
+		changedProperty = SortByColumn
+
+		annotation GroupingDesignState = {"Version":0,"Sources":[{"Name":"d","Entity":"DIM_AGE"}],"GroupedColumns":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"Age 5Y (80+)"}}],"GroupItems":[{"DisplayName":"(Blank)","BlankDefaultPlaceholder":true},{"DisplayName":"0-9","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"Age 5Y (80+)"}}],"Values":[[{"Literal":{"Value":"'0-4'"}}],[{"Literal":{"Value":"'5-9'"}}]]}}},{"DisplayName":"10-19","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"Age 5Y (80+)"}}],"Values":[[{"Literal":{"Value":"'10-14'"}}],[{"Literal":{"Value":"'15-19'"}}]]}}},{"DisplayName":"20-29","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"Age 5Y (80+)"}}],"Values":[[{"Literal":{"Value":"'20-24'"}}],[{"Literal":{"Value":"'25-29'"}}]]}}},{"DisplayName":"30-39","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"Age 5Y (80+)"}}],"Values":[[{"Literal":{"Value":"'30-34'"}}],[{"Literal":{"Value":"'35-39'"}}]]}}},{"DisplayName":"40-49","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"Age 5Y (80+)"}}],"Values":[[{"Literal":{"Value":"'40-44'"}}],[{"Literal":{"Value":"'45-49'"}}]]}}},{"DisplayName":"50-59","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"Age 5Y (80+)"}}],"Values":[[{"Literal":{"Value":"'50-54'"}}],[{"Literal":{"Value":"'55-59'"}}]]}}},{"DisplayName":"60-69","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"Age 5Y (80+)"}}],"Values":[[{"Literal":{"Value":"'60-64'"}}],[{"Literal":{"Value":"'65-69'"}}]]}}},{"DisplayName":"70-79","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"Age 5Y (80+)"}}],"Values":[[{"Literal":{"Value":"'70-74'"}}],[{"Literal":{"Value":"'75-79'"}}]]}}},{"DisplayName":"80+","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"Age 5Y (80+)"}}],"Values":[[{"Literal":{"Value":"'80+'"}}]]}}}]}
+
+		annotation SummarizationSetBy = Automatic
+
+	column Adult/Child =
+			SWITCH(
+			  TRUE,
+			  ISBLANK('DIM_AGE'[Age 5Y (80+)]),
+			  "(Blank)",
+			  'DIM_AGE'[Age 5Y (80+)] IN {"15-19",
+			    "20-24",
+			    "25-29",
+			    "30-34",
+			    "35-39",
+			    "40-44",
+			    "45-49",
+			    "50-54",
+			    "55-59",
+			    "60-64",
+			    "65-69",
+			    "70-74",
+			    "75-79",
+			    "80+"},
+			  "Adult >15+",
+			  'DIM_AGE'[Age 5Y (80+)] IN {"0-4",
+			    "5-9",
+			    "10-14"},
+			  "Child < 15",
+			  'DIM_AGE'[Age 5Y (80+)]
+			)
+		dataType: string
+		lineageTag: 0d98746e-1fd4-4eed-b190-d9b722f01191
+		summarizeBy: none
+		isDataTypeInferred
+
+		extendedProperty GroupingMetadata =
+				{
+				  "version": 0,
+				  "groupedColumns": [
+				    {
+				      "Column": {
+				        "Expression": {
+				          "SourceRef": {
+				            "Entity": "DIM_AGE"
+				          }
+				        },
+				        "Property": "Age 5Y (80+)"
+				      }
+				    }
+				  ]
+				}
+
+		annotation GroupingDesignState = {"Version":0,"Sources":[{"Name":"d","Entity":"DIM_AGE"}],"GroupedColumns":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"Age 5Y (80+)"}}],"GroupItems":[{"DisplayName":"(Blank)","BlankDefaultPlaceholder":true},{"DisplayName":"Adult >15+","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"Age 5Y (80+)"}}],"Values":[[{"Literal":{"Value":"'15-19'"}}],[{"Literal":{"Value":"'20-24'"}}],[{"Literal":{"Value":"'25-29'"}}],[{"Literal":{"Value":"'30-34'"}}],[{"Literal":{"Value":"'35-39'"}}],[{"Literal":{"Value":"'40-44'"}}],[{"Literal":{"Value":"'45-49'"}}],[{"Literal":{"Value":"'50-54'"}}],[{"Literal":{"Value":"'55-59'"}}],[{"Literal":{"Value":"'60-64'"}}],[{"Literal":{"Value":"'65-69'"}}],[{"Literal":{"Value":"'70-74'"}}],[{"Literal":{"Value":"'75-79'"}}],[{"Literal":{"Value":"'80+'"}}]]}}},{"DisplayName":"Child < 15","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"Age 5Y (80+)"}}],"Values":[[{"Literal":{"Value":"'0-4'"}}],[{"Literal":{"Value":"'5-9'"}}],[{"Literal":{"Value":"'10-14'"}}]]}}}]}
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DIM_AGE-1d014bf9-f538-4643-af6d-d5129c2b25b5 = m
+		mode: import
+		queryGroup: Dimension
+		source =
+				let
+				    Source = {0..130},
+				    #"Converted to Table" = Table.FromList(Source, Splitter.SplitByNothing(),type table [age= Int64.Type], null, ExtraValues.Error),
+				    #"Inserted Integer-Division" = Table.AddColumn(#"Converted to Table", "age 5y", each Number.IntegerDivide([age], 5)*5, Int64.Type),
+				    #"Inserted Addition" = Table.AddColumn(#"Inserted Integer-Division", "Addition", each [age 5y] + 4, type number),
+				    #"Duplicated Column" = Table.DuplicateColumn(#"Inserted Addition", "age 5y", "order_age_5y"),
+				    #"Merged Columns" = Table.CombineColumns(Table.TransformColumnTypes(#"Duplicated Column", {{"age 5y", type text}, {"Addition", type text}}, "en-AU"),{"age 5y", "Addition"},Combiner.CombineTextByDelimiter("-", QuoteStyle.None),"age_5y"),
+				    #"Added Custom" = Table.AddColumn(#"Merged Columns", "order_age_85", each if [age] < 80 then [order_age_5y] else 80, Int64.Type),
+				    Custom1 = Table.InsertRows( #"Added Custom",  0, {[age=-1, age_5y="NA", order_age_5y = -1, order_age_85=-1 ]})
+				in
+				    Custom1
+
+	annotation PBI_ResultType = Table
+

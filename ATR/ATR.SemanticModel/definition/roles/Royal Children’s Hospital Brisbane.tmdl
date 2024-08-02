@@ -1,0 +1,7 @@
+role 'Royal Children’s Hospital Brisbane'
+	modelPermission: read
+
+	tablePermission RESTRICTED_HOSPITAL = [InstCodeId] = "310000024"
+
+	annotation PBI_Id = 574ee17486ee45e182ef89918d972ab8
+

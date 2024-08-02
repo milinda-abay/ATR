@@ -1,0 +1,7 @@
+role 'Starship Hospital'
+	modelPermission: read
+
+	tablePermission RESTRICTED_HOSPITAL = [InstCodeId] = "910000002"
+
+	annotation PBI_Id = 6096821e5295418ebb4d0720f37bf574
+

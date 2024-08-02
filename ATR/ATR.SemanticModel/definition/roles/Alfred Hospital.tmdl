@@ -1,0 +1,7 @@
+role 'Alfred Hospital'
+	modelPermission: read
+
+	tablePermission RESTRICTED_HOSPITAL = [InstCodeId] = "210000003"
+
+	annotation PBI_Id = 78605404547041b8b9cf3217421feede
+

@@ -1,0 +1,106 @@
+table DIM_HOSPITAL
+	lineageTag: ca130987-a201-4982-809c-76b08d10b11a
+
+	column InstCodeId
+		dataType: string
+		lineageTag: 9f83bec9-c29a-4f25-96e2-4a89a2a23df5
+		summarizeBy: none
+		sourceColumn: InstCodeId
+
+		annotation SummarizationSetBy = Automatic
+
+	column HospitalName
+		dataType: string
+		lineageTag: 29aa2a85-3aeb-4234-a422-c7f0a113380e
+		summarizeBy: none
+		sourceColumn: HospitalName
+
+		annotation SummarizationSetBy = Automatic
+
+	column lat
+		dataType: double
+		lineageTag: 8776ae72-8b30-4535-b22b-5061bc6e2f81
+		dataCategory: Latitude
+		summarizeBy: sum
+		sourceColumn: lat
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column long
+		dataType: double
+		lineageTag: 220e30e2-8dd4-4e36-a552-05d3a4dd165a
+		dataCategory: Longitude
+		summarizeBy: sum
+		sourceColumn: long
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column postcode
+		dataType: string
+		lineageTag: 06b2479e-da4f-4835-ac44-ea4df87dbdec
+		dataCategory: PostalCode
+		summarizeBy: none
+		sourceColumn: postcode
+
+		annotation SummarizationSetBy = Automatic
+
+	column state
+		dataType: string
+		lineageTag: d088b118-4777-4365-907c-dee09479964e
+		dataCategory: StateOrProvince
+		summarizeBy: none
+		sourceColumn: state
+
+		annotation SummarizationSetBy = Automatic
+
+	column country
+		dataType: string
+		lineageTag: 6469d87e-2898-41e6-96a6-085066c00c6a
+		dataCategory: Country
+		summarizeBy: none
+		sourceColumn: country
+
+		annotation SummarizationSetBy = Automatic
+
+	column Index
+		dataType: int64
+		formatString: 0
+		lineageTag: 7c584bf4-116b-4af8-8543-62dabd8adb44
+		summarizeBy: sum
+		sourceColumn: Index
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy 'iso3 Hierarchy'
+		lineageTag: 9fecd155-be19-46dc-8fa4-1bb7405ccef0
+
+		level country
+			lineageTag: f467d3d8-d443-4dbe-a875-df1091d93f0e
+			column: country
+
+		level state
+			lineageTag: ebcda919-04df-499c-bffd-39cb24f8b4a5
+			column: state
+
+		level HospitalName
+			lineageTag: 452c226a-0225-475a-be52-f90ecca4ae0d
+			column: HospitalName
+
+	partition DIM_HOSPITAL-67a9bcee-2b57-4be8-b55d-bc7a6fe2a900 = m
+		mode: import
+		queryGroup: Dimension
+		source =
+				let
+				    Source = Table.NestedJoin(hospital, {"InstCodeId"}, hospital_features, {"InstCodeId"}, "hospital_features", JoinKind.LeftOuter),
+				    #"Removed Columns" = Table.RemoveColumns(Source,{"HospitalName"}),
+				    #"Expanded hospital_features" = Table.ExpandTableColumn(#"Removed Columns", "hospital_features", {"HospitalName", "lat", "long", "postcode", "state", "country"}, {"HospitalName", "lat", "long", "postcode", "state", "country"}),
+				    #"Added Index" = Table.AddIndexColumn(#"Expanded hospital_features", "Index", 1, 1, Int64.Type)
+				in
+				    #"Added Index"
+
+	annotation PBI_ResultType = Table
+

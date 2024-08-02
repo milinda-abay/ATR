@@ -1,0 +1,7 @@
+role 'Lyell McEwin Hospital'
+	modelPermission: read
+
+	tablePermission RESTRICTED_HOSPITAL = [InstCodeId] = "41CN00027"
+
+	annotation PBI_Id = 1cd002219ec84a0db30f24b656aa4e70
+

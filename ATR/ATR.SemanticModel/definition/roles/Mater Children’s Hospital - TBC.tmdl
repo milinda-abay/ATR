@@ -1,0 +1,7 @@
+role 'Mater Children’s Hospital - TBC'
+	modelPermission: read
+
+	tablePermission RESTRICTED_HOSPITAL = [InstCodeId] = "320000025"
+
+	annotation PBI_Id = b1e070219d6f491da63518c0eacc7cb8
+

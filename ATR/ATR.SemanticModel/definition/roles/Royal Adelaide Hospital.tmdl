@@ -1,0 +1,7 @@
+role 'Royal Adelaide Hospital'
+	modelPermission: read
+
+	tablePermission RESTRICTED_HOSPITAL = [InstCodeId] = "410000004"
+
+	annotation PBI_Id = a129bdb3f0c74c959d467541f109764e
+

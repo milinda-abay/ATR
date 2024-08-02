@@ -1,0 +1,263 @@
+table KeyMeasures
+	lineageTag: 9b349d70-db67-490c-a8a7-959e6815a7ef
+
+	measure 'Average TimeToED' =
+			CALCULATE(
+			    AVERAGE(FACT_ATR[TimeToED]),
+			    VALUES(FACT_ATR[RegId])
+			    )
+		formatString: 0.0
+		lineageTag: 66797954-3738-4667-8c57-0b03bf7983c6
+
+	measure 'Number of injuries' = DISTINCTCOUNT(FACT_ATR[RegId])
+		formatString: 0
+		lineageTag: 728a6a72-bacb-4162-b3dd-81956398a241
+
+	measure Deaths = CALCULATE([Number of injuries], DIM_DISCHAGRE[Mortality] = "Deaths")
+		lineageTag: 48816487-e768-47df-8eb9-cda0974dfa87
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Death %' =
+			
+			VAR
+			survivors = CALCULATE([Number of injuries],DIM_DISCHAGRE[Mortality] = "Survivors")
+			
+			VAR
+			deaths = CALCULATE([Number of injuries], DIM_DISCHAGRE[Mortality] = "Deaths")
+			
+			VAR
+			result =  DIVIDE(deaths,[Number of injuries])
+			
+			RETURN
+			result
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: a405fd1c-c04f-4f2d-a6a7-a5ada48186e7
+
+		changedProperty = FormatString
+
+	measure 'Direct Transport' = IF(SELECTEDVALUE(FACT_ATR[OthHospTransCodeId]) in { 1,-99},"Direct", "Transfer")
+		lineageTag: 3ea327f3-0e48-4bf0-92c8-e590a5f0bd12
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Discharge %' = ```
+			
+			 VAR
+			 denominator = CALCULATE( [Number of injuries], REMOVEFILTERS(DIM_DISCHAGRE[discharge_description]))
+			
+			 VAR
+			 numerator = [Number of injuries]
+			
+			 VAR
+			result = DIVIDE(numerator,denominator)
+			
+			RETURN
+			result
+			```
+		formatString: 0.0
+		lineageTag: e1660d34-aedb-4063-b7aa-04843986b2fe
+
+	measure last_date = LASTNONBLANK('CALENDAR'[cal_date],[Number of injuries])
+		lineageTag: d5b6f0ac-f19a-42b0-bfd5-c03119d76c1d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure LOS =
+			
+			VAR initial_table = SUMMARIZE(ALLSELECTED(FACT_ATR),FACT_ATR[RegId],FACT_ATR[LOS])
+			
+			VAR calculation_table = FILTER(initial_table, NOT(ISBLANK(FACT_ATR[LOS])))
+			
+			VAR Q1 = CALCULATE(
+			    PERCENTILE.INC(FACT_ATR[LOS],0.25),
+			    calculation_table
+			)
+			
+			VAR Q3 = CALCULATE(
+			    PERCENTILE.INC(FACT_ATR[LOS],0.75),
+			    calculation_table
+			)
+			
+			VAR IQR = Q3-Q1
+			
+			VAR lower_bound = (Q1 - 1.5 * IQR)
+			VAR upper_bound = (Q3 + 1.5 * IQR)
+			
+			VAR final_table = FILTER(
+			    calculation_table,
+			    FACT_ATR[LOS] > lower_bound && FACT_ATR[LOS] < upper_bound
+			)
+			VAR result = CALCULATE(
+			    AVERAGE(FACT_ATR[LOS]),
+			    VALUES(FACT_ATR[RegId]),
+			    final_table
+			    )
+			
+			RETURN
+			result
+		formatString: 0.0
+		lineageTag: 67aa61d6-e744-4b0a-b1a1-26a43f6e4d17
+
+	measure max_day = {max('CALENDAR'[cal_date])}
+		lineageTag: 2c67b1c3-5982-4e08-972c-bb166eeb53ef
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Measure = LOWER(USERPRINCIPALNAME())
+		lineageTag: e67cc513-cb72-405c-8c26-8f072b7813b7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Time in ED' =
+			
+			VAR initial_table = CALCULATETABLE(
+			    ALLSELECTED(FACT_ATR),
+			    NOT(ISBLANK(FACT_ATR[TimeInED]))
+			)
+			
+			
+			
+			VAR calculation_table = SUMMARIZE(initial_table,FACT_ATR[RegId],FACT_ATR[TimeInED]) //FILTER(initial_table, NOT(ISBLANK(FACT_ATR[TimeInED])))
+			
+			VAR Q1 = CALCULATE(
+			    PERCENTILE.INC(FACT_ATR[TimeInED],0.25),
+			    calculation_table
+			)
+			
+			VAR Q3 = CALCULATE(
+			    PERCENTILE.INC(FACT_ATR[TimeInED],0.75),
+			    calculation_table
+			)
+			
+			VAR IQR = Q3-Q1
+			
+			VAR lower_bound = (Q1 - 1.5 * IQR)
+			VAR upper_bound = (Q3 + 1.5 * IQR)
+			
+			VAR final_table = FILTER(
+			    calculation_table,
+			    FACT_ATR[TimeInED] > lower_bound && FACT_ATR[TimeInED] < upper_bound
+			)
+			VAR result = CALCULATE(
+			    AVERAGE(FACT_ATR[TimeInED]),
+			    VALUES(FACT_ATR[RegId]),
+			    final_table
+			    )
+			
+			RETURN
+			result
+		formatString: 0.0
+		lineageTag: 0a3a09f7-cb61-4980-bf8b-02ecf3aa3e3f
+
+	measure 'Time to ED' =
+			
+			VAR initial_table = CALCULATETABLE(
+			    ALLSELECTED(FACT_ATR),
+			    NOT(ISBLANK(FACT_ATR[TimeToED]))
+			)
+			
+			VAR calculation_table = SUMMARIZE(initial_table,FACT_ATR[RegId],FACT_ATR[InstCodeId],FACT_ATR[TimeToED])
+			
+			VAR Q1 = CALCULATE(
+			    PERCENTILE.INC(FACT_ATR[TimeToED],0.25),
+			    calculation_table
+			)
+			
+			VAR Q3 = CALCULATE(
+			    PERCENTILE.INC(FACT_ATR[TimeToED],0.75),
+			    calculation_table
+			)
+			
+			VAR IQR = Q3-Q1
+			
+			VAR lower_bound = (Q1 - 1.5 * IQR)
+			VAR upper_bound = (Q3 + 1.5 * IQR)
+			
+			VAR final_table = FILTER(
+			    calculation_table,
+			    FACT_ATR[TimeToED] > lower_bound && FACT_ATR[TimeToED] < upper_bound
+			)
+			VAR result = CALCULATE(
+			    AVERAGE(FACT_ATR[TimeToED]),
+			    VALUES(FACT_ATR[RegId]),
+			    final_table
+			    )
+			
+			RETURN
+			result
+		formatString: 0.0
+		lineageTag: 892cca68-9253-4922-a2e0-6314aa5731a6
+
+	measure 'Restricted hospital id' = ```
+			
+			VAR hospital_id = SELECTEDVALUE(DIM_HOSPITAL[InstCodeId])
+			
+			VAR hospital_role =  
+			    LOOKUPVALUE(
+			    RESTRICTED_HOSPITAL[InstCodeId],
+			    RESTRICTED_HOSPITAL[InstCodeId], hospital_id
+			)
+			
+			VAR result = IF(ISBLANK(hospital_role), BLANK(), 1)
+			
+			RETURN
+			result
+			```
+		lineageTag: a42df4a3-48b4-4fa6-892b-663cbd4a74d8
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure hospital_name =
+			LOOKUPVALUE (
+			    DIM_HOSPITAL[HospitalName],
+			    DIM_HOSPITAL[InstCodeId], SELECTEDVALUE (RESTRICTED_HOSPITAL[InstCodeId]),
+			    "ALL"
+			)
+		lineageTag: 8329a976-6149-4448-b1f0-6dd23cd73996
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure CurrentHospital =
+			
+			IF (
+			    SELECTEDVALUE ('RESTRICTED_HOSPITAL'[InstCodeId]  ) IN VALUES ('DIM_HOSPITAL'[InstCodeId]  ),
+			    "show"
+			)
+		lineageTag: 4f8e727a-1439-45c4-b109-779e4c02faaf
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure PlotHospital =
+			
+			LOOKUPVALUE (
+			    'RESTRICTED_HOSPITAL'[HospitalName],
+			    'RESTRICTED_HOSPITAL'[InstCodeId], SELECTEDVALUE ( 'DIM_HOSPITAL'[InstCodeId] ),
+			    "ALL"
+			)
+		lineageTag: 3490f2b3-ca68-4e77-bf90-6f8bc77dc366
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Measure 2' = COUNTROWS(ALL(DIM_HOSPITAL))
+		lineageTag: fa7541e9-8a4c-4155-9d3d-8fe6fe3bb81d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'National Injuries' = DISTINCTCOUNT(FACT_NATIONAL[RegId])
+		lineageTag: 1318937b-0b78-4c0a-805d-aba6c31999bc
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition KeyMeasures-66b7a04d-45a5-4cef-a28d-2746228d3192 = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WSlSKjQUA", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,7 @@
+role 'Queensland Children''s Hospital'
+	modelPermission: read
+
+	tablePermission RESTRICTED_HOSPITAL = [InstCodeId] = "310000202"
+
+	annotation PBI_Id = e93d27d1e25a4f97b66059c978426bd9
+

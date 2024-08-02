@@ -1,0 +1,7 @@
+role 'Townsville Hospital'
+	modelPermission: read
+
+	tablePermission RESTRICTED_HOSPITAL = [InstCodeId] = "310000026"
+
+	annotation PBI_Id = 814eceff27f945fa921f3b3654863e47
+
