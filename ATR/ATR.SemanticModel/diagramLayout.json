@@ -325,7 +325,7 @@
       "ordinal": 1,
       "scrollPosition": {
         "x": 0,
-        "y": 0
+        "y": 4.2279994417166842
       },
       "nodes": [
         {
@@ -336,15 +336,14 @@
           "nodeIndex": "FACT_ATR",
           "nodeLineageTag": "cf5fb583-fad1-460b-bba1-284a8ef1dcc4",
           "size": {
-            "height": 416,
-            "width": 234
+            "height": 696.829664,
+            "width": 320
           },
-          "zIndex": 1,
-          "expandedHeight": 300
+          "zIndex": 1
         },
         {
           "location": {
-            "x": 1599.3727608360387,
+            "x": 1317.5061313882597,
             "y": 0
           },
           "nodeIndex": "DIM_INJURY_CAUSE",
@@ -378,7 +377,7 @@
           "nodeIndex": "DIM_DISCHAGRE",
           "nodeLineageTag": "1433fcf5-b67e-478d-ba83-2ff01f5845f8",
           "size": {
-            "height": 104,
+            "height": 72,
             "width": 226
           },
           "zIndex": 4,
@@ -386,17 +385,16 @@
         },
         {
           "location": {
-            "x": 1314.1002045645835,
+            "x": 2180.8400901165037,
             "y": 0
           },
           "nodeIndex": "DIM_INJURY_ACTIVITY",
           "nodeLineageTag": "03b4465e-269e-415b-8b44-fb51a722c7b1",
           "size": {
-            "height": 104,
+            "height": 152,
             "width": 234
           },
-          "zIndex": 5,
-          "expandedHeight": 152
+          "zIndex": 5
         },
         {
           "location": {
@@ -414,7 +412,7 @@
         },
         {
           "location": {
-            "x": 1465.7490020583973,
+            "x": 1196.5663709357684,
             "y": 161.30070494575216
           },
           "nodeIndex": "DIM_INJURY_INTENT",
@@ -428,7 +426,7 @@
         },
         {
           "location": {
-            "x": 2135.8464068011085,
+            "x": 1900.4877712122131,
             "y": 0
           },
           "nodeIndex": "DIM_INJURY_TYPE",
@@ -451,12 +449,12 @@
             "height": 104,
             "width": 234
           },
-          "zIndex": 16,
+          "zIndex": 15,
           "expandedHeight": 300
         },
         {
           "location": {
-            "x": 1871.2038768552413,
+            "x": 1582.2905816712678,
             "y": 0
           },
           "nodeIndex": "DIM_INJURY_SEVERITY",
@@ -498,7 +496,7 @@
         },
         {
           "location": {
-            "x": 1736.1324053945791,
+            "x": 1726.2670733639068,
             "y": 159.19350594448724
           },
           "nodeIndex": "DIM_TRANSPORT",
@@ -526,8 +524,8 @@
         },
         {
           "location": {
-            "x": 1173,
-            "y": 158.04797092741956
+            "x": 1447.8199637115847,
+            "y": 163.68530351637511
           },
           "nodeIndex": "DIM_BODY_REGION",
           "nodeLineageTag": "5313bb13-59b4-48da-943d-9455fa00df4c",
@@ -535,7 +533,7 @@
             "height": 104,
             "width": 234
           },
-          "zIndex": 14,
+          "zIndex": 16,
           "expandedHeight": 176
         },
         {
@@ -549,13 +547,13 @@
             "height": 104,
             "width": 234
           },
-          "zIndex": 15,
+          "zIndex": 14,
           "expandedHeight": 272
         }
       ],
       "name": "FACT_ATR",
-      "zoomValue": 56.447393005377741,
-      "pinKeyFieldsToTop": false,
+      "zoomValue": 70.955543900968848,
+      "pinKeyFieldsToTop": true,
       "showExtraHeaderInfo": false,
       "hideKeyFieldsWhenCollapsed": false,
       "tablesLocked": false

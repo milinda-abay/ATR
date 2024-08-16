@@ -125,7 +125,7 @@ table FACT_ATR
 		dataType: int64
 		formatString: 0
 		lineageTag: b4eb9c4d-9944-43f4-a7cd-836a5e885ae5
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Sex
 
 		annotation SummarizationSetBy = Automatic
@@ -142,7 +142,7 @@ table FACT_ATR
 		dataType: int64
 		formatString: 0
 		lineageTag: 48004125-02e0-41ea-a98f-1688a418c82d
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: InjuryType
 
 		annotation SummarizationSetBy = Automatic
@@ -151,7 +151,7 @@ table FACT_ATR
 		dataType: int64
 		formatString: 0
 		lineageTag: 019ed6c6-6ee5-43c0-a1b4-9b7d07b383aa
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: InjuryIntent
 
 		annotation SummarizationSetBy = Automatic

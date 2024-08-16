@@ -21,7 +21,7 @@ table DIM_HOSPITAL
 		dataType: double
 		lineageTag: 8776ae72-8b30-4535-b22b-5061bc6e2f81
 		dataCategory: Latitude
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: lat
 
 		annotation SummarizationSetBy = Automatic
@@ -32,7 +32,7 @@ table DIM_HOSPITAL
 		dataType: double
 		lineageTag: 220e30e2-8dd4-4e36-a552-05d3a4dd165a
 		dataCategory: Longitude
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: long
 
 		annotation SummarizationSetBy = Automatic
@@ -70,7 +70,7 @@ table DIM_HOSPITAL
 		dataType: int64
 		formatString: 0
 		lineageTag: 7c584bf4-116b-4af8-8543-62dabd8adb44
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Index
 
 		annotation SummarizationSetBy = Automatic
