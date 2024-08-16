@@ -40,7 +40,7 @@ cultureInfo en-US
 			      "Definition": {
 			        "Binding": {
 			          "ConceptualEntity": "KeyMeasures",
-			          "ConceptualProperty": "Number of injuries"
+			          "ConceptualProperty": "Number of cases"
 			        }
 			      },
 			      "State": "Generated",

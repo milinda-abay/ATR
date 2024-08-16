@@ -9,11 +9,11 @@ table KeyMeasures
 		formatString: 0.0
 		lineageTag: 66797954-3738-4667-8c57-0b03bf7983c6
 
-	measure 'Number of injuries' = DISTINCTCOUNT(FACT_ATR[RegId])
+	measure 'Number of cases' = DISTINCTCOUNT(FACT_ATR[RegId])
 		formatString: 0
 		lineageTag: 728a6a72-bacb-4162-b3dd-81956398a241
 
-	measure Deaths = CALCULATE([Number of injuries], DIM_DISCHAGRE[Mortality] = "Deaths")
+	measure Deaths = CALCULATE([Number of cases], DIM_DISCHAGRE[Mortality] = "Deaths")
 		lineageTag: 48816487-e768-47df-8eb9-cda0974dfa87
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -21,13 +21,13 @@ table KeyMeasures
 	measure 'Death %' =
 			
 			VAR
-			survivors = CALCULATE([Number of injuries],DIM_DISCHAGRE[Mortality] = "Survivors")
+			survivors = CALCULATE([Number of cases],DIM_DISCHAGRE[Mortality] = "Survivors")
 			
 			VAR
-			deaths = CALCULATE([Number of injuries], DIM_DISCHAGRE[Mortality] = "Deaths")
+			deaths = CALCULATE([Number of cases], DIM_DISCHAGRE[Mortality] = "Deaths")
 			
 			VAR
-			result =  DIVIDE(deaths,[Number of injuries])
+			result =  DIVIDE(deaths,[Number of cases])
 			
 			RETURN
 			result
@@ -44,10 +44,10 @@ table KeyMeasures
 	measure 'Discharge %' = ```
 			
 			 VAR
-			 denominator = CALCULATE( [Number of injuries], REMOVEFILTERS(DIM_DISCHAGRE[discharge_description]))
+			 denominator = CALCULATE( [Number of cases], REMOVEFILTERS(DIM_DISCHAGRE[discharge_description]))
 			
 			 VAR
-			 numerator = [Number of injuries]
+			 numerator = [Number of cases]
 			
 			 VAR
 			result = DIVIDE(numerator,denominator)
@@ -58,7 +58,7 @@ table KeyMeasures
 		formatString: 0.0
 		lineageTag: e1660d34-aedb-4063-b7aa-04843986b2fe
 
-	measure last_date = LASTNONBLANK('CALENDAR'[cal_date],[Number of injuries])
+	measure last_date = LASTNONBLANK('CALENDAR'[cal_date],[Number of cases])
 		lineageTag: d5b6f0ac-f19a-42b0-bfd5-c03119d76c1d
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}

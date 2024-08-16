@@ -1305,10 +1305,12 @@ expression StartDate = #date(2000, 1, 1) meta [IsParameterQuery=true, Type="Date
 
 	annotation PBI_ResultType = Date
 
-expression EndDate = #date(2024, 1, 1) meta [IsParameterQuery=true, Type="Date", IsParameterQueryRequired=true]
+expression EndDate = #date(2025, 1, 1) meta [IsParameterQuery=true, Type="Date", IsParameterQueryRequired=true]
 	lineageTag: 16342a7d-b4f0-4441-86e7-acf24a077aba
 
 	annotation PBI_ResultType = Date
+
+	annotation PBI_NavigationStepName = Navigation
 
 expression data_path = "E:\projects\ATR\data\" meta [IsParameterQuery=true, List={"E:\projects\ATR\data\", "C:\Users\maba0001\Projects\ATR\", "C:\Users\bose_nivea\projects\ATR\"}, DefaultValue="E:\projects\ATR\data\", Type="Text", IsParameterQueryRequired=true]
 	lineageTag: d33d6cbc-baeb-411c-a777-0043c198ad8f
@@ -1476,6 +1478,31 @@ expression 'C  ICD-10 Activity' =
 		    #"Changed Type"
 	lineageTag: f5fc25bc-63bd-4c7a-ab22-cc151b3f15fc
 	queryGroup: Source\ICD-10-AM/ACHI\ICD-10
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'ATRCompleteDataset (3)' =
+		let
+		    Source = ATRCompleteDataset
+		in
+		    Source
+	lineageTag: f7f19e82-e4e1-4c9a-9ab0-4c8bfdfc1ec5
+	queryGroup: DEV
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression '07_ATRCompleteDataset (3)' =
+		let
+		    Source = #"07_ATRCompleteDataset",
+		    #"Filtered Rows" = Table.SelectRows(Source, each ([RegId] = 9143))
+		in
+		    #"Filtered Rows"
+	lineageTag: 1e99ce7f-85c3-4462-9820-9983415559cc
+	queryGroup: DEV
 
 	annotation PBI_NavigationStepName = Navigation
 
