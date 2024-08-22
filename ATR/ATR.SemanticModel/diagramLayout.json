@@ -312,6 +312,16 @@
             "width": 234
           },
           "zIndex": 2
+        },
+        {
+          "location": {},
+          "nodeIndex": "cause_code_modification",
+          "nodeLineageTag": "2179af1f-0926-436c-9229-7250b92470db",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
         }
       ],
       "name": "All tables",

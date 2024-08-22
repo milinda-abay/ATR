@@ -523,7 +523,7 @@ table DIM_INJURY_CAUSE
 				        "W19.89",
 				        "W19.99"
 				    },
-				    motor_vehical_list = {
+				    #"motor_vehicle_driver-passenger" = {
 				        "V40.00",
 				        "V40.08",
 				        "V40.10",
@@ -836,7 +836,7 @@ table DIM_INJURY_CAUSE
 				        "V79.8",
 				        "V79.9"
 				    },
-				    motorcycle_list = {
+				    #"motorcycle_rider-pillion" = {
 				        "V20.00",
 				        "V20.01",
 				        "V20.02",
@@ -1054,37 +1054,7 @@ table DIM_INJURY_CAUSE
 				        "V39.3",
 				        "V39.4",
 				        "V39.8",
-				        "V39.9",
-				        "V86",
-				        "V86.00",
-				        "V86.01",
-				        "V86.02",
-				        "V86.08",
-				        "V86.09",
-				        "V86.12",
-				        "V86.14",
-				        "V86.18",
-				        "V86.2",
-				        "V86.39",
-				        "V86.40",
-				        "V86.41",
-				        "V86.42",
-				        "V86.5",
-				        "V86.50",
-				        "V86.51",
-				        "V86.52",
-				        "V86.53",
-				        "V86.58",
-				        "V86.59",
-				        "V86.62",
-				        "V86.69",
-				        "V86.7",
-				        "V86.70",
-				        "V86.71",
-				        "V86.72",
-				        "V86.91",
-				        "V86.92",
-				        "V86.99"
+				        "V39.9"
 				    },
 				    pedal_cyclist_list = {
 				        "V10",
@@ -1092,7 +1062,6 @@ table DIM_INJURY_CAUSE
 				        "V10.1",
 				        "V10.2",
 				        "V10.4",
-				        "V10.41",
 				        "V10.5",
 				        "V10.9",
 				        "V11",
@@ -1267,14 +1236,14 @@ table DIM_INJURY_CAUSE
 				                    "Low Fall"
 				                else if
 				                    List.Contains(
-				                        motor_vehical_list,
+				                        #"motor_vehicle_driver-passenger",
 				                        [cause_icd_code_id]
 				                    )
 				                then
 				                    "Motor Vehicle Driver/Passenger"
 				                else if
 				                    List.Contains(
-				                        motorcycle_list,
+				                        #"motorcycle_rider-pillion",
 				                        [cause_icd_code_id]
 				                    )
 				                then
@@ -1309,4 +1278,6 @@ table DIM_INJURY_CAUSE
 				```
 
 	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
 

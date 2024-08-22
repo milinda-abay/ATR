@@ -1303,12 +1303,12 @@ expression 'ATRCompleteDataset (2)' =
 expression StartDate = #date(2000, 1, 1) meta [IsParameterQuery=true, Type="Date", IsParameterQueryRequired=true]
 	lineageTag: dbba15e3-e954-483a-abd0-4a0c45a47d3a
 
-	annotation PBI_ResultType = Exception
+	annotation PBI_ResultType = Date
 
 expression EndDate = #date(2025, 1, 1) meta [IsParameterQuery=true, Type="Date", IsParameterQueryRequired=true]
 	lineageTag: 16342a7d-b4f0-4441-86e7-acf24a077aba
 
-	annotation PBI_ResultType = Exception
+	annotation PBI_ResultType = Date
 
 	annotation PBI_NavigationStepName = Navigation
 
@@ -1485,9 +1485,10 @@ expression 'C  ICD-10 Activity' =
 
 expression 'ATRCompleteDataset (3)' =
 		let
-		    Source = ATRCompleteDataset
+		    Source = ATRCompleteDataset,
+		    #"Filtered Rows" = Table.SelectRows(Source, each ([InjuryCause] = "V12.41"))
 		in
-		    Source
+		    #"Filtered Rows"
 	lineageTag: f7f19e82-e4e1-4c9a-9ab0-4c8bfdfc1ec5
 	queryGroup: DEV
 
