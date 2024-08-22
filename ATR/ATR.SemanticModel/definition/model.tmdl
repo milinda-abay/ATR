@@ -47,7 +47,7 @@ annotation PBI_QueryOrder = ["Calendar","DIM_AGE","DIM_GENDER","DIM_INJURY_TYPE"
 
 annotation __PBI_TimeIntelligenceEnabled = 0
 
-annotation PBIDesktopVersion = 2.131.1203.0 (24.07)
+annotation PBIDesktopVersion = 2.132.908.0 (24.08)
 
 annotation __TEdtr = 1
 
