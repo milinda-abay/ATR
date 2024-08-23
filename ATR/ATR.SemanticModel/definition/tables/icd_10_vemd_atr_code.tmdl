@@ -1,0 +1,53 @@
+table icd_10_vemd_atr_code
+	lineageTag: f34c39f3-a0c8-459f-9d16-a6de45477f6b
+
+	column 'ICD10 Code'
+		dataType: string
+		lineageTag: 1df8ff7f-7ef3-4e0f-816e-e9f96ca2fbc5
+		summarizeBy: none
+		sourceColumn: ICD10 Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Description
+		dataType: string
+		lineageTag: 91fbefb3-6ad0-42cd-879e-ae0239c61810
+		summarizeBy: none
+		sourceColumn: Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'VEMD Code'
+		dataType: int64
+		formatString: 0
+		lineageTag: 444f87eb-53ce-43b3-8685-c97c19022ed8
+		summarizeBy: count
+		sourceColumn: VEMD Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'ATR Code'
+		dataType: int64
+		formatString: 0
+		lineageTag: f939b948-d19e-4178-967d-f0b17a01e268
+		summarizeBy: count
+		sourceColumn: ATR Code
+
+		annotation SummarizationSetBy = Automatic
+
+	partition icd_10_vemd_atr_code = m
+		mode: import
+		queryGroup: Pre-process
+		source =
+				let
+				    Source = #"VOTOR_ICDevent_Mapping_ATR mapping",
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"ICD10 Code", "Description", "VEMD Code", "ATR Code"}),
+				    #"Appended Query" = Table.Combine({#"Removed Other Columns", Merge1}),
+				    #"Sorted Rows" = Table.Sort(#"Appended Query",{{"ICD10 Code", Order.Ascending}})
+				in
+				    #"Sorted Rows"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

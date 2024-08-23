@@ -315,10 +315,10 @@
         },
         {
           "location": {},
-          "nodeIndex": "cause_code_modification",
-          "nodeLineageTag": "2179af1f-0926-436c-9229-7250b92470db",
+          "nodeIndex": "icd_10_vemd_atr_code",
+          "nodeLineageTag": "f34c39f3-a0c8-459f-9d16-a6de45477f6b",
           "size": {
-            "height": 152,
+            "height": 176,
             "width": 234
           },
           "zIndex": 0
