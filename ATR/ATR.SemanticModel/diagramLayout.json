@@ -334,8 +334,8 @@
     {
       "ordinal": 1,
       "scrollPosition": {
-        "x": 0,
-        "y": 4.2279994417166842
+        "x": 140.93331472388948,
+        "y": 19.730664061344527
       },
       "nodes": [
         {
@@ -349,7 +349,7 @@
             "height": 696.829664,
             "width": 320
           },
-          "zIndex": 1
+          "zIndex": 16
         },
         {
           "location": {
@@ -359,11 +359,10 @@
           "nodeIndex": "DIM_INJURY_CAUSE",
           "nodeLineageTag": "3c833ef7-1be0-48bb-86e0-9c202ea3e667",
           "size": {
-            "height": 104,
+            "height": 300,
             "width": 234
           },
-          "zIndex": 2,
-          "expandedHeight": 300
+          "zIndex": 1
         },
         {
           "location": {
@@ -376,8 +375,7 @@
             "height": 104,
             "width": 234
           },
-          "zIndex": 3,
-          "expandedHeight": 104
+          "zIndex": 2
         },
         {
           "location": {
@@ -387,11 +385,10 @@
           "nodeIndex": "DIM_DISCHAGRE",
           "nodeLineageTag": "1433fcf5-b67e-478d-ba83-2ff01f5845f8",
           "size": {
-            "height": 72,
+            "height": 152,
             "width": 226
           },
-          "zIndex": 4,
-          "expandedHeight": 152
+          "zIndex": 15
         },
         {
           "location": {
@@ -404,7 +401,7 @@
             "height": 152,
             "width": 234
           },
-          "zIndex": 5
+          "zIndex": 3
         },
         {
           "location": {
@@ -414,11 +411,10 @@
           "nodeIndex": "Calendar",
           "nodeLineageTag": "0eacafb2-20e6-4e5d-bc6a-0795aaaa3553",
           "size": {
-            "height": 104,
+            "height": 300,
             "width": 234
           },
-          "zIndex": 6,
-          "expandedHeight": 300
+          "zIndex": 4
         },
         {
           "location": {
@@ -428,11 +424,10 @@
           "nodeIndex": "DIM_INJURY_INTENT",
           "nodeLineageTag": "69d4d3af-b501-4e3a-a876-d8f10f24cf70",
           "size": {
-            "height": 104,
+            "height": 128,
             "width": 234
           },
-          "zIndex": 7,
-          "expandedHeight": 128
+          "zIndex": 5
         },
         {
           "location": {
@@ -442,11 +437,10 @@
           "nodeIndex": "DIM_INJURY_TYPE",
           "nodeLineageTag": "ec7427fe-baac-40b0-ac83-0ee93cb2b448",
           "size": {
-            "height": 104,
+            "height": 128,
             "width": 234
           },
-          "zIndex": 8,
-          "expandedHeight": 128
+          "zIndex": 6
         },
         {
           "location": {
@@ -456,11 +450,10 @@
           "nodeIndex": "DIM_HOSPITAL",
           "nodeLineageTag": "ca130987-a201-4982-809c-76b08d10b11a",
           "size": {
-            "height": 104,
+            "height": 300,
             "width": 234
           },
-          "zIndex": 15,
-          "expandedHeight": 300
+          "zIndex": 13
         },
         {
           "location": {
@@ -470,11 +463,10 @@
           "nodeIndex": "DIM_INJURY_SEVERITY",
           "nodeLineageTag": "1f6c12fa-165b-4ef6-a8d6-73305f39ba70",
           "size": {
-            "height": 104,
+            "height": 152,
             "width": 234
           },
-          "zIndex": 9,
-          "expandedHeight": 152
+          "zIndex": 7
         },
         {
           "location": {
@@ -484,11 +476,10 @@
           "nodeIndex": "DIM_AGE",
           "nodeLineageTag": "bbda7cb2-f964-4241-817d-d7bd147de2cf",
           "size": {
-            "height": 104,
+            "height": 248,
             "width": 234
           },
-          "zIndex": 10,
-          "expandedHeight": 248
+          "zIndex": 8
         },
         {
           "location": {
@@ -498,11 +489,10 @@
           "nodeIndex": "DIM_GENDER",
           "nodeLineageTag": "0ae4c4ec-3eaf-4226-9740-0cd8db420aa6",
           "size": {
-            "height": 104,
+            "height": 128,
             "width": 234
           },
-          "zIndex": 11,
-          "expandedHeight": 128
+          "zIndex": 9
         },
         {
           "location": {
@@ -512,11 +502,10 @@
           "nodeIndex": "DIM_TRANSPORT",
           "nodeLineageTag": "e544d893-de04-4208-ac71-3465cb51df4b",
           "size": {
-            "height": 104,
+            "height": 128,
             "width": 234
           },
-          "zIndex": 12,
-          "expandedHeight": 128
+          "zIndex": 10
         },
         {
           "location": {
@@ -526,11 +515,10 @@
           "nodeIndex": "DIM_INJURY_PLACE",
           "nodeLineageTag": "f197a711-df9f-43c5-ad6a-af9d56b84b20",
           "size": {
-            "height": 104,
+            "height": 176,
             "width": 234
           },
-          "zIndex": 13,
-          "expandedHeight": 176
+          "zIndex": 11
         },
         {
           "location": {
@@ -540,11 +528,10 @@
           "nodeIndex": "DIM_BODY_REGION",
           "nodeLineageTag": "5313bb13-59b4-48da-943d-9455fa00df4c",
           "size": {
-            "height": 104,
+            "height": 176,
             "width": 234
           },
-          "zIndex": 16,
-          "expandedHeight": 176
+          "zIndex": 14
         },
         {
           "location": {
@@ -554,11 +541,10 @@
           "nodeIndex": "RESTRICTED_HOSPITAL",
           "nodeLineageTag": "69b05caa-ae27-4cd9-9d6b-b0eca080af72",
           "size": {
-            "height": 104,
+            "height": 272,
             "width": 234
           },
-          "zIndex": 14,
-          "expandedHeight": 272
+          "zIndex": 12
         }
       ],
       "name": "FACT_ATR",

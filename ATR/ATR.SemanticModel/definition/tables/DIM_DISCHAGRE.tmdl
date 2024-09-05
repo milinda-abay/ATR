@@ -5,7 +5,7 @@ table DIM_DISCHAGRE
 		dataType: int64
 		formatString: 0
 		lineageTag: fe65b0bb-5c50-4d06-bc29-dee1980b8ee7
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: destination_id
 
 		annotation SummarizationSetBy = Automatic

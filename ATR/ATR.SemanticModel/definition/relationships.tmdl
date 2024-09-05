@@ -74,3 +74,7 @@ relationship 362ad281-e02e-ed0d-84bb-baab19157cf1
 	fromColumn: FACT_ATR.ActEngaged
 	toColumn: DIM_INJURY_ACTIVITY.InjuryActivityCodeId
 
+relationship 30843521-c083-a12c-e784-3b6b73bc3ead
+	fromColumn: FACT_ATR.DischargeDest
+	toColumn: DIM_DISCHAGRE.destination_id
+
