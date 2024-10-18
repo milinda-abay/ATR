@@ -104,11 +104,6 @@ table KeyMeasures
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure Measure = LOWER(USERPRINCIPALNAME())
-		lineageTag: e67cc513-cb72-405c-8c26-8f072b7813b7
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
 	measure 'Time in ED' =
 			
 			VAR initial_table = CALCULATETABLE(
@@ -236,11 +231,6 @@ table KeyMeasures
 			    "ALL"
 			)
 		lineageTag: 3490f2b3-ca68-4e77-bf90-6f8bc77dc366
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure 'Measure 2' = COUNTROWS(ALL(DIM_HOSPITAL))
-		lineageTag: fa7541e9-8a4c-4155-9d3d-8fe6fe3bb81d
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 

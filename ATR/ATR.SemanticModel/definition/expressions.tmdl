@@ -367,7 +367,7 @@ expression body_region =
 		    Custom1 = Source[body_region],
 		    description = {"Isolated head injury","Head and other injuries","Serious spinal cord injury","Extremity and/or spine injuries only","Chest and/or abdominal injuries only","No coded injuries","Multiple injuries, burns or other"},
 		    code = {"iso","head_other","serious_spinal","extrem_spine","chest_abdo","no_code","multiple"},
-		    Custom4 = #table(type table [body_region=text, description=text], List.Zip({code,description})),
+		    Custom4 = #table(type table [body_region=text, body_region_description=text], List.Zip({code,description})),
 		    #"Added Index" = Table.AddIndexColumn(Custom4, "sort_body_region", 1, 1, Int64.Type)
 		in
 		    #"Added Index"

@@ -1,7 +1,7 @@
 table DIM_BODY_REGION
 	lineageTag: 5313bb13-59b4-48da-943d-9455fa00df4c
 
-	measure selected_body_region = SELECTEDVALUE(DIM_BODY_REGION[description])
+	measure selected_body_region = SELECTEDVALUE(DIM_BODY_REGION[body_region_description])
 		lineageTag: 9b88ce79-6ccd-4b8a-a649-00afae75e20a
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -17,20 +17,23 @@ table DIM_BODY_REGION
 
 		annotation SummarizationSetBy = Automatic
 
-	column description
-		dataType: string
-		lineageTag: 767251a7-df86-480c-b20b-55dbdfffe686
-		summarizeBy: none
-		sourceColumn: description
-
-		annotation SummarizationSetBy = Automatic
-
 	column sort_body_region
 		dataType: int64
 		formatString: 0
 		lineageTag: a60ad6fd-ae79-4631-bac1-3e6e2cce045d
 		summarizeBy: sum
 		sourceColumn: sort_body_region
+
+		annotation SummarizationSetBy = Automatic
+
+	column body_region_description
+		dataType: string
+		lineageTag: bc7865cd-f3e5-45aa-8d68-cdfcaeb13252
+		summarizeBy: none
+		sourceColumn: body_region_description
+		sortByColumn: sort_body_region
+
+		changedProperty = SortByColumn
 
 		annotation SummarizationSetBy = Automatic
 
@@ -44,4 +47,6 @@ table DIM_BODY_REGION
 				    Source
 
 	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
 
