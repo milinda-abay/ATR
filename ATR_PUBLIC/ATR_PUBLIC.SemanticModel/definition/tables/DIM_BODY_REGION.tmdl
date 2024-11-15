@@ -1,0 +1,47 @@
+table DIM_BODY_REGION
+	lineageTag: 5313bb13-59b4-48da-943d-9455fa00df4c
+
+	measure selected_body_region = SELECTEDVALUE(DIM_BODY_REGION[description])
+		lineageTag: 9b88ce79-6ccd-4b8a-a649-00afae75e20a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column body_region
+		dataType: string
+		lineageTag: 1c4350f4-044a-4464-917d-55e7e273478e
+		summarizeBy: none
+		sourceColumn: body_region
+		sortByColumn: sort_body_region
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column description
+		dataType: string
+		lineageTag: 767251a7-df86-480c-b20b-55dbdfffe686
+		summarizeBy: none
+		sourceColumn: description
+
+		annotation SummarizationSetBy = Automatic
+
+	column sort_body_region
+		dataType: int64
+		formatString: 0
+		lineageTag: a60ad6fd-ae79-4631-bac1-3e6e2cce045d
+		summarizeBy: none
+		sourceColumn: sort_body_region
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DIM_BODY_REGION-6f890007-b85e-423a-8614-aad62e0b2cf9 = m
+		mode: import
+		queryGroup: Dimension
+		source =
+				let
+				    Source = body_region
+				in
+				    Source
+
+	annotation PBI_ResultType = Table
+

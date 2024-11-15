@@ -1,0 +1,64 @@
+table DIM_STATE
+	lineageTag: ca130987-a201-4982-809c-76b08d10b11a
+
+	column state
+		dataType: string
+		lineageTag: d088b118-4777-4365-907c-dee09479964e
+		dataCategory: StateOrProvince
+		summarizeBy: none
+		sourceColumn: state
+		sortByColumn: state_sort
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column country
+		dataType: string
+		lineageTag: 6469d87e-2898-41e6-96a6-085066c00c6a
+		dataCategory: Country
+		summarizeBy: none
+		sourceColumn: country
+
+		annotation SummarizationSetBy = Automatic
+
+	column state_sort
+		dataType: int64
+		formatString: 0
+		lineageTag: 09444e96-7158-49a6-b93a-e0b29a0a1c70
+		summarizeBy: none
+		sourceColumn: state_sort
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy 'iso3 Hierarchy'
+		lineageTag: 9fecd155-be19-46dc-8fa4-1bb7405ccef0
+
+		level country
+			lineageTag: f467d3d8-d443-4dbe-a875-df1091d93f0e
+			column: country
+
+		level state
+			lineageTag: ebcda919-04df-499c-bffd-39cb24f8b4a5
+			column: state
+
+	partition DIM_STATE-67a9bcee-2b57-4be8-b55d-bc7a6fe2a900 = m
+		mode: import
+		queryGroup: Dimension
+		source =
+				let
+				    Source = Table.NestedJoin(hospital, {"InstitutionID"}, hospital_features, {"InstCodeId"}, "hospital_features", JoinKind.LeftOuter),
+				    #"Removed Columns" = Table.RemoveColumns(Source,{"HospitalName"}),
+				    #"Expanded hospital_features" = Table.ExpandTableColumn(#"Removed Columns", "hospital_features", {"HospitalName", "lat", "long", "postcode", "state", "country"}, {"HospitalName", "lat", "long", "postcode", "state", "country"}),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Expanded hospital_features",{"state", "country"}),
+				    #"Removed Bottom Rows" = Table.RemoveLastN(#"Removed Other Columns",5),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Bottom Rows"),
+				    #"Sorted Rows" = Table.Sort(#"Removed Duplicates",{{"country", Order.Ascending}, {"state", Order.Ascending}}),
+				    #"Added Index1" = Table.AddIndexColumn(#"Sorted Rows", "state_sort", 1, 1, Int64.Type)
+				in
+				    #"Added Index1"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

@@ -1,0 +1,32 @@
+table DIM_TRANSPORT
+	lineageTag: e544d893-de04-4208-ac71-3465cb51df4b
+
+	column trans_mode_code_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 1e7eb8cd-4511-4a08-b765-6e39f86fb0cf
+		summarizeBy: none
+		sourceColumn: trans_mode_code_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column description
+		dataType: string
+		lineageTag: d1559838-67a4-4c9d-9540-298c22ea541e
+		summarizeBy: none
+		sourceColumn: description
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DIM_TRANSPORT-33c37f86-642e-4983-aae3-b8ecdce8f492 = m
+		mode: import
+		queryGroup: Dimension
+		source =
+				let
+				    Source = #table( type table [trans_mode_code_id=Int64.Type, description=text],{{1,"Road Ambulance"}, {2,"Helicopter Ambulance"},{3,"Fixed-wing Ambulance"},{4,"Private/Public Vehicle/Taxi/Walk-in"},{5,"Interstate Ambulance"},{6,"Private Ambulance"},{7,"Police/Prison Vehicle"},{8,"Other"},{9,"Not stated/inadequately described"}})
+				in
+				
+				    Source
+
+	annotation PBI_ResultType = Table
+

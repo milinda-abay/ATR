@@ -1,0 +1,153 @@
+table DIM_INJURY_SEVERITY
+	lineageTag: 1f6c12fa-165b-4ef6-a8d6-73305f39ba70
+
+	column iss_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 71ea9146-6af9-46af-a396-41e665a8a241
+		summarizeBy: none
+		sourceColumn: iss_id
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation __PBI_SemanticLinks = [{"LinkTarget":{"TableName":"DIM_INJURY_SEVERITY","TableItemName":"severity","ObjectType":4},"LinkType":"UsedInGroup"}]
+
+	column severity_order
+		dataType: int64
+		formatString: 0
+		lineageTag: 018d249e-447b-4acd-80f1-fba5356f18da
+		summarizeBy: none
+		sourceColumn: severity_order
+
+		annotation SummarizationSetBy = Automatic
+
+	column severity =
+			SWITCH(
+			  TRUE,
+			  ISBLANK('DIM_INJURY_SEVERITY'[iss_id]),
+			  "(Blank)",
+			  'DIM_INJURY_SEVERITY'[iss_id] IN {13,
+			    14},
+			  "ISS 13-14",
+			  'DIM_INJURY_SEVERITY'[iss_id] IN {15,
+			    16,
+			    17,
+			    18,
+			    19,
+			    20,
+			    21,
+			    22,
+			    23,
+			    24},
+			  "ISS 15-24",
+			  'DIM_INJURY_SEVERITY'[iss_id] IN {25,
+			    26,
+			    27,
+			    28,
+			    29,
+			    30,
+			    31,
+			    32,
+			    33,
+			    34,
+			    35,
+			    36,
+			    37,
+			    38,
+			    39,
+			    40},
+			  "ISS 25-40",
+			  'DIM_INJURY_SEVERITY'[iss_id] IN {41,
+			    42,
+			    43,
+			    44,
+			    45,
+			    46,
+			    47,
+			    48,
+			    49,
+			    50,
+			    51,
+			    52,
+			    53,
+			    54,
+			    55,
+			    56,
+			    57,
+			    58,
+			    59,
+			    60,
+			    61,
+			    62,
+			    63,
+			    64,
+			    65,
+			    66,
+			    67,
+			    68,
+			    69,
+			    70,
+			    71,
+			    72,
+			    73,
+			    74,
+			    75},
+			  "ISS 41-75",
+			  'DIM_INJURY_SEVERITY'[iss_id] IN {1,
+			    2,
+			    3,
+			    4,
+			    5,
+			    6,
+			    7,
+			    8,
+			    9,
+			    10,
+			    11,
+			    12},
+			  "ISS<13 (Deaths)",
+			  'DIM_INJURY_SEVERITY'[iss_id] IN {99},
+			  "Not stated/inadequately described",
+			  "Other"
+			)
+		formatString: 0
+		lineageTag: b18aa950-3b95-49f0-8699-99a79800e517
+		summarizeBy: none
+		sortByColumn: severity_order
+
+		extendedProperty GroupingMetadata =
+				{
+				  "version": 0,
+				  "groupedColumns": [
+				    {
+				      "Column": {
+				        "Expression": {
+				          "SourceRef": {
+				            "Entity": "DIM_INJURY_SEVERITY"
+				          }
+				        },
+				        "Property": "iss_id"
+				      }
+				    }
+				  ]
+				}
+
+		changedProperty = SortByColumn
+
+		annotation GroupingDesignState = {"Version":0,"Sources":[{"Name":"d","Entity":"DIM_INJURY_SEVERITY"}],"GroupedColumns":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"iss_id"}}],"GroupItems":[{"DisplayName":"(Blank)","BlankDefaultPlaceholder":true},{"DisplayName":"ISS 13-14","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"iss_id"}}],"Values":[[{"Literal":{"Value":"13L"}}],[{"Literal":{"Value":"14L"}}]]}}},{"DisplayName":"ISS 15-24","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"iss_id"}}],"Values":[[{"Literal":{"Value":"15L"}}],[{"Literal":{"Value":"16L"}}],[{"Literal":{"Value":"17L"}}],[{"Literal":{"Value":"18L"}}],[{"Literal":{"Value":"19L"}}],[{"Literal":{"Value":"20L"}}],[{"Literal":{"Value":"21L"}}],[{"Literal":{"Value":"22L"}}],[{"Literal":{"Value":"23L"}}],[{"Literal":{"Value":"24L"}}]]}}},{"DisplayName":"ISS 25-40","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"iss_id"}}],"Values":[[{"Literal":{"Value":"25L"}}],[{"Literal":{"Value":"26L"}}],[{"Literal":{"Value":"27L"}}],[{"Literal":{"Value":"28L"}}],[{"Literal":{"Value":"29L"}}],[{"Literal":{"Value":"30L"}}],[{"Literal":{"Value":"31L"}}],[{"Literal":{"Value":"32L"}}],[{"Literal":{"Value":"33L"}}],[{"Literal":{"Value":"34L"}}],[{"Literal":{"Value":"35L"}}],[{"Literal":{"Value":"36L"}}],[{"Literal":{"Value":"37L"}}],[{"Literal":{"Value":"38L"}}],[{"Literal":{"Value":"39L"}}],[{"Literal":{"Value":"40L"}}]]}}},{"DisplayName":"ISS 41-75","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"iss_id"}}],"Values":[[{"Literal":{"Value":"41L"}}],[{"Literal":{"Value":"42L"}}],[{"Literal":{"Value":"43L"}}],[{"Literal":{"Value":"44L"}}],[{"Literal":{"Value":"45L"}}],[{"Literal":{"Value":"46L"}}],[{"Literal":{"Value":"47L"}}],[{"Literal":{"Value":"48L"}}],[{"Literal":{"Value":"49L"}}],[{"Literal":{"Value":"50L"}}],[{"Literal":{"Value":"51L"}}],[{"Literal":{"Value":"52L"}}],[{"Literal":{"Value":"53L"}}],[{"Literal":{"Value":"54L"}}],[{"Literal":{"Value":"55L"}}],[{"Literal":{"Value":"56L"}}],[{"Literal":{"Value":"57L"}}],[{"Literal":{"Value":"58L"}}],[{"Literal":{"Value":"59L"}}],[{"Literal":{"Value":"60L"}}],[{"Literal":{"Value":"61L"}}],[{"Literal":{"Value":"62L"}}],[{"Literal":{"Value":"63L"}}],[{"Literal":{"Value":"64L"}}],[{"Literal":{"Value":"65L"}}],[{"Literal":{"Value":"66L"}}],[{"Literal":{"Value":"67L"}}],[{"Literal":{"Value":"68L"}}],[{"Literal":{"Value":"69L"}}],[{"Literal":{"Value":"70L"}}],[{"Literal":{"Value":"71L"}}],[{"Literal":{"Value":"72L"}}],[{"Literal":{"Value":"73L"}}],[{"Literal":{"Value":"74L"}}],[{"Literal":{"Value":"75L"}}]]}}},{"DisplayName":"ISS<13 (Deaths)","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"iss_id"}}],"Values":[[{"Literal":{"Value":"1L"}}],[{"Literal":{"Value":"2L"}}],[{"Literal":{"Value":"3L"}}],[{"Literal":{"Value":"4L"}}],[{"Literal":{"Value":"5L"}}],[{"Literal":{"Value":"6L"}}],[{"Literal":{"Value":"7L"}}],[{"Literal":{"Value":"8L"}}],[{"Literal":{"Value":"9L"}}],[{"Literal":{"Value":"10L"}}],[{"Literal":{"Value":"11L"}}],[{"Literal":{"Value":"12L"}}]]}}},{"DisplayName":"Not stated/inadequately described","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"iss_id"}}],"Values":[[{"Literal":{"Value":"99L"}}]]}}},{"DisplayName":"Other"}]}
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DIM_INJURY_SEVERITY-08c51e9a-3595-4050-9f90-454b27cdb8e9 = m
+		mode: import
+		queryGroup: Dimension
+		source =
+				let
+				    Source = {1..75,99},
+				    #"Converted to Table" = Table.FromList(Source, Splitter.SplitByNothing(),type table [iss_id=Int64.Type], null, ExtraValues.Error),
+				    #"Added Conditional Column" = Table.AddColumn(#"Converted to Table", "severity_order", each if [iss_id] < 13 then 1 else if [iss_id] < 15 then 2 else if [iss_id] < 25 then 3 else if [iss_id] < 41 then 4 else if [iss_id] < 76 then 5 else if [iss_id] = 99 then 6 else null, Int64.Type)
+				in
+				    #"Added Conditional Column"
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,195 @@
+table Calendar
+	lineageTag: 0eacafb2-20e6-4e5d-bc6a-0795aaaa3553
+	dataCategory: Time
+
+	column cal_date
+		dataType: dateTime
+		isKey
+		formatString: dd-mmm-yy
+		lineageTag: ea596512-3498-4678-babb-a5a18d24ae06
+		summarizeBy: none
+		sourceColumn: cal_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column cal_year
+		dataType: int64
+		lineageTag: e92b0280-5796-4a09-a160-eb082cf70e36
+		summarizeBy: none
+		sourceColumn: cal_year
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column cal_month
+		dataType: int64
+		formatString: 0
+		lineageTag: 17edabba-11c0-4bf3-83fd-87ae3a345fc0
+		summarizeBy: none
+		sourceColumn: cal_month
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation __PBI_SemanticLinks = [{"LinkTarget":{"TableName":"Calendar","TableItemName":"cal_qtr (groups)","ObjectType":4},"LinkType":"UsedInGroup"}]
+
+	column cal_month_name
+		dataType: string
+		lineageTag: eb66c68d-a339-4699-a3a7-b70a0a812951
+		summarizeBy: none
+		sourceColumn: cal_month_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthYear
+		dataType: string
+		lineageTag: 2ba2d1b5-1087-4b77-abf4-dc2e8749530a
+		summarizeBy: none
+		sourceColumn: MonthYear
+		sortByColumn: cal_mon_yeat_int
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column cal_mon_yeat_int
+		dataType: int64
+		formatString: 0
+		lineageTag: 1aaaecef-5feb-4dd7-b051-7d49489ecc0a
+		summarizeBy: none
+		sourceColumn: cal_mon_yeat_int
+
+		annotation SummarizationSetBy = Automatic
+
+	column Day
+		dataType: string
+		lineageTag: f04f0979-e9e6-407f-95ec-398ad5ad3302
+		summarizeBy: none
+		sourceColumn: Day
+		sortByColumn: 'Day of Week'
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: int64
+		formatString: 0
+		lineageTag: 000cbb1f-0ed4-462e-aa08-1f08aa97e256
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day of Week'
+		dataType: int64
+		formatString: 0
+		lineageTag: f7b25a7c-7a8e-4194-b92c-2e9ad7b84d35
+		summarizeBy: none
+		sourceColumn: Day of Week
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'cal_qtr (groups)' =
+			SWITCH(
+			  TRUE,
+			  ISBLANK('Calendar'[cal_month]),
+			  "(Blank)",
+			  'Calendar'[cal_month] IN {1,
+			    2,
+			    3},
+			  "Q1",
+			  'Calendar'[cal_month] IN {4,
+			    5,
+			    6},
+			  "Q2",
+			  'Calendar'[cal_month] IN {7,
+			    8,
+			    9},
+			  "Q3",
+			  'Calendar'[cal_month] IN {10,
+			    11,
+			    12},
+			  "Q4",
+			  "Other"
+			)
+		formatString: 0
+		lineageTag: 71401937-5422-4bc8-83c5-5e700fea8d53
+		summarizeBy: none
+
+		extendedProperty GroupingMetadata =
+				{
+				  "version": 0,
+				  "groupedColumns": [
+				    {
+				      "Column": {
+				        "Expression": {
+				          "SourceRef": {
+				            "Entity": "Calendar"
+				          }
+				        },
+				        "Property": "cal_month"
+				      }
+				    }
+				  ]
+				}
+
+		annotation GroupingDesignState = {"Version":0,"Sources":[{"Name":"c","Entity":"Calendar"}],"GroupedColumns":[{"Column":{"Expression":{"SourceRef":{"Source":"c"}},"Property":"cal_month"}}],"GroupItems":[{"DisplayName":"(Blank)","BlankDefaultPlaceholder":true},{"DisplayName":"Q1","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"c"}},"Property":"cal_month"}}],"Values":[[{"Literal":{"Value":"1L"}}],[{"Literal":{"Value":"2L"}}],[{"Literal":{"Value":"3L"}}]]}}},{"DisplayName":"Q2","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"c"}},"Property":"cal_month"}}],"Values":[[{"Literal":{"Value":"4L"}}],[{"Literal":{"Value":"5L"}}],[{"Literal":{"Value":"6L"}}]]}}},{"DisplayName":"Q3","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"c"}},"Property":"cal_month"}}],"Values":[[{"Literal":{"Value":"7L"}}],[{"Literal":{"Value":"8L"}}],[{"Literal":{"Value":"9L"}}]]}}},{"DisplayName":"Q4","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"c"}},"Property":"cal_month"}}],"Values":[[{"Literal":{"Value":"10L"}}],[{"Literal":{"Value":"11L"}}],[{"Literal":{"Value":"12L"}}]]}}},{"DisplayName":"Other"}]}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day of Year'
+		dataType: int64
+		formatString: 0
+		lineageTag: 73c32b99-18da-4639-901b-6c6eb5727fa8
+		summarizeBy: none
+		sourceColumn: Day of Year
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy 'cal_year Hierarchy'
+		lineageTag: bf67ec35-7927-4042-824a-f27887a407d1
+
+		level cal_year
+			lineageTag: cbccbc93-1f36-4a13-b518-991330cf3e4f
+			column: cal_year
+
+		level cal_month_name
+			lineageTag: 2d816ff4-56c6-44c6-8c07-4225306c26da
+			column: cal_month_name
+
+		level cal_date
+			lineageTag: c4d3d13d-ac45-4610-9e9e-cbb2af3379ae
+			column: cal_date
+
+	partition Calendar-40e0f87b-cec4-40bc-821b-adb93f1f89eb = m
+		mode: import
+		queryGroup: Dimension
+		source =
+				let
+				    Source = List.Dates(StartDate, Length, #duration(1, 0, 0, 0)),
+				    #"Converted to Table" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Converted to Table",{{"Column1", type date}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"Column1", "cal_date"}}),
+				    Today = DateTime.Date(DateTime.LocalNow()),
+				    Length = Duration.Days(EndDate-StartDate),
+				    #"Inserted Year" = Table.AddColumn(#"Renamed Columns", "cal_year", each Date.Year([cal_date]), Int64.Type),
+				    #"Inserted Month" = Table.AddColumn(#"Inserted Year", "cal_month", each Date.Month([cal_date]), Int64.Type),
+				    #"Inserted Month Name" = Table.AddColumn(#"Inserted Month", "cal_month_name", each Date.MonthName([cal_date]), type text),
+				    #"Added Custom Column" = Table.AddColumn(#"Inserted Month Name", "MonthYear", each Text.Combine({Text.Start([cal_month_name], 3), "-", Text.From([cal_year], "en-AU")}), type text),
+				    #"Inserted Addition" = Table.AddColumn(#"Added Custom Column", "cal_mon_yeat_int", each [cal_year]*100 + [cal_month], Int64.Type),
+				    #"Inserted Day Name" = Table.AddColumn(#"Inserted Addition", "Day", each Date.DayOfWeekName([cal_date]), type text),
+				    #"Inserted Day" = Table.AddColumn(#"Inserted Day Name", "Date", each Date.Day([cal_date]), Int64.Type),
+				    #"Inserted Day of Week" = Table.AddColumn(#"Inserted Day", "Day of Week", each Date.DayOfWeek([cal_date]), Int64.Type),
+				    #"Inserted Day of Year" = Table.AddColumn(#"Inserted Day of Week", "Day of Year", each Date.DayOfYear([cal_date]), Int64.Type)
+				in
+				    #"Inserted Day of Year"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

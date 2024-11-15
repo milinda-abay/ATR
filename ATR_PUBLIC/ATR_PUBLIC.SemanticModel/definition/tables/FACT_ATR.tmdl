@@ -1,0 +1,204 @@
+table FACT_ATR
+	lineageTag: cf5fb583-fad1-460b-bba1-284a8ef1dcc4
+
+	column InjuryDt
+		dataType: dateTime
+		formatString: dd-mmm-yy
+		lineageTag: be93ab34-a9b8-4fe7-8838-b3196d384a35
+		summarizeBy: none
+		sourceColumn: InjuryDt
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column ISS
+		dataType: int64
+		formatString: 0
+		lineageTag: 7d6429da-f9b1-489f-a883-e4af66402e55
+		summarizeBy: none
+		sourceColumn: ISS
+
+		annotation SummarizationSetBy = Automatic
+
+	column ATR_ISS
+		dataType: int64
+		formatString: 0
+		lineageTag: 5a403ecf-9fb3-40ae-ac4b-0d109d97f974
+		summarizeBy: sum
+		sourceColumn: ATR_ISS
+
+		annotation SummarizationSetBy = Automatic
+
+	column body_region
+		dataType: string
+		lineageTag: 6659b9c4-5fe5-466f-af64-bb8f4b0145b9
+		summarizeBy: none
+		sourceColumn: body_region
+
+		annotation SummarizationSetBy = Automatic
+
+	column RegId
+		dataType: int64
+		formatString: 0
+		lineageTag: 03d787b9-9e96-4793-80a6-fc897378f7a6
+		summarizeBy: count
+		sourceColumn: RegId
+
+		annotation SummarizationSetBy = Automatic
+
+	column TimeToED
+		dataType: double
+		lineageTag: b5660c65-55ca-4d77-86aa-c705ce1af124
+		summarizeBy: sum
+		sourceColumn: TimeToED
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TimeInED
+		dataType: double
+		lineageTag: c7080461-ba09-4e6c-bb8a-2102dd95b2b1
+		summarizeBy: sum
+		sourceColumn: TimeInED
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column LOS
+		dataType: double
+		lineageTag: 291e4b76-483b-4128-9ae8-ab42c8c39f7d
+		summarizeBy: sum
+		sourceColumn: LOS
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Index
+		dataType: int64
+		formatString: 0
+		lineageTag: ada13e61-0690-4787-8388-b81ca04c6bc2
+		summarizeBy: sum
+		sourceColumn: Index
+
+		annotation SummarizationSetBy = Automatic
+
+	column TransferType
+		dataType: string
+		lineageTag: 1c8d47d5-4de7-43aa-937a-cd2dc9f8effb
+		summarizeBy: none
+		sourceColumn: TransferType
+
+		annotation SummarizationSetBy = Automatic
+
+	column State
+		dataType: string
+		lineageTag: 6da48e29-f741-40b8-b799-1a9f13822545
+		summarizeBy: none
+		sourceColumn: State
+
+		annotation SummarizationSetBy = Automatic
+
+	column Age
+		dataType: string
+		lineageTag: de54ec62-d4ed-4188-963e-5f07488a3906
+		summarizeBy: none
+		sourceColumn: Age
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sex
+		dataType: int64
+		formatString: 0
+		lineageTag: b4eb9c4d-9944-43f4-a7cd-836a5e885ae5
+		summarizeBy: none
+		sourceColumn: Sex
+
+		annotation SummarizationSetBy = Automatic
+
+	column InjuryCause
+		dataType: string
+		lineageTag: 7f804cd2-0b46-4556-b669-5a53c5b423b2
+		summarizeBy: none
+		sourceColumn: InjuryCause
+
+		annotation SummarizationSetBy = Automatic
+
+	column InjuryType
+		dataType: int64
+		formatString: 0
+		lineageTag: 48004125-02e0-41ea-a98f-1688a418c82d
+		summarizeBy: none
+		sourceColumn: InjuryType
+
+		annotation SummarizationSetBy = Automatic
+
+	column InjuryIntent
+		dataType: int64
+		formatString: 0
+		lineageTag: 019ed6c6-6ee5-43c0-a1b4-9b7d07b383aa
+		summarizeBy: none
+		sourceColumn: InjuryIntent
+
+		annotation SummarizationSetBy = Automatic
+
+	column InjuryPlace
+		dataType: string
+		lineageTag: 26b6d928-4b74-4fe8-803e-81c559d2db47
+		summarizeBy: none
+		sourceColumn: InjuryPlace
+
+		annotation SummarizationSetBy = Automatic
+
+	column TranspMode
+		dataType: string
+		lineageTag: 76f2ab78-9bf6-4155-9064-9e0254d83674
+		summarizeBy: none
+		sourceColumn: TranspMode
+
+		annotation SummarizationSetBy = Automatic
+
+	column OtherHospTransfer
+		dataType: int64
+		formatString: 0
+		lineageTag: 0d54e9d4-c116-46b4-9e70-5bfc02495653
+		summarizeBy: sum
+		sourceColumn: OtherHospTransfer
+
+		annotation SummarizationSetBy = Automatic
+
+	column DischargeDest
+		dataType: int64
+		formatString: 0
+		lineageTag: de4629b3-f433-4fff-8556-7cdbc82a821c
+		summarizeBy: none
+		sourceColumn: DischargeDest
+
+		annotation SummarizationSetBy = Automatic
+
+	column ActEngaged
+		dataType: string
+		lineageTag: 76b7387d-8195-4d6e-9e64-0fc25e2e303b
+		summarizeBy: none
+		sourceColumn: ActEngaged
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FACT_ATR-b7345b84-909a-4cd6-a621-22392146446f = m
+		mode: import
+		queryGroup: Production
+		source =
+				let
+				    Source = ATRCompleteDataset_Aggregated
+				in
+				    Source
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

@@ -1,0 +1,77 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	discourageImplicitMeasures
+	sourceQueryCulture: en-AU
+	dataAccessOptions
+		fastCombine
+		legacyRedirects
+		returnErrorValuesAsNull
+
+queryGroup Dimension
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup Production
+
+	annotation PBI_QueryGroupOrder = 1
+
+queryGroup Pre-process
+
+	annotation PBI_QueryGroupOrder = 2
+
+queryGroup Source
+
+	annotation PBI_QueryGroupOrder = 9
+
+queryGroup Functions
+
+	annotation PBI_QueryGroupOrder = 4
+
+queryGroup DEV
+
+	annotation PBI_QueryGroupOrder = 5
+
+queryGroup 'To delete'
+
+	annotation PBI_QueryGroupOrder = 6
+
+queryGroup Source\ICD-10-AM/ACHI
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup Source\ICD-10-AM/ACHI\ICD-10
+
+	annotation PBI_QueryGroupOrder = 0
+
+annotation PBI_QueryOrder = ["Calendar","DIM_AGE","DIM_GENDER","DIM_INJURY_TYPE","DIM_STATE","DIM_TRANSPORT","DIM_INJURY_PLACE","DIM_INJURY_INTENT","DIM_INJURY_ACTIVITY","DIM_INJURY_CAUSE","DIM_INJURY_SEVERITY","DIM_DISCHAGRE","DIM_BODY_REGION","DIM COUNTRY","RESTRICTED_HOSPITAL","FACT_ATR","FACT_NATIONAL","age_lookup","hospital_lookup","hospital","ATRCompleteDataset_Aggregated","ATRCompleteDataset","hospital_features","injury_activity","injury_cause","body_region","VOTOR_ICDevent_Mapping_ATR mapping","07_ATRCompleteDataset","icd_am","hospital_features_1","TableType","BodyRegion","07_ATRCompleteDataset (2)","missing_cause_code","InjuryCause","cause_code_modification","StartDate","EndDate","data_path","ICD-10-AM_mapping_table","KeyMeasures","#shared","ICD-10-AM","injury_place","ICD-10-AM_injury_place","ICD-10-AM_injury_activity","B  ICD-10 Place of occurrence","C  ICD-10 Activity","icd_10_vemd_atr_code","vemd_code","atr_vemd"]
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBIDesktopVersion = 2.138.782.0 (24.11)
+
+annotation __TEdtr = 1
+
+annotation PBI_ProTooling = ["CalcGroup","DevMode"]
+
+ref table Calendar
+ref table DIM_AGE
+ref table DIM_GENDER
+ref table DIM_INJURY_TYPE
+ref table DIM_STATE
+ref table DIM_TRANSPORT
+ref table DIM_INJURY_PLACE
+ref table DIM_INJURY_INTENT
+ref table DIM_INJURY_ACTIVITY
+ref table DIM_INJURY_CAUSE
+ref table DIM_INJURY_SEVERITY
+ref table DIM_DISCHAGRE
+ref table DIM_BODY_REGION
+ref table 'DIM COUNTRY'
+ref table RESTRICTED_HOSPITAL
+ref table FACT_ATR
+ref table KeyMeasures
+ref table 'Time intelligence'
+
+ref cultureInfo en-US
+

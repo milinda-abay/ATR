@@ -1,0 +1,91 @@
+table DIM_INJURY_PLACE
+	lineageTag: f197a711-df9f-43c5-ad6a-af9d56b84b20
+
+	column injury_place_code_id
+		dataType: string
+		lineageTag: 02838ef0-a89d-4b5d-9539-5b5e0c91edb3
+		summarizeBy: none
+		sourceColumn: injury_place_code_id
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation __PBI_SemanticLinks = [{"LinkTarget":{"TableName":"DIM_INJURY_PLACE","TableItemName":"injury_place_code_id (groups)","ObjectType":4},"LinkType":"UsedInGroup"}]
+
+	column icd_code_description
+		dataType: string
+		lineageTag: bf65ae1f-4b75-44b1-a287-5a6b79c71f30
+		summarizeBy: none
+		sourceColumn: icd_code_description
+
+		annotation SummarizationSetBy = Automatic
+
+	column icd_place_category
+		dataType: string
+		lineageTag: d0b31185-a511-47ef-ba34-71f67491648d
+		summarizeBy: none
+		sourceColumn: icd_place_category
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'injury_place_code_id (groups)' =
+			SWITCH(
+				TRUE,
+				ISBLANK('DIM_INJURY_PLACE'[injury_place_code_id]),
+				"(Blank)",
+				'DIM_INJURY_PLACE'[injury_place_code_id] IN {"Y92.0",
+					"Y92.00",
+					"Y92.01",
+					"Y92.02",
+					"Y92.03",
+					"Y92.04",
+					"Y92.05",
+					"Y92.06",
+					"Y92.07",
+					"Y92.09"},
+				"Home",
+				'DIM_INJURY_PLACE'[injury_place_code_id] IN {"Y92.4",
+					"Y92.40",
+					"Y92.41",
+					"Y92.42",
+					"Y92.48",
+					"Y92.49"},
+				"Streets & Highways",
+				"Other"
+			)
+		lineageTag: 73148460-d9bc-4384-bb77-5e46f51e195e
+		summarizeBy: none
+
+		extendedProperty GroupingMetadata =
+				{
+				  "version": 0,
+				  "groupedColumns": [
+				    {
+				      "Column": {
+				        "Expression": {
+				          "SourceRef": {
+				            "Entity": "DIM_INJURY_PLACE"
+				          }
+				        },
+				        "Property": "injury_place_code_id"
+				      }
+				    }
+				  ]
+				}
+
+		annotation GroupingDesignState = {"Version":0,"Sources":[{"Name":"d","Entity":"DIM_INJURY_PLACE"}],"GroupedColumns":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"injury_place_code_id"}}],"GroupItems":[{"DisplayName":"(Blank)","BlankDefaultPlaceholder":true},{"DisplayName":"Home","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"injury_place_code_id"}}],"Values":[[{"Literal":{"Value":"'Y92.0'"}}],[{"Literal":{"Value":"'Y92.00'"}}],[{"Literal":{"Value":"'Y92.01'"}}],[{"Literal":{"Value":"'Y92.02'"}}],[{"Literal":{"Value":"'Y92.03'"}}],[{"Literal":{"Value":"'Y92.04'"}}],[{"Literal":{"Value":"'Y92.05'"}}],[{"Literal":{"Value":"'Y92.06'"}}],[{"Literal":{"Value":"'Y92.07'"}}],[{"Literal":{"Value":"'Y92.09'"}}]]}}},{"DisplayName":"Streets & Highways","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"injury_place_code_id"}}],"Values":[[{"Literal":{"Value":"'Y92.4'"}}],[{"Literal":{"Value":"'Y92.40'"}}],[{"Literal":{"Value":"'Y92.41'"}}],[{"Literal":{"Value":"'Y92.42'"}}],[{"Literal":{"Value":"'Y92.48'"}}],[{"Literal":{"Value":"'Y92.49'"}}]]}}},{"DisplayName":"Other"}]}
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DIM_INJURY_PLACE-15eb47e0-01f9-42a8-a8d4-be8f35c6eedc = m
+		mode: import
+		queryGroup: Dimension
+		source =
+				let
+				    Source = injury_place
+				in
+				    Source
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+
