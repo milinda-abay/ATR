@@ -243,7 +243,7 @@ expression ATRCompleteDataset =
 
 expression hospital_features =
 		let
-		    Source = hospital_features_1,
+		    Source = hospital_features_csv,
 		    #"Capitalized Each Word" = Table.TransformColumns(Source,{{"country", Text.Proper, type text}})
 		in
 		    #"Capitalized Each Word"
@@ -1023,7 +1023,7 @@ expression ICD-10-AM_mapping_table = "https://www.ihacpa.gov.au/sites/default/fi
 
 	annotation PBI_ResultType = Text
 
-expression hospital_features_1 =
+expression hospital_features_csv =
 		let
 		    Source = Csv.Document(File.Contents(data_path &"Hospital features.csv"),[Delimiter=",", Columns=7, Encoding=1252, QuoteStyle=QuoteStyle.None]),
 		    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
@@ -1286,7 +1286,7 @@ expression '07_ATRCompleteDataset (2)' =
 		    Source = #"07_ATRCompleteDataset",
 		    #"Removed Other Columns" = Table.SelectColumns(Source,{"InstitutionID", "HospitalName"}),
 		    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns"),
-		    #"Merged Queries" = Table.NestedJoin(#"Removed Duplicates", {"InstitutionID"}, hospital_features_1, {"InstCodeId"}, "hospital_features_1", JoinKind.LeftAnti)
+		    #"Merged Queries" = Table.NestedJoin(#"Removed Duplicates", {"InstitutionID"}, hospital_features_csv, {"InstCodeId"}, "hospital_features_1", JoinKind.LeftAnti)
 		in
 		    #"Merged Queries"
 	lineageTag: 097b715a-d093-4ebf-a9e9-8980bf9bfb56
