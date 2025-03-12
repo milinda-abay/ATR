@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "ATR_DEV"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "83919e7c-a89b-4cc5-968a-2fd2a41ee381"
+  }
+}

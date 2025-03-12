@@ -1,0 +1,118 @@
+table Calendar
+	lineageTag: 6b8512dc-2c8a-41d6-bf1e-73ed1b1cb78c
+
+	column cal_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 0e71fb7c-c4bb-4e2c-9e4e-62001e41db85
+		summarizeBy: none
+		sourceColumn: cal_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column cal_year
+		dataType: int64
+		formatString: 0
+		lineageTag: acf3f534-6cdb-441f-9ac1-ab34e926011d
+		summarizeBy: sum
+		sourceColumn: cal_year
+
+		annotation SummarizationSetBy = Automatic
+
+	column cal_month
+		dataType: int64
+		formatString: 0
+		lineageTag: 6e3f141e-024d-4171-8b10-16413e9f13f2
+		summarizeBy: sum
+		sourceColumn: cal_month
+
+		annotation SummarizationSetBy = Automatic
+
+	column cal_month_name
+		dataType: string
+		lineageTag: 2f4bbc8b-17cd-4008-9ac3-51b68256f133
+		summarizeBy: none
+		sourceColumn: cal_month_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthYear
+		dataType: string
+		lineageTag: 0e5e09b0-580f-491d-9cc2-3c33724112a1
+		summarizeBy: none
+		sourceColumn: MonthYear
+
+		annotation SummarizationSetBy = Automatic
+
+	column cal_mon_yeat_int
+		dataType: int64
+		formatString: 0
+		lineageTag: 983947ae-3621-4490-8431-88835c958370
+		summarizeBy: sum
+		sourceColumn: cal_mon_yeat_int
+
+		annotation SummarizationSetBy = Automatic
+
+	column Day
+		dataType: string
+		lineageTag: cff0537d-2d04-44ec-9e59-5ebcc951e4ff
+		summarizeBy: none
+		sourceColumn: Day
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: int64
+		formatString: 0
+		lineageTag: 7ce58fb7-725c-4279-b156-eaae37061d11
+		summarizeBy: sum
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day of Week'
+		dataType: int64
+		formatString: 0
+		lineageTag: 3474ceb6-61b1-43c9-b705-0b9196ef115a
+		summarizeBy: sum
+		sourceColumn: Day of Week
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day of Year'
+		dataType: int64
+		formatString: 0
+		lineageTag: db2c3b76-6a30-4616-844f-428317116fbb
+		summarizeBy: sum
+		sourceColumn: Day of Year
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Calendar = m
+		mode: import
+		source =
+				let
+				    Source = List.Dates(#"StartDate (2)", Length, #duration(1, 0, 0, 0)),
+				    #"Converted to Table" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Converted to Table",{{"Column1", type date}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"Column1", "cal_date"}}),
+				    Today = DateTime.Date(DateTime.LocalNow()),
+				    Length = Duration.Days(#"EndDate (2)"-#"StartDate (2)"),
+				    #"Inserted Year" = Table.AddColumn(#"Renamed Columns", "cal_year", each Date.Year([cal_date]), Int64.Type),
+				    #"Inserted Month" = Table.AddColumn(#"Inserted Year", "cal_month", each Date.Month([cal_date]), Int64.Type),
+				    #"Inserted Month Name" = Table.AddColumn(#"Inserted Month", "cal_month_name", each Date.MonthName([cal_date]), type text),
+				    #"Added Custom Column" = Table.AddColumn(#"Inserted Month Name", "MonthYear", each Text.Combine({Text.Start([cal_month_name], 3), "-", Text.From([cal_year], "en-AU")}), type text),
+				    #"Inserted Addition" = Table.AddColumn(#"Added Custom Column", "cal_mon_yeat_int", each [cal_year]*100 + [cal_month], Int64.Type),
+				    #"Inserted Day Name" = Table.AddColumn(#"Inserted Addition", "Day", each Date.DayOfWeekName([cal_date]), type text),
+				    #"Inserted Day" = Table.AddColumn(#"Inserted Day Name", "Date", each Date.Day([cal_date]), Int64.Type),
+				    #"Inserted Day of Week" = Table.AddColumn(#"Inserted Day", "Day of Week", each Date.DayOfWeek([cal_date]), Int64.Type),
+				    #"Inserted Day of Year" = Table.AddColumn(#"Inserted Day of Week", "Day of Year", each Date.DayOfYear([cal_date]), Int64.Type)
+				in
+				    #"Inserted Day of Year"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

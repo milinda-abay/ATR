@@ -1,0 +1,63 @@
+table cause_original_ancelin_map
+	lineageTag: 97159676-64c9-4806-abfc-0ff062ea7b63
+
+	column 'ICD10 Code'
+		dataType: string
+		lineageTag: 0c187938-0c0b-4adb-a98e-41a804d7e393
+		summarizeBy: none
+		sourceColumn: ICD10 Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Description
+		dataType: string
+		lineageTag: ab51f4aa-0849-49a9-a392-bca58de6df7e
+		summarizeBy: none
+		sourceColumn: Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'VEMD Code'
+		dataType: int64
+		formatString: 0
+		lineageTag: 16aa0a8a-f545-4b1c-9faf-71c32e5bb1b7
+		summarizeBy: count
+		sourceColumn: VEMD Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'ATR Code'
+		dataType: string
+		lineageTag: 6e3ad27b-3bf9-4338-960d-9d9d95cf5903
+		summarizeBy: none
+		sourceColumn: ATR Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column prior_completion
+		dataType: int64
+		formatString: 0
+		lineageTag: 623af09b-484e-4288-aa07-f49749837e4f
+		summarizeBy: sum
+		sourceColumn: prior_completion
+
+		annotation SummarizationSetBy = Automatic
+
+	partition cause_original_ancelin_map = m
+		mode: import
+		queryGroup: WIP
+		source =
+				let
+				    Source = base_cause,
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"ICD10 Code", "Description", "VEMD Code", "ATR Code"}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Removed Other Columns",{{"ATR Code", type text}}),
+				    #"Added Conditional Column" = Table.AddColumn(#"Changed Type", "prior_completion", each if [ATR Code] = null then 0 else 1, type number),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Added Conditional Column",{{"prior_completion", Int64.Type}}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Changed Type1",null,"required-but-missing",Replacer.ReplaceValue,{"ATR Code"})
+				in
+				    #"Replaced Value"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

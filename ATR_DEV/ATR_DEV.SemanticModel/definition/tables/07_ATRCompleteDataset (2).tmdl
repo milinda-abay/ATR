@@ -1,0 +1,24 @@
+table '07_ATRCompleteDataset (2)'
+	lineageTag: 56eda363-10d8-49d2-adf8-4fe4ccde0dc9
+
+	column InjuryCause
+		dataType: string
+		lineageTag: be505e97-955f-4301-b723-8cd220345b94
+		summarizeBy: none
+		sourceColumn: InjuryCause
+
+		annotation SummarizationSetBy = Automatic
+
+	partition '07_ATRCompleteDataset (2)' = m
+		mode: import
+		source =
+				let
+				    Source = #"07_ATRCompleteDataset",
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"InjuryCause"})
+				in
+				    #"Removed Other Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

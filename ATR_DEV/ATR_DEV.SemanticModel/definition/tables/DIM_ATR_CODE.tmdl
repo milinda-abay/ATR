@@ -1,0 +1,53 @@
+table DIM_ATR_CODE
+	lineageTag: 2d0eb176-765f-427f-9594-1b90022191d2
+
+	column 'ATR Code'
+		dataType: int64
+		formatString: 0
+		lineageTag: f75f9d3e-189b-4c71-8d7d-2590516efde8
+		summarizeBy: count
+		sourceColumn: ATR Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Description
+		dataType: string
+		lineageTag: 31801fce-9539-48c8-af3b-9db954e7d00a
+		summarizeBy: none
+		sourceColumn: Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'VEMD Code'
+		dataType: string
+		lineageTag: 5cfacbcf-2d0b-4ab1-960d-dd4adefca3c4
+		summarizeBy: none
+		sourceColumn: VEMD Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column icd_codes
+		dataType: string
+		lineageTag: 4272c9c3-cc42-494b-b8cf-f43e75fc89c6
+		summarizeBy: none
+		sourceColumn: icd_codes
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DIM_ATR_CODE = m
+		mode: import
+		queryGroup: DIMENSION_TABLE
+		source =
+				let
+				    Source = base_cause,
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"ATR Code_3", "Description_4", "VEMD Code_5", "Column14"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Other Columns",{{"ATR Code_3", "ATR Code"}, {"Description_4", "Description"}, {"VEMD Code_5", "VEMD Code"}, {"Column14", "icd_codes"}}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Renamed Columns",{{"VEMD Code", type text}}),
+				    #"Kept First Rows" = Table.FirstN(#"Changed Type",17)
+				in
+				    #"Kept First Rows"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

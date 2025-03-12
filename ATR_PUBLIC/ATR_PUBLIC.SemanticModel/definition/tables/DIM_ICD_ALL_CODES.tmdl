@@ -1,0 +1,42 @@
+table DIM_ICD_ALL_CODES
+	lineageTag: 3c77e549-b962-42af-a729-5391ded9986c
+
+	column CodeId
+		dataType: string
+		lineageTag: 6c95700b-c84b-4f85-be40-5c8c1e405f6c
+		summarizeBy: none
+		sourceColumn: CodeId
+
+		annotation SummarizationSetBy = Automatic
+
+	column Desc
+		dataType: string
+		lineageTag: 5275b031-5b3d-4620-8621-b03029af3b99
+		summarizeBy: none
+		sourceColumn: Desc
+
+		annotation SummarizationSetBy = Automatic
+
+	column clean_code_id
+		dataType: string
+		lineageTag: 51d0aa69-7d44-4413-bb37-af8599df836f
+		summarizeBy: none
+		sourceColumn: clean_code_id
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DIM_ICD_ALL_CODES = m
+		mode: import
+		queryGroup: Dimension
+		source =
+				let
+				    Source = Csv.Document(File.Contents(data_path & "ICD_ALL_CODES.csv"),[Delimiter=",", Columns=2, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Inserted Replaced Text" = Table.AddColumn(#"Promoted Headers", "clean_code_id", each Text.Replace([CodeId], ".", ""), type text)
+				in
+				    #"Inserted Replaced Text"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

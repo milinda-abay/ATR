@@ -1,0 +1,40 @@
+table ICD_CODES
+	lineageTag: 9fecf7b9-36e6-4b69-ac74-fe59160f9397
+
+	column code_id
+		dataType: string
+		lineageTag: 5964c3a7-3e8b-4d5b-a847-c76f3197bd66
+		summarizeBy: none
+		sourceColumn: code_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column code_id_clean
+		dataType: string
+		lineageTag: 13b399c7-cbe6-418a-8140-10f4cbb02229
+		summarizeBy: none
+		sourceColumn: code_id_clean
+
+		annotation SummarizationSetBy = Automatic
+
+	column ascii_desc
+		dataType: string
+		lineageTag: 50c3b268-cd93-4793-b37d-fa0bd604fa3a
+		summarizeBy: none
+		sourceColumn: ascii_desc
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ICD_CODES = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(data_path & "ICD_CODES.csv"),[Delimiter=",",  Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true])
+				in
+				    #"Promoted Headers"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

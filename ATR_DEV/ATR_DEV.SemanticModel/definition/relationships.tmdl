@@ -1,0 +1,18 @@
+relationship AutoDetected_7f71a190-f9a2-4a08-9688-d916a7851948
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: ICD_CODES.code_id
+	toColumn: ICD_ALL_CODES.CodeId
+
+relationship AutoDetected_5388a35c-3e3d-4d36-b285-61d159d78ab3
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: Merge1.CodeId
+	toColumn: ICD_ALL_CODES.CodeId
+
+relationship AutoDetected_b78d0d3b-8bfb-478e-807e-546e1480c4e5
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: cause_original_ancelin_map.'ICD10 Code'
+	toColumn: base_cause.'ICD10 Code'
+

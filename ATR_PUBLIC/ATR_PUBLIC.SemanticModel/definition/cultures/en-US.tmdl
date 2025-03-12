@@ -68,26 +68,6 @@ cultureInfo en-US
 			            },
 			            "Weight": 0.739
 			          }
-			        },
-			        {
-			          "Number of injuries": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        },
-			        {
-			          "Injuries (%)": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
 			        }
 			      ]
 			    },
@@ -226,16 +206,6 @@ cultureInfo en-US
 			              "Agent": "Thesaurus"
 			            },
 			            "Weight": 0.727
-			          }
-			        },
-			        {
-			          "Date": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
 			          }
 			        },
 			        {
@@ -618,16 +588,6 @@ cultureInfo en-US
 			          }
 			        },
 			        {
-			          "Discharge destination": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        },
-			        {
 			          "Outcome": {
 			            "State": "Suggested",
 			            "Source": {
@@ -724,7 +684,7 @@ cultureInfo en-US
 			          }
 			        },
 			        {
-			          "Body Region": {
+			          "Body region": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -1773,6 +1733,16 @@ cultureInfo en-US
 			            "State": "Generated",
 			            "Weight": 0.97
 			          }
+			        },
+			        {
+			          "Age": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
 			        }
 			      ]
 			    },
@@ -2608,7 +2578,7 @@ cultureInfo en-US
 			          }
 			        },
 			        {
-			          "State": {
+			          "Jurisdiction": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -3635,16 +3605,6 @@ cultureInfo en-US
 			            },
 			            "Weight": 0.739
 			          }
-			        },
-			        {
-			          "Injury place": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
 			        }
 			      ]
 			    },
@@ -4453,287 +4413,6 @@ cultureInfo en-US
 			              "Agent": "Thesaurus"
 			            },
 			            "Weight": 0.492
-			          }
-			        }
-			      ]
-			    },
-			    "dim_injury_cause.cause_icd_code_id": {
-			      "Definition": {
-			        "Binding": {
-			          "ConceptualEntity": "DIM_INJURY_CAUSE",
-			          "ConceptualProperty": "cause_icd_code_id"
-			        }
-			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "cause icd code id": {
-			            "State": "Generated"
-			          }
-			        },
-			        {
-			          "cause_icd_code_id": {
-			            "Type": "Noun",
-			            "State": "Generated",
-			            "Weight": 0.99
-			          }
-			        },
-			        {
-			          "cause icd code identification": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.771
-			          }
-			        },
-			        {
-			          "cause icd code identity": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.771
-			          }
-			        },
-			        {
-			          "cause icd code identifier": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.771
-			          }
-			        },
-			        {
-			          "cause icd code credential": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.748
-			          }
-			        },
-			        {
-			          "cause icd id id": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.617
-			          }
-			        },
-			        {
-			          "cause icd key id": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.599
-			          }
-			        }
-			      ]
-			    },
-			    "dim_injury_cause.ICD10_code_descriptor": {
-			      "Definition": {
-			        "Binding": {
-			          "ConceptualEntity": "DIM_INJURY_CAUSE",
-			          "ConceptualProperty": "ICD-10 code descriptor"
-			        }
-			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "ICD-10 code descriptor": {
-			            "State": "Generated"
-			          }
-			        },
-			        {
-			          "icd-10 id descriptor": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.609
-			          }
-			        },
-			        {
-			          "icd-10 key descriptor": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.591
-			          }
-			        }
-			      ]
-			    },
-			    "dim_injury_cause.ICD10_map": {
-			      "Definition": {
-			        "Binding": {
-			          "ConceptualEntity": "DIM_INJURY_CAUSE",
-			          "ConceptualProperty": "ICD-10 Map"
-			        }
-			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "ICD-10 map": {
-			            "State": "Generated"
-			          }
-			        },
-			        {
-			          "icd-10 atlas": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.5
-			          }
-			        },
-			        {
-			          "icd-10 chart": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.485
-			          }
-			        },
-			        {
-			          "icd-10 plot": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.485
-			          }
-			        },
-			        {
-			          "icd-10 plan": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.485
-			          }
-			        },
-			        {
-			          "icd-10 record": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.485
-			          }
-			        },
-			        {
-			          "icd-10 drawing": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.485
-			          }
-			        },
-			        {
-			          "icd-10 diagram": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.485
-			          }
-			        }
-			      ]
-			    },
-			    "dim_injury_cause.cause": {
-			      "Definition": {
-			        "Binding": {
-			          "ConceptualEntity": "DIM_INJURY_CAUSE",
-			          "ConceptualProperty": "Cause"
-			        }
-			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "cause": {
-			            "State": "Generated"
-			          }
-			        },
-			        {
-			          "origin": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.491
-			          }
-			        },
-			        {
-			          "basis": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.491
-			          }
-			        },
-			        {
-			          "reason": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.476
-			          }
-			        },
-			        {
-			          "source": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.476
-			          }
-			        },
-			        {
-			          "root": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.476
-			          }
-			        },
-			        {
-			          "foundation": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.476
 			          }
 			        }
 			      ]
@@ -8790,16 +8469,6 @@ cultureInfo en-US
 			          "average TimeToED": {
 			            "State": "Generated"
 			          }
-			        },
-			        {
-			          "Average Time To ED": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
 			        }
 			      ]
 			    },
@@ -9444,16 +9113,6 @@ cultureInfo en-US
 			            },
 			            "Weight": 0.739
 			          }
-			        },
-			        {
-			          "Time in ED (Hours)": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
 			        }
 			      ]
 			    },
@@ -9888,7 +9547,7 @@ cultureInfo en-US
 			      "Definition": {
 			        "Binding": {
 			          "ConceptualEntity": "KeyMeasures",
-			          "ConceptualProperty": "Measure 2"
+			          "ConceptualProperty": "ISS score"
 			        }
 			      },
 			      "State": "Generated",
@@ -10871,29 +10530,7 @@ cultureInfo en-US
 			          "ConceptualProperty": "HospitalName"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "Hospital": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        },
-			        {
-			          "Hospital name": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "keymeasures.number_of_cases_public": {
 			      "Definition": {
@@ -10906,6 +10543,55 @@ cultureInfo en-US
 			      "Terms": [
 			        {
 			          "Number of cases": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Total cases": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "keymeasures.page_two_title": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "KeyMeasures",
+			          "ConceptualProperty": "page_two_title"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "dim_injury_cause.atr_description": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "DIM_INJURY_CAUSE",
+			          "ConceptualProperty": "atr_description"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "dim_injury_cause.atr_description_groups": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "DIM_INJURY_CAUSE",
+			          "ConceptualProperty": "atr_description (groups)"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Cause": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",

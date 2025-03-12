@@ -1,9 +1,11 @@
 expression hospital =
 		let
 		    Source = #"07_ATRCompleteDataset"[[InstitutionID], [HospitalName]],
-		    #"Removed Duplicates" = Table.Distinct(Source, {"InstitutionID"})
+		    #"Removed Duplicates" = Table.Distinct(Source, {"InstitutionID"}),
+		    #"Sorted Rows1" = Table.Sort(#"Removed Duplicates",{{"InstitutionID", Order.Ascending}}),
+		    #"Sorted Rows" = Table.Sort(#"Sorted Rows1",{{"HospitalName", Order.Ascending}, {"InstitutionID", Order.Ascending}})
 		in
-		    #"Removed Duplicates"
+		    #"Sorted Rows"
 	lineageTag: b988c2d5-8f4c-48bd-bd60-14b38bf9f32d
 	queryGroup: Pre-process
 
@@ -114,10 +116,10 @@ expression ATRCompleteDataset =
 		                    and [KnownArrTime]
 		                    and [KnownEDDischargeDt]
 		                    and [KnownEDDischargeTime]
-		                    and [DischargeDateTime]
+		                    and [EDDischargeDateTime]
 		                    >= [ArrivalDateTime]
 		                then
-		                    [DischargeDateTime] - [ArrivalDateTime]
+		                    [EDDischargeDateTime] - [ArrivalDateTime]
 		                else
 		                    null,
 		            Duration.Type
@@ -244,9 +246,10 @@ expression ATRCompleteDataset =
 expression hospital_features =
 		let
 		    Source = hospital_features_csv,
-		    #"Capitalized Each Word" = Table.TransformColumns(Source,{{"country", Text.Proper, type text}})
+		    #"Capitalized Each Word" = Table.TransformColumns(Source,{{"country", Text.Proper, type text}}),
+		    #"Sorted Rows" = Table.Sort(#"Capitalized Each Word",{{"HospitalName", Order.Ascending}})
 		in
-		    #"Capitalized Each Word"
+		    #"Sorted Rows"
 	lineageTag: a8501b6b-9642-403c-8913-52634d0a179a
 	queryGroup: Pre-process
 
@@ -298,9 +301,11 @@ expression injury_cause = ```
 		    #"Converted to Table" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
 		    #"Renamed Columns" = Table.RenameColumns(#"Converted to Table",{{"Column1", "cause_icd_code_id"}}),
 		    #"Changed Type" = Table.TransformColumnTypes(#"Renamed Columns",{{"cause_icd_code_id", type text}}),
-		    #"Merged Queries" = Table.NestedJoin(#"Changed Type", {"cause_icd_code_id"}, icd_am, {"ICD-10-AM Code"}, "icd_am", JoinKind.LeftOuter),
-		    #"Expanded icd_am" = Table.ExpandTableColumn(#"Merged Queries", "icd_am", {"ICD-10 code descriptor", "ICD-10 Map"}, {"ICD-10 code descriptor", "ICD-10 Map"}),
-		    table_type = TableType(#"Expanded icd_am"),
+		    #"Duplicated Column" = Table.DuplicateColumn(#"Changed Type", "cause_icd_code_id", "cause_code_atr"),
+		    #"Replaced Value" = Table.ReplaceValue(#"Duplicated Column",".","",Replacer.ReplaceText,{"cause_code_atr"}),
+		    #"Merged Queries" = Table.NestedJoin(#"Replaced Value", {"cause_icd_code_id"}, #"ICD-10-AM", {"icd_code"}, "icd_am", JoinKind.LeftOuter),
+		    #"Expanded icd_am1" = Table.ExpandTableColumn(#"Merged Queries", "icd_am", {"icd_code_description"}, {"icd_code_description"}),
+		    table_type = TableType(#"Expanded icd_am1"),
 		    table_code = #table( table_type, {
 		        {"U50","Team ball sports","0"},
 		        {"U51","Team bat or stick sports","0"},
@@ -324,7 +329,7 @@ expression injury_cause = ```
 		        {"U73","Other activity","0"}
 		        } ),
 		    
-		    #"Appended Query" = #"Expanded icd_am"
+		    #"Appended Query" = #"Expanded icd_am1"
 		in
 		    #"Appended Query"
 		```
@@ -588,9 +593,10 @@ expression 07_ATRCompleteDataset = ```
 		      {"Column110", Text.Trim, type text}
 		    }
 		  ), 
-		  #"Promoted Headers" = Table.PromoteHeaders(#"Trimmed Text", [PromoteAllScalars = true]), 
+		  #"Promoted Headers" = Table.PromoteHeaders(#"Trimmed Text", [PromoteAllScalars = true]),
+		    #"Removed Columns" = Table.RemoveColumns(#"Promoted Headers",{"OpProc1", "OpProc2", "OpProc3", "OpProc4", "OpProc5", "OpProc6", "OpProc7", "OpProc8", "OpProc9", "OpProc10", "OpProc11", "OpProc12", "OpProc13", "OpProc14", "OpProc15", "OpProc16", "OpProc17", "OpProc18", "OpProc19", "OpProc20", "OpProc21", "OpProc22", "OpProc23", "OpProc24", "OpProc25", "OpProc26", "OpProc27", "OpProc28", "OpProc29", "OpProc30", "OpProc31", "OpProc32", "OpProc33", "OpProc34", "OpProc35", "OpProc36", "OpProc37", "OpProc38", "OpProc39", "OpProc40", "OpProc41", "OpProc42", "OpProc43", "OpProc44", "OpProc45", "OpProc46", "OpProc47", "OpProc48", "OpProc49", "OpProc50", "OpProc51", "OpProc52", "OpProc53", "OpProc54", "OpProc55", "OpProc56", "OpProc57", "OpProc58", "OpProc59", "OpProc60", "OpProc61", "OpProc62", "OpProc63", "OpProc64", "OpProc65", "OpProc66", "OpProc67", "OpProc68", "OpProc69", "OpProc70", "OpProc71", "OpProc72", "OpProc73", "OpProc74", "OpProc75", "OpProc76", "OpProc77", "OpProc78", "OpProc79", "OpProc80", "OpProc81", "OpProc82", "OpProc83", "OpProc84", "OpProc85", "OpProc86", "OpProc87", "OpProc88", "OpProc89", "OpProc90", "OpProc91", "OpProc92", "OpProc93", "OpProc94", "OpProc95", "OpProc96", "OpProc97", "OpProc98", "OpProc99", "OpProc100", "OpProc101", "OpProc102", "OpProc103", "OpProc104", "OpProc105", "OpProc106", "OpProc107", "OpProc108", "OpProc109", "OpProc110", "OpProc111", "OpProc112", "OpProc113", "OpProc114", "OpProc115", "OpProc116", "OpProc117", "OpProc118", "OpProc119", "OpProc120", "OpProc121", "OpProc122", "OpProc123", "OpProc124", "OpProc125", "OpProc126", "OpProc127", "OpProc128", "OpProc129", "OpProc130", "OpProc131", "OpProc132", "OpProc133", "OpProc134", "OpProc135", "OpProc136", "OpProc137", "OpProc138", "OpProc139", "OpProc140", "OpProc141", "OpProc142", "OpProc143", "OpProc144", "OpProc145", "OpProc146", "OpProc147", "OpProc148", "OpProc149", "OpProc150", "OpProc151", "OpProc152", "OpProc153", "OpProc154", "OpProc155", "OpProc156", "OpProc157", "OpProc158", "OpProc159", "OpProc160", "OpProc161", "OpProc162", "OpProc163", "OpProc164", "OpProc165", "OpProc166", "OpProc167", "OpProc168", "OpProc169", "OpProc170", "OpProc171", "OpProc172", "OpProc173", "OpProc174", "OpProc175", "OpProc176", "OpProc177", "OpProc178", "OpProc179", "OpProc180", "OpProc181", "OpProc182", "OpProc183", "OpProc184", "OpProc185", "OpProc186", "OpProc187", "OpProc188", "OpProc189", "OpProc190", "OpProc191", "OpProc192", "OpProc193", "OpProc194", "OpProc195", "OpProc196", "OpProc197", "OpProc198", "OpProc199", "OpProc200", "OpProc201", "OpProc202", "OpProc203", "OpProc204", "OpProc205", "OpProc206", "OpProc207", "OpProc208", "OpProc209", "OpProc210", "OpProc211", "OpProc212", "OpProc213", "OpProc214", "OpProc215", "OpProc216", "OpProc217", "OpProc218", "OpProc219", "OpProc220", "OpProc221", "OpProc222", "OpProc223", "OpProc224", "OpProc225", "OpProc226", "OpProc227", "OpProc228", "OpProc229", "OpProc230", "OpProc231", "OpProc232", "OpProc233", "OpProc234", "OpProc235", "OpProc236", "OpProc237", "OpProc238", "OpProc239", "OpProc240", "OpProc241", "OpProc242", "OpProc243", "OpProc244", "OpProc245", "OpProc246", "OpProc247", "OpProc248", "OpProc249", "OpProc250"}), 
 		  #"Replaced Value" = Table.ReplaceValue(
-		    #"Promoted Headers", 
+		    #"Removed Columns", 
 		    "-99", 
 		    "99", 
 		    (x, y, z) as text => if x = y then z else x, 
@@ -1047,9 +1053,10 @@ expression ATRCompleteDataset_Aggregated =
 		    #"Replaced Value" = Table.ReplaceValue(#"Changed Type",each [Age], each  Record.Field(age_lookup, [Age])  ,Replacer.ReplaceText,{"Age"}),
 		    Custom1 = Table.ReplaceValue(#"Replaced Value",each [InstitutionID], each  Record.Field(hospital_lookup, [InstitutionID])  ,Replacer.ReplaceText,{"InstitutionID"}),
 		    #"Renamed Columns" = Table.RenameColumns(Custom1,{{"InstitutionID", "State"}}),
-		    #"Rounded Off1" = Table.TransformColumns(#"Renamed Columns",{{"TimeInED", each Number.Round(_, 1), type number},{"TimeToED", each Number.Round(_, 1), type number}})
+		    #"Rounded Off1" = Table.TransformColumns(#"Renamed Columns",{{"TimeInED", each Number.Round(_, 1), type number},{"TimeToED", each Number.Round(_, 1), type number}}),
+		    #"Calculated End of Week" = Table.TransformColumns(#"Rounded Off1",{{"InjuryDt", Date.EndOfWeek, type date}})
 		in
-		    #"Rounded Off1"
+		    #"Calculated End of Week"
 	lineageTag: f8379ab5-21b8-4e25-94d0-2a18bde20899
 	queryGroup: Pre-process
 
@@ -1184,7 +1191,7 @@ expression 'VOTOR_ICDevent_Mapping_ATR mapping' =
 		    Source = Excel.Workbook(File.Contents(data_path & "VOTOR_ICDevent_Mapping_ATR mapping.xlsx"), null, true),
 		    Cause1 = Source{[Name="Cause"]}[Data],
 		    #"Promoted Headers" = Table.PromoteHeaders(Cause1, [PromoteAllScalars=true]),
-		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ICD10 Code", type text}, {"Description", type text}, {"VEMD Code", Int64.Type}, {"ATR Code", Int64.Type}, {"Column5", type text}, {"VEMD Code_1", Int64.Type}, {"Description_2", type text}, {"Column8", type text}, {"Column9", type text}, {"Column10", type text}, {"ATR Code_3", Int64.Type}, {"Description_4", type text}, {"VEMD Code_5", type text}, {"Column14", type text}})
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ICD10 Code", type text}, {"Description", type text}, {"VEMD Code", Int64.Type}, {"ATR Code", Int64.Type}, {"Column5", type any}, {"VEMD Code_1", Int64.Type}, {"Description_2", type text}, {"Column8", type any}, {"Column9", type any}, {"Column10", type any}, {"ATR Code_3", Int64.Type}, {"Description_4", type text}, {"VEMD Code_5", type text}, {"Column14", type text}})
 		in
 		    #"Changed Type"
 	lineageTag: 91eb6000-e949-4301-abb2-ec3857d56bd9
@@ -1286,9 +1293,9 @@ expression '07_ATRCompleteDataset (2)' =
 		    Source = #"07_ATRCompleteDataset",
 		    #"Removed Other Columns" = Table.SelectColumns(Source,{"InstitutionID", "HospitalName"}),
 		    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns"),
-		    #"Merged Queries" = Table.NestedJoin(#"Removed Duplicates", {"InstitutionID"}, hospital_features_csv, {"InstCodeId"}, "hospital_features_1", JoinKind.LeftAnti)
+		    #"Sorted Rows" = Table.Sort(#"Removed Duplicates",{{"InstitutionID", Order.Ascending}})
 		in
-		    #"Merged Queries"
+		    #"Sorted Rows"
 	lineageTag: 097b715a-d093-4ebf-a9e9-8980bf9bfb56
 	queryGroup: DEV
 
@@ -1317,7 +1324,7 @@ expression icd_10_vemd_atr_code =
 		in
 		    #"Sorted Rows"
 	lineageTag: 8b706975-318d-4c14-9841-4febc621243f
-	queryGroup: Pre-process
+	queryGroup: DEV
 
 	annotation PBI_NavigationStepName = Navigation
 
@@ -1341,6 +1348,68 @@ expression ICD-10-AM =
 		    #"Renamed Columns"
 	lineageTag: d6e9dcd5-ad0c-4e4a-9058-e50703ae0a50
 	queryGroup: Source\ICD-10-AM/ACHI
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression missing_cause_code_maps =
+		let
+		    Source = Excel.Workbook(File.Contents(data_path & "VOTOR_ICDevent_Mapping_ATR mapping.xlsx"), null, true),
+		    Cause1 = Source{[Name="missing_cause_code"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(Cause1, [PromoteAllScalars=true]),
+		    #"Renamed Columns" = Table.RenameColumns(#"Promoted Headers",{{"Column3", "atr_code_description"}, {"Column4", "icd10_map"}}),
+		    #"Removed Other Columns1" = Table.SelectColumns(#"Renamed Columns",{"missing_cause_code", "atr_code_description"}),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Removed Other Columns1",{{"missing_cause_code", type text}, {"atr_code_description", type text}}),
+		    #"Trimmed Text" = Table.TransformColumns(#"Changed Type",{ {"missing_cause_code", Text.Trim, type text}, {"atr_code_description", Text.Trim, type text}}),
+		    #"Cleaned Text" = Table.TransformColumns(#"Trimmed Text",{ {"missing_cause_code", Text.Clean, type text}, {"atr_code_description", Text.Clean, type text}}),
+		    #"Merged Queries" = Table.NestedJoin(#"Cleaned Text", {"atr_code_description"}, atr_vemd, {"atr_description"}, "atr_vemd", JoinKind.LeftOuter),
+		    #"Expanded atr_vemd" = Table.ExpandTableColumn(#"Merged Queries", "atr_vemd", {"atr_code"}, {"ATR Code"}),
+		    #"Renamed Columns1" = Table.RenameColumns(#"Expanded atr_vemd",{{"missing_cause_code", "ICD10 Code"}, {"atr_code_description", "Description"}}),
+		    #"Removed Duplicates" = Table.Distinct(#"Renamed Columns1")
+		in
+		    #"Removed Duplicates"
+	lineageTag: 7dc19d53-037e-4385-a1e4-66b16759ee58
+	queryGroup: Pre-process\fix_cause_code
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression cause_code_lookup =
+		let
+		    Source = Table.Combine({missing_cause_code_maps, cause_code_vemd_atr})
+		in
+		    Source
+	lineageTag: e22663de-6625-4a5e-9211-b47f11f41048
+	queryGroup: Pre-process\fix_cause_code
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression look_up_cause_description =
+		let
+		    Source = atr_vemd,
+		    #"Removed Other Columns" = Table.SelectColumns(Source,{"atr_code", "atr_description"}),
+		    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns")
+		in
+		    #"Removed Duplicates"
+	lineageTag: c39a8128-5c2b-4aeb-98d6-423a371b5a4c
+	queryGroup: Pre-process
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression cause_code_vemd_atr =
+		let
+		    Source = #"VOTOR_ICDevent_Mapping_ATR mapping",
+		    #"Removed Other Columns" = Table.SelectColumns(Source,{"ICD10 Code", "Description", "VEMD Code", "ATR Code"})
+		in
+		    #"Removed Other Columns"
+	lineageTag: 19112da1-1e07-4675-8219-738bd6aa33c0
+	queryGroup: Pre-process\fix_cause_code
 
 	annotation PBI_NavigationStepName = Navigation
 

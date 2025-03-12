@@ -1,0 +1,69 @@
+table missing_codes
+	lineageTag: 3767204e-b931-46d6-b20f-adef69ebd4c7
+
+	column 'InjuryCause (In ATR DB)'
+		dataType: string
+		lineageTag: b41f2dc0-4dfa-4f6b-89c3-19769ec7577e
+		summarizeBy: none
+		sourceColumn: InjuryCause (In ATR DB)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'ICD10 Code'
+		dataType: string
+		lineageTag: 76179166-18fa-4b44-8305-bd5255d68e51
+		summarizeBy: none
+		sourceColumn: ICD10 Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column4
+		dataType: string
+		lineageTag: 984f41d3-26d4-44ff-a534-16777b46773a
+		summarizeBy: none
+		sourceColumn: Column4
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'ATR Code'
+		dataType: string
+		lineageTag: 1886248a-95f7-4119-841e-2ce0a4912021
+		summarizeBy: none
+		sourceColumn: ATR Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column prior_completion
+		dataType: int64
+		formatString: 0
+		lineageTag: 5c124fbb-77ac-49ef-8ddc-9bc30f180264
+		summarizeBy: sum
+		sourceColumn: prior_completion
+
+		annotation SummarizationSetBy = Automatic
+
+	partition missing_codes = m
+		mode: import
+		queryGroup: WIP
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("E:\projects\ATR\data\VOTOR_ICDevent_Mapping_ATR mapping.xlsx"), null, true),
+				    missing_cause_code_Sheet = Source{[Item="missing_cause_code",Kind="Sheet"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(missing_cause_code_Sheet,{{"Column1", type text}, {"Column2", type text}, {"Column3", type text}, {"Column4", type text}}),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Changed Type", [PromoteAllScalars=true]),
+				    #"Merged Queries" = Table.NestedJoin(#"Promoted Headers", {"Column3"}, DIM_ATR_CODE, {"Description"}, "DIM_ATR_CODE", JoinKind.LeftOuter),
+				    #"Expanded DIM_ATR_CODE" = Table.ExpandTableColumn(#"Merged Queries", "DIM_ATR_CODE", {"ATR Code"}, {"DIM_ATR_CODE.ATR Code"}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Expanded DIM_ATR_CODE",{{"DIM_ATR_CODE.ATR Code", type text}}),
+				    #"Added Conditional Column" = Table.AddColumn(#"Changed Type1", "ATR Code", each if [DIM_ATR_CODE.ATR Code] = null then [Column3] else [DIM_ATR_CODE.ATR Code], type text),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Added Conditional Column",{"InjuryCause (In ATR DB)", "missing_cause_code", "Column4", "ATR Code"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Other Columns",{{"missing_cause_code", "ICD10 Code"}}),
+				    #"Added Conditional Column1" = Table.AddColumn(#"Renamed Columns", "prior_completion", each if [ATR Code] = null then 0 else 1,type number),
+				    #"Changed Type2" = Table.TransformColumnTypes(#"Added Conditional Column1",{{"prior_completion", Int64.Type}}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Changed Type2",null,"required-but-missing",Replacer.ReplaceValue,{"ATR Code"})
+				in
+				    #"Replaced Value"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

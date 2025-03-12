@@ -10,7 +10,7 @@ table KeyMeasures
 		lineageTag: 66797954-3738-4667-8c57-0b03bf7983c6
 
 	measure 'Number of cases' = DISTINCTCOUNT(FACT_ATR[RegId])
-		formatString: 0
+		formatString: #,0
 		lineageTag: 728a6a72-bacb-4162-b3dd-81956398a241
 
 	measure Deaths = CALCULATE([Number of cases], DIM_DISCHAGRE[Mortality] = "Deaths")
@@ -55,7 +55,7 @@ table KeyMeasures
 			RETURN
 			result
 			```
-		formatString: 0.0
+		formatString: 0.0%;-0.0%;0.0%
 		lineageTag: e1660d34-aedb-4063-b7aa-04843986b2fe
 
 	measure last_date = LASTNONBLANK('CALENDAR'[cal_date],[Number of cases])
@@ -99,7 +99,7 @@ table KeyMeasures
 		formatString: 0.0
 		lineageTag: 67aa61d6-e744-4b0a-b1a1-26a43f6e4d17
 
-	measure max_day = {max('CALENDAR'[cal_date])}
+	measure max_day = max('CALENDAR'[cal_date])
 		lineageTag: 2c67b1c3-5982-4e08-972c-bb166eeb53ef
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -240,7 +240,7 @@ table KeyMeasures
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure 'Measure 2' = COUNTROWS(ALL(DIM_STATE))
+	measure 'ISS score' = SELECTEDVALUE(DIM_INJURY_SEVERITY[iss_id])
 		lineageTag: fa7541e9-8a4c-4155-9d3d-8fe6fe3bb81d
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -254,11 +254,36 @@ table KeyMeasures
 			
 			VAR _cases = [Number of cases]
 			
-			 VAR _results = IF(_cases <5, "*", _cases)
+			VAR _results = IF(_cases <5 , BLANK(), _cases)
 			
 			 RETURN
-			 _results
+			 IF(ISBLANK(_cases), BLANK(), _results)
+		formatString: #,0
 		lineageTag: 6b84093e-fe5d-4d42-80b8-40d4c5b82cc9
+
+	measure period_max =
+			CALCULATE(MAX(FACT_ATR[InjuryDt]),
+			VALUES(FACT_ATR[InjuryDt]))
+		lineageTag: 91f609a5-3bb0-4117-bb73-7ca28b05273e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure period_min =
+			CALCULATE(min(FACT_ATR[InjuryDt]),
+			VALUES(FACT_ATR[InjuryDt]))
+		lineageTag: 3f1db7c8-ec17-44be-b229-1b9953b18b8b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure page_two_title = "Visible date range " & "(" & [period_min] &" to " & [period_max] &")"
+		displayFolder: page_titles
+		lineageTag: a4bf9d74-918e-40e0-b73d-782ab05621cc
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure page_three_title = "Number of cases by Age  (10 year) and Cause " & "(" & [period_min] &" to " & [period_max] &")"
+		displayFolder: page_titles
+		lineageTag: 561b0a64-0e02-4261-b812-ed283174d9ef
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 

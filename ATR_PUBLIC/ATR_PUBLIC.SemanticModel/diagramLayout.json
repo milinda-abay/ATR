@@ -4,8 +4,8 @@
     {
       "ordinal": 0,
       "scrollPosition": {
-        "x": 0,
-        "y": 0
+        "x": 176.55780595966104,
+        "y": 372.828376662391
       },
       "nodes": [
         {
@@ -113,11 +113,10 @@
           "nodeIndex": "DIM_INJURY_CAUSE",
           "nodeLineageTag": "3c833ef7-1be0-48bb-86e0-9c202ea3e667",
           "size": {
-            "height": 104,
+            "height": 248,
             "width": 234
           },
-          "zIndex": 13,
-          "expandedHeight": 248
+          "zIndex": 13
         },
         {
           "location": {
@@ -149,8 +148,8 @@
         },
         {
           "location": {
-            "x": 1431.0015003367282,
-            "y": 312.89983577090328
+            "x": 1472.0703261797021,
+            "y": 462.68025943351353
           },
           "nodeIndex": "DIM_INJURY_SEVERITY",
           "nodeLineageTag": "1f6c12fa-165b-4ef6-a8d6-73305f39ba70",
@@ -197,11 +196,10 @@
           "nodeIndex": "FACT_ATR",
           "nodeLineageTag": "cf5fb583-fad1-460b-bba1-284a8ef1dcc4",
           "size": {
-            "height": 416,
+            "height": 847.98808751088791,
             "width": 416
           },
-          "zIndex": 14,
-          "expandedHeight": 847.98808751088791
+          "zIndex": 14
         },
         {
           "location": {
@@ -256,10 +254,23 @@
           },
           "zIndex": 1,
           "expandedHeight": 272
+        },
+        {
+          "location": {
+            "x": 737.131224233472,
+            "y": 463.81499729580867
+          },
+          "nodeIndex": "DIM_ICD_ALL_CODES",
+          "nodeLineageTag": "3c77e549-b962-42af-a729-5391ded9986c",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
         }
       ],
       "name": "All tables",
-      "zoomValue": 73.840632534620738,
+      "zoomValue": 116.67566827776834,
       "pinKeyFieldsToTop": false,
       "showExtraHeaderInfo": false,
       "hideKeyFieldsWhenCollapsed": false,

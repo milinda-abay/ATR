@@ -1,0 +1,37 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-AU
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+queryGroup WIP
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup DIMENSION_TABLE
+
+	annotation PBI_QueryGroupOrder = 1
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBIDesktopVersion = 2.139.2054.0 (24.12)+334ca1c95b576cc53924655643b0d36f21caac55
+
+annotation PBI_ProTooling = ["DevMode"]
+
+annotation PBI_QueryOrder = ["data_path","StartDate (2)","EndDate (2)","Calendar","ICD_ALL_CODES","ICD_CODES","07_ATRCompleteDataset","07_ATRCompleteDataset (2)","base_cause","cause_original_ancelin_map","DIM_ATR_CODE","missing_codes","Merge1"]
+
+ref table Calendar
+ref table ICD_ALL_CODES
+ref table ICD_CODES
+ref table 07_ATRCompleteDataset
+ref table '07_ATRCompleteDataset (2)'
+ref table base_cause
+ref table cause_original_ancelin_map
+ref table DIM_ATR_CODE
+ref table missing_codes
+ref table Merge1
+
+ref cultureInfo en-US
+

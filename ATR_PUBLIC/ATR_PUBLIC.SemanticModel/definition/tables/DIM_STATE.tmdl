@@ -31,6 +31,15 @@ table DIM_STATE
 
 		annotation SummarizationSetBy = Automatic
 
+	column jurisdiction
+		dataType: string
+		lineageTag: 053e8250-c4ae-4f3a-8379-a2f731bc4908
+		dataCategory: StateOrProvince
+		summarizeBy: none
+		sourceColumn: jurisdiction
+
+		annotation SummarizationSetBy = Automatic
+
 	hierarchy 'iso3 Hierarchy'
 		lineageTag: 9fecd155-be19-46dc-8fa4-1bb7405ccef0
 
@@ -41,6 +50,10 @@ table DIM_STATE
 		level state
 			lineageTag: ebcda919-04df-499c-bffd-39cb24f8b4a5
 			column: state
+
+		level jurisdiction
+			lineageTag: b3910897-97ed-4aa3-831b-ca25666aac61
+			column: jurisdiction
 
 	partition DIM_STATE-67a9bcee-2b57-4be8-b55d-bc7a6fe2a900 = m
 		mode: import
@@ -54,11 +67,12 @@ table DIM_STATE
 				    #"Removed Bottom Rows" = Table.RemoveLastN(#"Removed Other Columns",5),
 				    #"Removed Duplicates" = Table.Distinct(#"Removed Bottom Rows"),
 				    #"Sorted Rows" = Table.Sort(#"Removed Duplicates",{{"country", Order.Ascending}, {"state", Order.Ascending}}),
-				    #"Added Index1" = Table.AddIndexColumn(#"Sorted Rows", "state_sort", 1, 1, Int64.Type)
+				    #"Added Index1" = Table.AddIndexColumn(#"Sorted Rows", "state_sort", 1, 1, Int64.Type),
+				    #"Duplicated Column" = Table.DuplicateColumn(#"Added Index1", "state", "jurisdiction")
 				in
-				    #"Added Index1"
+				    #"Duplicated Column"
 
-	annotation PBI_ResultType = Exception
+	annotation PBI_ResultType = Table
 
 	annotation PBI_NavigationStepName = Navigation
 

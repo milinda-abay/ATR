@@ -18,6 +18,51 @@ table DIM_TRANSPORT
 
 		annotation SummarizationSetBy = Automatic
 
+		annotation __PBI_SemanticLinks = [{"LinkTarget":{"TableName":"DIM_TRANSPORT","TableItemName":"EMS groups","ObjectType":4},"LinkType":"UsedInGroup"}]
+
+	column 'EMS groups' =
+			SWITCH(
+				TRUE,
+				ISBLANK('DIM_TRANSPORT'[description]),
+				"(Blank)",
+				'DIM_TRANSPORT'[description] IN {"Fixed-wing Ambulance",
+					"Helicopter Ambulance"},
+				"Air",
+				'DIM_TRANSPORT'[description] IN {"Interstate Ambulance",
+					"Police/Prison Vehicle",
+					"Private Ambulance",
+					"Private/Public Vehicle/Taxi/Walk-in",
+					"Road Ambulance"},
+				"Ground",
+				'DIM_TRANSPORT'[description] IN {"Not stated/inadequately described",
+					"Other"},
+				"Other",
+				'DIM_TRANSPORT'[description]
+			)
+		lineageTag: b700faa7-59f3-48ad-babb-53154afaf7fc
+		summarizeBy: none
+
+		extendedProperty GroupingMetadata =
+				{
+				  "version": 0,
+				  "groupedColumns": [
+				    {
+				      "Column": {
+				        "Expression": {
+				          "SourceRef": {
+				            "Entity": "DIM_TRANSPORT"
+				          }
+				        },
+				        "Property": "description"
+				      }
+				    }
+				  ]
+				}
+
+		annotation GroupingDesignState = {"Version":0,"Sources":[{"Name":"d","Entity":"DIM_TRANSPORT"}],"GroupedColumns":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"description"}}],"GroupItems":[{"DisplayName":"(Blank)","BlankDefaultPlaceholder":true},{"DisplayName":"Air","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"description"}}],"Values":[[{"Literal":{"Value":"'Fixed-wing Ambulance'"}}],[{"Literal":{"Value":"'Helicopter Ambulance'"}}]]}}},{"DisplayName":"Ground","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"description"}}],"Values":[[{"Literal":{"Value":"'Interstate Ambulance'"}}],[{"Literal":{"Value":"'Police/Prison Vehicle'"}}],[{"Literal":{"Value":"'Private Ambulance'"}}],[{"Literal":{"Value":"'Private/Public Vehicle/Taxi/Walk-in'"}}],[{"Literal":{"Value":"'Road Ambulance'"}}]]}}},{"DisplayName":"Other","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"description"}}],"Values":[[{"Literal":{"Value":"'Not stated/inadequately described'"}}],[{"Literal":{"Value":"'Other'"}}]]}}}]}
+
+		annotation SummarizationSetBy = Automatic
+
 	partition DIM_TRANSPORT-33c37f86-642e-4983-aae3-b8ecdce8f492 = m
 		mode: import
 		queryGroup: Dimension

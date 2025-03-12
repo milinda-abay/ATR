@@ -1,0 +1,135 @@
+table base_cause
+	lineageTag: 659dcaaa-d397-423c-8054-f08aff2905e4
+
+	column 'ICD10 Code'
+		dataType: string
+		lineageTag: 366dde73-cce1-40c0-9657-bdcab36812ee
+		summarizeBy: none
+		sourceColumn: ICD10 Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Description
+		dataType: string
+		lineageTag: e60daa55-9f53-43dd-847f-efc2758c3bec
+		summarizeBy: none
+		sourceColumn: Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'VEMD Code'
+		dataType: int64
+		formatString: 0
+		lineageTag: 798d8d18-da8b-4e49-8f70-2403d1d9ed7c
+		summarizeBy: count
+		sourceColumn: VEMD Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'ATR Code'
+		dataType: int64
+		formatString: 0
+		lineageTag: cece3608-dc30-4d80-a375-a2bc8a7d9933
+		summarizeBy: count
+		sourceColumn: ATR Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column5
+		dataType: string
+		lineageTag: 0f487eee-6b15-49a3-8d4b-19c98900a8ab
+		summarizeBy: none
+		sourceColumn: Column5
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'VEMD Code_1'
+		dataType: int64
+		formatString: 0
+		lineageTag: ff3f2502-64a3-4830-a067-299060b89276
+		summarizeBy: sum
+		sourceColumn: VEMD Code_1
+
+		annotation SummarizationSetBy = Automatic
+
+	column Description_2
+		dataType: string
+		lineageTag: ae75bffd-856d-4076-a1dd-2ba2f3540b63
+		summarizeBy: none
+		sourceColumn: Description_2
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column8
+		dataType: string
+		lineageTag: bd433852-0278-4a1a-bacc-de318427193d
+		summarizeBy: none
+		sourceColumn: Column8
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column9
+		dataType: string
+		lineageTag: c81eaae7-4103-4d2f-9d1e-2e80a186a120
+		summarizeBy: none
+		sourceColumn: Column9
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column10
+		dataType: string
+		lineageTag: ee31eb45-5ea4-4802-8e3e-4e094a0c38bd
+		summarizeBy: none
+		sourceColumn: Column10
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'ATR Code_3'
+		dataType: int64
+		formatString: 0
+		lineageTag: 535f8049-1cb7-4208-a531-ca0668fadc83
+		summarizeBy: sum
+		sourceColumn: ATR Code_3
+
+		annotation SummarizationSetBy = Automatic
+
+	column Description_4
+		dataType: string
+		lineageTag: 67fe1bfa-ad8a-4603-a6c9-be3690652331
+		summarizeBy: none
+		sourceColumn: Description_4
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'VEMD Code_5'
+		dataType: string
+		lineageTag: 3531b91e-8380-4f3f-bd8e-89fc679a821e
+		summarizeBy: none
+		sourceColumn: VEMD Code_5
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column14
+		dataType: string
+		lineageTag: d69d8b6c-8b85-4403-8cda-48f8f7d67312
+		summarizeBy: none
+		sourceColumn: Column14
+
+		annotation SummarizationSetBy = Automatic
+
+	partition base_cause = m
+		mode: import
+		queryGroup: WIP
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("E:\projects\ATR\data\VOTOR_ICDevent_Mapping_ATR mapping.xlsx"), null, true),
+				    Cause_Sheet = Source{[Item="Cause",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Cause_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ICD10 Code", type text}, {"Description", type text}, {"VEMD Code", Int64.Type}, {"ATR Code", Int64.Type}, {"Column5", type any}, {"VEMD Code_1", Int64.Type}, {"Description_2", type text}, {"Column8", type any}, {"Column9", type any}, {"Column10", type any}, {"ATR Code_3", Int64.Type}, {"Description_4", type text}, {"VEMD Code_5", type any}, {"Column14", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

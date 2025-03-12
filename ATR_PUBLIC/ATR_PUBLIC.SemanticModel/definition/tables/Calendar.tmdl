@@ -42,6 +42,9 @@ table Calendar
 		lineageTag: eb66c68d-a339-4699-a3a7-b70a0a812951
 		summarizeBy: none
 		sourceColumn: cal_month_name
+		sortByColumn: cal_month
+
+		changedProperty = SortByColumn
 
 		annotation SummarizationSetBy = Automatic
 
@@ -154,11 +157,11 @@ table Calendar
 	hierarchy 'cal_year Hierarchy'
 		lineageTag: bf67ec35-7927-4042-824a-f27887a407d1
 
-		level cal_year
+		level Year
 			lineageTag: cbccbc93-1f36-4a13-b518-991330cf3e4f
 			column: cal_year
 
-		level cal_month_name
+		level Month
 			lineageTag: 2d816ff4-56c6-44c6-8c07-4225306c26da
 			column: cal_month_name
 

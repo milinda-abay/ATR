@@ -1,0 +1,1201 @@
+table 07_ATRCompleteDataset
+	lineageTag: 7e231ccc-2b0b-488c-9ac9-45d178e8fb55
+
+	column InstitutionID
+		dataType: int64
+		formatString: 0
+		lineageTag: f2ed461a-c7ae-41db-84cf-a23512422d2f
+		summarizeBy: count
+		sourceColumn: InstitutionID
+
+		annotation SummarizationSetBy = Automatic
+
+	column TraumaNo
+		dataType: int64
+		formatString: 0
+		lineageTag: 04766492-b3d1-4057-98bc-66a8e5c0cbea
+		summarizeBy: sum
+		sourceColumn: TraumaNo
+
+		annotation SummarizationSetBy = Automatic
+
+	column IncidentNo
+		dataType: int64
+		formatString: 0
+		lineageTag: c44aea93-3853-4552-8a8f-775e3026f7d5
+		summarizeBy: sum
+		sourceColumn: IncidentNo
+
+		annotation SummarizationSetBy = Automatic
+
+	column RegId
+		dataType: int64
+		formatString: 0
+		lineageTag: 156db870-0fca-4f13-92bd-ad3cc2258f90
+		summarizeBy: count
+		sourceColumn: RegId
+
+		annotation SummarizationSetBy = Automatic
+
+	column HospitalName
+		dataType: string
+		lineageTag: 74bcb601-f092-49b3-85e5-06a0215ea00e
+		summarizeBy: none
+		sourceColumn: HospitalName
+
+		annotation SummarizationSetBy = Automatic
+
+	column State
+		dataType: string
+		lineageTag: e7ec056d-c5ec-4baa-a061-c1590e9af3a9
+		summarizeBy: none
+		sourceColumn: State
+
+		annotation SummarizationSetBy = Automatic
+
+	column DOB
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: b6b9ff50-fce2-4cd8-9c76-777384b365e3
+		summarizeBy: none
+		sourceColumn: DOB
+
+		annotation SummarizationSetBy = Automatic
+
+	column Age
+		dataType: int64
+		formatString: 0
+		lineageTag: 4313890d-15e3-4a1c-9404-c629615723da
+		summarizeBy: sum
+		sourceColumn: Age
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sex
+		dataType: int64
+		formatString: 0
+		lineageTag: 24c21fbc-cb66-4fc8-a120-e623241a013b
+		summarizeBy: sum
+		sourceColumn: Sex
+
+		annotation SummarizationSetBy = Automatic
+
+	column ICDQualifier
+		dataType: string
+		lineageTag: 35c0dfbc-85d7-49d7-a4a3-25eff25a43e3
+		summarizeBy: none
+		sourceColumn: ICDQualifier
+
+		annotation SummarizationSetBy = Automatic
+
+	column Comorb
+		dataType: string
+		lineageTag: 3dbbfdf6-8b48-4aa6-ac67-d913206b937b
+		summarizeBy: none
+		sourceColumn: Comorb
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ethnicity
+		dataType: string
+		lineageTag: 828a62bc-53de-4372-9f44-817d260e5342
+		summarizeBy: none
+		sourceColumn: Ethnicity
+
+		annotation SummarizationSetBy = Automatic
+
+	column ResidPcode
+		dataType: string
+		lineageTag: e5655698-f1c0-426c-a05b-114eb6ec5f8c
+		summarizeBy: none
+		sourceColumn: ResidPcode
+
+		annotation SummarizationSetBy = Automatic
+
+	column Occupation
+		dataType: string
+		lineageTag: 0e23cfaf-a906-4852-bc90-5f53dacaf5bc
+		summarizeBy: none
+		sourceColumn: Occupation
+
+		annotation SummarizationSetBy = Automatic
+
+	column DOIJ
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 4041d1a3-00cf-4148-ae5d-d4c2148ab481
+		summarizeBy: none
+		sourceColumn: DOIJ
+
+		annotation SummarizationSetBy = Automatic
+
+	column InjuryCause
+		dataType: string
+		lineageTag: 1512ee75-9d27-41c0-8c73-5c1632b03d74
+		summarizeBy: none
+		sourceColumn: InjuryCause
+
+		annotation SummarizationSetBy = Automatic
+
+	column InjuryType
+		dataType: int64
+		formatString: 0
+		lineageTag: 4bfd200c-94de-4f97-b600-14fbc15a8ee3
+		summarizeBy: sum
+		sourceColumn: InjuryType
+
+		annotation SummarizationSetBy = Automatic
+
+	column InjuryPcode
+		dataType: int64
+		formatString: 0
+		lineageTag: c43281eb-034e-42f5-abfe-e982a9be822c
+		summarizeBy: sum
+		sourceColumn: InjuryPcode
+
+		annotation SummarizationSetBy = Automatic
+
+	column InjuryIntent
+		dataType: int64
+		formatString: 0
+		lineageTag: 4b9785dc-b118-42d9-bfa0-23aee57e1ce0
+		summarizeBy: sum
+		sourceColumn: InjuryIntent
+
+		annotation SummarizationSetBy = Automatic
+
+	column InjuryPlace
+		dataType: string
+		lineageTag: f2119bd4-5298-46bc-9cdb-463ef4738f94
+		summarizeBy: none
+		sourceColumn: InjuryPlace
+
+		annotation SummarizationSetBy = Automatic
+
+	column ActEngaged
+		dataType: string
+		lineageTag: de10313b-9df5-4921-a947-84801313e835
+		summarizeBy: none
+		sourceColumn: ActEngaged
+
+		annotation SummarizationSetBy = Automatic
+
+	column InjuryEvent
+		dataType: string
+		lineageTag: 3ce64cd2-cf55-4634-be07-e15ee86656b0
+		summarizeBy: none
+		sourceColumn: InjuryEvent
+
+		annotation SummarizationSetBy = Automatic
+
+	column SafetyDevice
+		dataType: string
+		lineageTag: e7260a86-9f80-443a-9bd9-be04064fbce8
+		summarizeBy: none
+		sourceColumn: SafetyDevice
+
+		annotation SummarizationSetBy = Automatic
+
+	column InjuryLat
+		dataType: string
+		lineageTag: 295d4ecc-522c-4f46-a73f-39cd14d5d6ee
+		summarizeBy: none
+		sourceColumn: InjuryLat
+
+		annotation SummarizationSetBy = Automatic
+
+	column InjuryLong
+		dataType: string
+		lineageTag: fa7391be-225f-4cfd-9c5e-d58af112a2a2
+		summarizeBy: none
+		sourceColumn: InjuryLong
+
+		annotation SummarizationSetBy = Automatic
+
+	column TranspMode
+		dataType: int64
+		formatString: 0
+		lineageTag: a373e6c9-8c4d-4da7-9b5d-339c51eb7e80
+		summarizeBy: sum
+		sourceColumn: TranspMode
+
+		annotation SummarizationSetBy = Automatic
+
+	column AmbulanceArrTime
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 887f6b17-6458-40d7-b5d2-2a7c2584ce6e
+		summarizeBy: none
+		sourceColumn: AmbulanceArrTime
+
+		annotation SummarizationSetBy = Automatic
+
+	column OtherHospTransfer
+		dataType: int64
+		formatString: 0
+		lineageTag: 01706d79-8121-4b28-854c-4119bcbb7491
+		summarizeBy: sum
+		sourceColumn: OtherHospTransfer
+
+		annotation SummarizationSetBy = Automatic
+
+	column RefHospID1
+		dataType: int64
+		formatString: 0
+		lineageTag: 82af45aa-98c7-4945-9dad-db393bcfa59d
+		summarizeBy: sum
+		sourceColumn: RefHospID1
+
+		annotation SummarizationSetBy = Automatic
+
+	column RefHospArrDateTime1
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 57fa9350-7e0f-4520-94da-1df717272b38
+		summarizeBy: none
+		sourceColumn: RefHospArrDateTime1
+
+		annotation SummarizationSetBy = Automatic
+
+	column RefHospDeptDateTime1
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: e7b41e35-623d-4474-85f6-94aecc9e1822
+		summarizeBy: none
+		sourceColumn: RefHospDeptDateTime1
+
+		annotation SummarizationSetBy = Automatic
+
+	column RefHospTranspMode1
+		dataType: int64
+		formatString: 0
+		lineageTag: 490bdda4-790d-4468-8bd7-0903a37a53ce
+		summarizeBy: sum
+		sourceColumn: RefHospTranspMode1
+
+		annotation SummarizationSetBy = Automatic
+
+	column RefHospID2
+		dataType: int64
+		formatString: 0
+		lineageTag: e0f1f907-1c01-438a-8d43-f91dceeb0d7e
+		summarizeBy: sum
+		sourceColumn: RefHospID2
+
+		annotation SummarizationSetBy = Automatic
+
+	column RefHospArrDateTime2
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 8ae9d576-4657-42dc-992e-89a338a48b64
+		summarizeBy: none
+		sourceColumn: RefHospArrDateTime2
+
+		annotation SummarizationSetBy = Automatic
+
+	column RefHospDeptDateTime2
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 6ce62f86-386c-434f-b3b1-427a63e70e27
+		summarizeBy: none
+		sourceColumn: RefHospDeptDateTime2
+
+		annotation SummarizationSetBy = Automatic
+
+	column RefHospTranspMode2
+		dataType: int64
+		formatString: 0
+		lineageTag: a8853138-b467-4381-992f-7993bdc465d1
+		summarizeBy: sum
+		sourceColumn: RefHospTranspMode2
+
+		annotation SummarizationSetBy = Automatic
+
+	column RefHospID3
+		dataType: string
+		lineageTag: e43f0387-9a2a-4cad-9c54-d4b67b1c4022
+		summarizeBy: none
+		sourceColumn: RefHospID3
+
+		annotation SummarizationSetBy = Automatic
+
+	column RefHospArrDateTime3
+		dataType: string
+		lineageTag: be7a9039-f896-4b1c-8ce4-fc1ee8399017
+		summarizeBy: none
+		sourceColumn: RefHospArrDateTime3
+
+		annotation SummarizationSetBy = Automatic
+
+	column RefHospDeptDateTime3
+		dataType: string
+		lineageTag: 905e68e6-c3aa-42cd-819c-58ff5fe9aba4
+		summarizeBy: none
+		sourceColumn: RefHospDeptDateTime3
+
+		annotation SummarizationSetBy = Automatic
+
+	column RefHospTranspMode3
+		dataType: string
+		lineageTag: a060c0fb-57bb-4d57-bcd7-7ec2c98564f5
+		summarizeBy: none
+		sourceColumn: RefHospTranspMode3
+
+		annotation SummarizationSetBy = Automatic
+
+	column PreHospBloodTransf
+		dataType: int64
+		formatString: 0
+		lineageTag: 7b272d38-31cf-4e03-8eac-493adf97c98c
+		summarizeBy: sum
+		sourceColumn: PreHospBloodTransf
+
+		annotation SummarizationSetBy = Automatic
+
+	column PreHospCPR
+		dataType: int64
+		formatString: 0
+		lineageTag: ad718ecd-a6f6-46ed-ae94-546a795f596c
+		summarizeBy: sum
+		sourceColumn: PreHospCPR
+
+		annotation SummarizationSetBy = Automatic
+
+	column PreHospCardArrest
+		dataType: int64
+		formatString: 0
+		lineageTag: fa70cec8-9074-489a-b2fb-3345ec12930f
+		summarizeBy: sum
+		sourceColumn: PreHospCardArrest
+
+		annotation SummarizationSetBy = Automatic
+
+	column ScenePulse
+		dataType: int64
+		formatString: 0
+		lineageTag: 2fc0b135-ef0b-446f-bf5f-1f6484e435e0
+		summarizeBy: sum
+		sourceColumn: ScenePulse
+
+		annotation SummarizationSetBy = Automatic
+
+	column SceneSystolic
+		dataType: int64
+		formatString: 0
+		lineageTag: 939b3aba-a48e-452f-b993-2344e41791c2
+		summarizeBy: sum
+		sourceColumn: SceneSystolic
+
+		annotation SummarizationSetBy = Automatic
+
+	column SceneRespiRate
+		dataType: int64
+		formatString: 0
+		lineageTag: 30c6d10e-ae9e-4de4-adc7-ec4efc356167
+		summarizeBy: sum
+		sourceColumn: SceneRespiRate
+
+		annotation SummarizationSetBy = Automatic
+
+	column SceneTemp
+		dataType: double
+		lineageTag: f2364d62-927e-4f2c-9668-134c000b3ca5
+		summarizeBy: sum
+		sourceColumn: SceneTemp
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SceneGCSEye
+		dataType: int64
+		formatString: 0
+		lineageTag: 5976f8c1-084f-4c09-b543-92c1672770ff
+		summarizeBy: sum
+		sourceColumn: SceneGCSEye
+
+		annotation SummarizationSetBy = Automatic
+
+	column SceneGCSVoice
+		dataType: int64
+		formatString: 0
+		lineageTag: baccd55d-7485-40e5-aa79-b2d6b81da84a
+		summarizeBy: sum
+		sourceColumn: SceneGCSVoice
+
+		annotation SummarizationSetBy = Automatic
+
+	column SceneGCSMotor
+		dataType: int64
+		formatString: 0
+		lineageTag: 5fd8e80e-81e6-4c4f-99b0-dce3fdb2c16d
+		summarizeBy: sum
+		sourceColumn: SceneGCSMotor
+
+		annotation SummarizationSetBy = Automatic
+
+	column SceneTotalGCS
+		dataType: int64
+		formatString: 0
+		lineageTag: b2572050-ac11-4284-a3eb-4137748a71f3
+		summarizeBy: sum
+		sourceColumn: SceneTotalGCS
+
+		annotation SummarizationSetBy = Automatic
+
+	column RefHospPulse1
+		dataType: string
+		lineageTag: 0dfb944e-3612-4536-ad75-ab453884084f
+		summarizeBy: none
+		sourceColumn: RefHospPulse1
+
+		annotation SummarizationSetBy = Automatic
+
+	column RefHospSystolic1
+		dataType: string
+		lineageTag: 33383dc2-96d2-44a0-975f-728381321323
+		summarizeBy: none
+		sourceColumn: RefHospSystolic1
+
+		annotation SummarizationSetBy = Automatic
+
+	column RefHospRespiRate1
+		dataType: string
+		lineageTag: 33bcbbb8-9c98-4c51-86ff-36ad4177cb62
+		summarizeBy: none
+		sourceColumn: RefHospRespiRate1
+
+		annotation SummarizationSetBy = Automatic
+
+	column RefHospTemp1
+		dataType: string
+		lineageTag: ffa1037e-ebb2-4f40-9a9e-5d1bf35f4b31
+		summarizeBy: none
+		sourceColumn: RefHospTemp1
+
+		annotation SummarizationSetBy = Automatic
+
+	column RefHospGCSEye1
+		dataType: string
+		lineageTag: cf8e9559-2d14-4795-80fb-ff34866a35d9
+		summarizeBy: none
+		sourceColumn: RefHospGCSEye1
+
+		annotation SummarizationSetBy = Automatic
+
+	column RefHospGCSVoice1
+		dataType: string
+		lineageTag: df565eae-2e0a-4828-b64c-b77c4971596f
+		summarizeBy: none
+		sourceColumn: RefHospGCSVoice1
+
+		annotation SummarizationSetBy = Automatic
+
+	column RefHospGCSMotor1
+		dataType: string
+		lineageTag: c09214d2-6e13-4209-abeb-76dfa6a2afdd
+		summarizeBy: none
+		sourceColumn: RefHospGCSMotor1
+
+		annotation SummarizationSetBy = Automatic
+
+	column RefHospTotalGCS1
+		dataType: string
+		lineageTag: 119578b5-a75e-4364-87db-0d3be18e75f4
+		summarizeBy: none
+		sourceColumn: RefHospTotalGCS1
+
+		annotation SummarizationSetBy = Automatic
+
+	column RefHospPulse2
+		dataType: string
+		lineageTag: 34ef1818-492d-44e2-a708-b69a65a5810a
+		summarizeBy: none
+		sourceColumn: RefHospPulse2
+
+		annotation SummarizationSetBy = Automatic
+
+	column RefHospSystolic2
+		dataType: string
+		lineageTag: 5c273ecf-8e91-40b7-8e6a-fd9a6a5fb130
+		summarizeBy: none
+		sourceColumn: RefHospSystolic2
+
+		annotation SummarizationSetBy = Automatic
+
+	column RefHospRespiRate2
+		dataType: string
+		lineageTag: 6b1bce0b-5b64-4d71-9d4e-42abc8d468de
+		summarizeBy: none
+		sourceColumn: RefHospRespiRate2
+
+		annotation SummarizationSetBy = Automatic
+
+	column RefHospTemp2
+		dataType: string
+		lineageTag: 60b5e860-b498-43ad-ad5f-10f0f940c37a
+		summarizeBy: none
+		sourceColumn: RefHospTemp2
+
+		annotation SummarizationSetBy = Automatic
+
+	column RefHospGCSEye2
+		dataType: string
+		lineageTag: 0d5a1c5b-20a2-49dc-82e8-a83fc5f9b25f
+		summarizeBy: none
+		sourceColumn: RefHospGCSEye2
+
+		annotation SummarizationSetBy = Automatic
+
+	column RefHospGCSVoice2
+		dataType: string
+		lineageTag: 95e97ae1-2bbf-4d59-910d-d45a1428b32d
+		summarizeBy: none
+		sourceColumn: RefHospGCSVoice2
+
+		annotation SummarizationSetBy = Automatic
+
+	column RefHospGCSMotor2
+		dataType: string
+		lineageTag: 2ffa703f-8354-4324-a72f-6c33a9ad2ecb
+		summarizeBy: none
+		sourceColumn: RefHospGCSMotor2
+
+		annotation SummarizationSetBy = Automatic
+
+	column RefHospTotalGCS2
+		dataType: string
+		lineageTag: 39d90a0d-2edb-4be7-bc23-11edccd0df69
+		summarizeBy: none
+		sourceColumn: RefHospTotalGCS2
+
+		annotation SummarizationSetBy = Automatic
+
+	column RefHospPulse3
+		dataType: string
+		lineageTag: 43ba4cce-daa4-42bc-be61-4fbeda6620f6
+		summarizeBy: none
+		sourceColumn: RefHospPulse3
+
+		annotation SummarizationSetBy = Automatic
+
+	column RefHospSystolic3
+		dataType: string
+		lineageTag: a5a0c21b-527d-468e-86d4-29ecf54a36ea
+		summarizeBy: none
+		sourceColumn: RefHospSystolic3
+
+		annotation SummarizationSetBy = Automatic
+
+	column RefHospRespiRate3
+		dataType: string
+		lineageTag: 7e20a8b4-f6e1-4366-8752-24bbec41fd6e
+		summarizeBy: none
+		sourceColumn: RefHospRespiRate3
+
+		annotation SummarizationSetBy = Automatic
+
+	column RefHospTemp3
+		dataType: string
+		lineageTag: c8059e53-dfe0-4639-a29d-12e26efe2cb7
+		summarizeBy: none
+		sourceColumn: RefHospTemp3
+
+		annotation SummarizationSetBy = Automatic
+
+	column RefHospGCSEye3
+		dataType: string
+		lineageTag: fa02c6c9-7636-4855-9902-053ed9c9b1fb
+		summarizeBy: none
+		sourceColumn: RefHospGCSEye3
+
+		annotation SummarizationSetBy = Automatic
+
+	column RefHospGCSVoice3
+		dataType: string
+		lineageTag: 0e2b79cf-fc34-454a-93f2-8d009c07cc4a
+		summarizeBy: none
+		sourceColumn: RefHospGCSVoice3
+
+		annotation SummarizationSetBy = Automatic
+
+	column RefHospGCSMotor3
+		dataType: string
+		lineageTag: ac92fbe4-584d-4292-a502-c356434b2cb1
+		summarizeBy: none
+		sourceColumn: RefHospGCSMotor3
+
+		annotation SummarizationSetBy = Automatic
+
+	column RefHospTotalGCS3
+		dataType: string
+		lineageTag: b60a9f12-88a0-4740-ad86-258d2d776a55
+		summarizeBy: none
+		sourceColumn: RefHospTotalGCS3
+
+		annotation SummarizationSetBy = Automatic
+
+	column ArrivalDateTime
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 4ca9095a-beae-40d9-a3ba-370d5654b8c7
+		summarizeBy: none
+		sourceColumn: ArrivalDateTime
+
+		annotation SummarizationSetBy = Automatic
+
+	column ArrivalPulse
+		dataType: int64
+		formatString: 0
+		lineageTag: b0f6fa7f-d013-4704-80e2-a1df16fbe213
+		summarizeBy: sum
+		sourceColumn: ArrivalPulse
+
+		annotation SummarizationSetBy = Automatic
+
+	column ArrivalSystolic
+		dataType: int64
+		formatString: 0
+		lineageTag: 01020d20-d8b8-4f0c-bd21-986b6fa41dfd
+		summarizeBy: sum
+		sourceColumn: ArrivalSystolic
+
+		annotation SummarizationSetBy = Automatic
+
+	column ArrivalRespiRate
+		dataType: int64
+		formatString: 0
+		lineageTag: b25add00-3204-4245-bcdb-9fc6584b2650
+		summarizeBy: sum
+		sourceColumn: ArrivalRespiRate
+
+		annotation SummarizationSetBy = Automatic
+
+	column ArrivalTemp
+		dataType: double
+		lineageTag: bc2437a3-e48f-4e44-b797-86c2562b8121
+		summarizeBy: sum
+		sourceColumn: ArrivalTemp
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ArrivalGCSEye
+		dataType: int64
+		formatString: 0
+		lineageTag: ddf3e275-ff59-441d-9558-e3276dd448e4
+		summarizeBy: sum
+		sourceColumn: ArrivalGCSEye
+
+		annotation SummarizationSetBy = Automatic
+
+	column ArrivalGCSVoice
+		dataType: int64
+		formatString: 0
+		lineageTag: f96e4ac9-826e-41d7-85fb-94a7f72f6089
+		summarizeBy: sum
+		sourceColumn: ArrivalGCSVoice
+
+		annotation SummarizationSetBy = Automatic
+
+	column ArrivalGCSMotor
+		dataType: int64
+		formatString: 0
+		lineageTag: f8ee91cf-26c8-4d40-b439-536692f4c777
+		summarizeBy: sum
+		sourceColumn: ArrivalGCSMotor
+
+		annotation SummarizationSetBy = Automatic
+
+	column ArrivalTotalGCS
+		dataType: int64
+		formatString: 0
+		lineageTag: 0071f223-9466-4195-9f7d-be42b2575025
+		summarizeBy: sum
+		sourceColumn: ArrivalTotalGCS
+
+		annotation SummarizationSetBy = Automatic
+
+	column ArrivalCPR
+		dataType: int64
+		formatString: 0
+		lineageTag: 873dd2d8-ba1a-40ca-82b0-c1a41f87b8c8
+		summarizeBy: sum
+		sourceColumn: ArrivalCPR
+
+		annotation SummarizationSetBy = Automatic
+
+	column ArrivalBloodTransf
+		dataType: int64
+		formatString: 0
+		lineageTag: 7d731d3c-893f-469a-9889-a6d0ff58ec8e
+		summarizeBy: sum
+		sourceColumn: ArrivalBloodTransf
+
+		annotation SummarizationSetBy = Automatic
+
+	column ArrivalPatIntubated
+		dataType: int64
+		formatString: 0
+		lineageTag: c1441f74-2413-4361-9976-2037fe70acf6
+		summarizeBy: sum
+		sourceColumn: ArrivalPatIntubated
+
+		annotation SummarizationSetBy = Automatic
+
+	column ArrivalPatIntubatedDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 8b6fceec-69c4-485c-a5f3-ccfddb6b49e2
+		summarizeBy: none
+		sourceColumn: ArrivalPatIntubatedDate
+
+		annotation SummarizationSetBy = Automatic
+
+	column ArrivalRespQualifier
+		dataType: int64
+		formatString: 0
+		lineageTag: 5dec493f-0746-415d-be03-26d273c0a960
+		summarizeBy: sum
+		sourceColumn: ArrivalRespQualifier
+
+		annotation SummarizationSetBy = Automatic
+
+	column ArrivalBloodAlcoholCon
+		dataType: double
+		lineageTag: 849894ba-3785-49c4-8d7e-166adea4ac92
+		summarizeBy: sum
+		sourceColumn: ArrivalBloodAlcoholCon
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FirstBaseExcess
+		dataType: int64
+		formatString: 0
+		lineageTag: feb63b5c-5bb5-4933-80d2-6858b9fcb97f
+		summarizeBy: sum
+		sourceColumn: FirstBaseExcess
+
+		annotation SummarizationSetBy = Automatic
+
+	column FirstINR
+		dataType: double
+		lineageTag: 6b20cf34-95cd-494a-9161-9d2ff9a0a714
+		summarizeBy: sum
+		sourceColumn: FirstINR
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column EDDischargeDateTime
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 5cb59dca-eba4-433c-9105-a881d59f3ae9
+		summarizeBy: none
+		sourceColumn: EDDischargeDateTime
+
+		annotation SummarizationSetBy = Automatic
+
+	column EDDisposition
+		dataType: int64
+		formatString: 0
+		lineageTag: bb052e2b-6a35-4829-acbd-1b0a38988b1e
+		summarizeBy: sum
+		sourceColumn: EDDisposition
+
+		annotation SummarizationSetBy = Automatic
+
+	column ED_LOS
+		dataType: double
+		lineageTag: ecd719a6-3357-41c8-a21f-c0bc981db81d
+		summarizeBy: sum
+		sourceColumn: ED_LOS
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TraumaCall
+		dataType: string
+		lineageTag: 6ed4c85b-af03-4f5c-b1d2-fe4dc7231251
+		summarizeBy: none
+		sourceColumn: TraumaCall
+
+		annotation SummarizationSetBy = Automatic
+
+	column TertSurvey
+		dataType: string
+		lineageTag: 82f6c91f-cb18-4a23-9bf5-9d03e3ebb210
+		summarizeBy: none
+		sourceColumn: TertSurvey
+
+		annotation SummarizationSetBy = Automatic
+
+	column PregnancyStatus
+		dataType: string
+		lineageTag: fd8b450f-5a8a-47f8-85bd-3c8fa0598c56
+		summarizeBy: none
+		sourceColumn: PregnancyStatus
+
+		annotation SummarizationSetBy = Automatic
+
+	column ICDDiag24HR
+		dataType: int64
+		formatString: 0
+		lineageTag: 651603df-19d2-4321-b8a6-b13d542509e3
+		summarizeBy: sum
+		sourceColumn: ICDDiag24HR
+
+		annotation SummarizationSetBy = Automatic
+
+	column VentDays
+		dataType: int64
+		formatString: 0
+		lineageTag: 69f44736-5d72-431d-bf15-8109ff48353b
+		summarizeBy: sum
+		sourceColumn: VentDays
+
+		annotation SummarizationSetBy = Automatic
+
+	column UnplannedOT
+		dataType: string
+		lineageTag: c7831771-f02c-4cdb-b4c3-77e5d211d42a
+		summarizeBy: none
+		sourceColumn: UnplannedOT
+
+		annotation SummarizationSetBy = Automatic
+
+	column UnplannedICU
+		dataType: string
+		lineageTag: a59e79c1-35d1-432f-8ba7-6b30d901b329
+		summarizeBy: none
+		sourceColumn: UnplannedICU
+
+		annotation SummarizationSetBy = Automatic
+
+	column AISCode
+		dataType: string
+		lineageTag: b7e75cd1-0c83-429e-9d85-f098dcc82f27
+		summarizeBy: none
+		sourceColumn: AISCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column AISCount
+		dataType: string
+		lineageTag: f12d0326-572e-4d23-b3fd-50c6318c8e85
+		summarizeBy: none
+		sourceColumn: AISCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column AIS_BodyRegion
+		dataType: int64
+		formatString: 0
+		lineageTag: e3008ad8-8324-4213-902e-dfb359dba35c
+		summarizeBy: sum
+		sourceColumn: AIS_BodyRegion
+
+		annotation SummarizationSetBy = Automatic
+
+	column Abd_MaxAIS
+		dataType: int64
+		formatString: 0
+		lineageTag: 6a50772c-9143-48ac-b742-93f7da01b82e
+		summarizeBy: sum
+		sourceColumn: Abd_MaxAIS
+
+		annotation SummarizationSetBy = Automatic
+
+	column Abdo
+		dataType: int64
+		formatString: 0
+		lineageTag: 719364ca-6532-4cf7-b2d7-fdfa48e2daf5
+		summarizeBy: sum
+		sourceColumn: Abdo
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ext_MaxAIS
+		dataType: int64
+		formatString: 0
+		lineageTag: 6160eee5-8c18-40d4-92cb-0d4d2ccc913f
+		summarizeBy: sum
+		sourceColumn: Ext_MaxAIS
+
+		annotation SummarizationSetBy = Automatic
+
+	column External
+		dataType: int64
+		formatString: 0
+		lineageTag: bebd88e0-4996-45ee-b4b6-84d8aa667288
+		summarizeBy: sum
+		sourceColumn: External
+
+		annotation SummarizationSetBy = Automatic
+
+	column Face_MaxAIS
+		dataType: int64
+		formatString: 0
+		lineageTag: 20fc8190-25c0-4631-8b09-d605b76fa1eb
+		summarizeBy: sum
+		sourceColumn: Face_MaxAIS
+
+		annotation SummarizationSetBy = Automatic
+
+	column Face
+		dataType: int64
+		formatString: 0
+		lineageTag: 454c70a5-3911-4b8e-bdee-6acc5b96e0e0
+		summarizeBy: sum
+		sourceColumn: Face
+
+		annotation SummarizationSetBy = Automatic
+
+	column Head_MaxAIS
+		dataType: int64
+		formatString: 0
+		lineageTag: 2095fff7-16c6-46fd-b3e0-61944813f5e9
+		summarizeBy: sum
+		sourceColumn: Head_MaxAIS
+
+		annotation SummarizationSetBy = Automatic
+
+	column Head
+		dataType: int64
+		formatString: 0
+		lineageTag: 2abfff11-9174-462d-a86c-4397a815ab96
+		summarizeBy: sum
+		sourceColumn: Head
+
+		annotation SummarizationSetBy = Automatic
+
+	column LoEx_MaxAIS
+		dataType: int64
+		formatString: 0
+		lineageTag: 9fb56b24-6e07-4db6-b9a0-c57d8d0b479b
+		summarizeBy: sum
+		sourceColumn: LoEx_MaxAIS
+
+		annotation SummarizationSetBy = Automatic
+
+	column Lowerextrem
+		dataType: int64
+		formatString: 0
+		lineageTag: 6af96e5e-cff0-4d19-915d-e08edd3bbdf9
+		summarizeBy: sum
+		sourceColumn: Lowerextrem
+
+		annotation SummarizationSetBy = Automatic
+
+	column Neck_MaxAIS
+		dataType: int64
+		formatString: 0
+		lineageTag: 0da85fd8-d660-4106-84f5-1b92e48f05c5
+		summarizeBy: sum
+		sourceColumn: Neck_MaxAIS
+
+		annotation SummarizationSetBy = Automatic
+
+	column Neck
+		dataType: int64
+		formatString: 0
+		lineageTag: 83ba0096-5ec6-4001-bb07-740b61e5bf72
+		summarizeBy: sum
+		sourceColumn: Neck
+
+		annotation SummarizationSetBy = Automatic
+
+	column Spine_MaxAIS
+		dataType: int64
+		formatString: 0
+		lineageTag: 17b5246e-8fd2-4d3e-987b-77044529bac3
+		summarizeBy: sum
+		sourceColumn: Spine_MaxAIS
+
+		annotation SummarizationSetBy = Automatic
+
+	column Spine
+		dataType: int64
+		formatString: 0
+		lineageTag: 6b1b7f25-aad1-43ab-9399-56bef2b8a6ec
+		summarizeBy: sum
+		sourceColumn: Spine
+
+		annotation SummarizationSetBy = Automatic
+
+	column Thor_MaxAIS
+		dataType: int64
+		formatString: 0
+		lineageTag: 591885a3-9e0d-49c1-aefc-51cc17ab5a99
+		summarizeBy: sum
+		sourceColumn: Thor_MaxAIS
+
+		annotation SummarizationSetBy = Automatic
+
+	column Thorax
+		dataType: int64
+		formatString: 0
+		lineageTag: 9b06c5b8-469d-48ca-8ad2-00ce5a523fa1
+		summarizeBy: sum
+		sourceColumn: Thorax
+
+		annotation SummarizationSetBy = Automatic
+
+	column UpEx_MaxAIS
+		dataType: int64
+		formatString: 0
+		lineageTag: c4a2460c-34d7-4552-a2fe-ae8d7f866e8b
+		summarizeBy: sum
+		sourceColumn: UpEx_MaxAIS
+
+		annotation SummarizationSetBy = Automatic
+
+	column Upperextrem
+		dataType: int64
+		formatString: 0
+		lineageTag: bf382d5b-8394-410d-ba61-4553aebe9cd7
+		summarizeBy: sum
+		sourceColumn: Upperextrem
+
+		annotation SummarizationSetBy = Automatic
+
+	column DischargeDateTime
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 78649dad-0b10-444d-93bc-285541cc9757
+		summarizeBy: none
+		sourceColumn: DischargeDateTime
+
+		annotation SummarizationSetBy = Automatic
+
+	column DischargeDest
+		dataType: int64
+		formatString: 0
+		lineageTag: b258eb9f-f9f7-4878-af95-953958c7ceb2
+		summarizeBy: sum
+		sourceColumn: DischargeDest
+
+		annotation SummarizationSetBy = Automatic
+
+	column ISS
+		dataType: int64
+		formatString: 0
+		lineageTag: 36b7c774-52dc-4db1-a836-f92b0608d426
+		summarizeBy: sum
+		sourceColumn: ISS
+
+		annotation SummarizationSetBy = Automatic
+
+	column ATR_ISS
+		dataType: int64
+		formatString: 0
+		lineageTag: 87d04c19-58b4-4369-842d-0d1d9b1b6c84
+		summarizeBy: sum
+		sourceColumn: ATR_ISS
+
+		annotation SummarizationSetBy = Automatic
+
+	column NISS
+		dataType: int64
+		formatString: 0
+		lineageTag: ba5ccc59-9937-422b-9cb2-f4678a1a9caa
+		summarizeBy: sum
+		sourceColumn: NISS
+
+		annotation SummarizationSetBy = Automatic
+
+	column ATR_NISS
+		dataType: string
+		lineageTag: 66e4083c-6e11-4100-8f36-6932eaf4ad8a
+		summarizeBy: none
+		sourceColumn: ATR_NISS
+
+		annotation SummarizationSetBy = Automatic
+
+	column LOS
+		dataType: double
+		lineageTag: a5df3489-b9f7-47ac-94e6-8a6bb25eed6a
+		summarizeBy: sum
+		sourceColumn: LOS
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ICULOS
+		dataType: int64
+		formatString: 0
+		lineageTag: f0abd9cb-3f81-4c5d-964a-87e229c05f18
+		summarizeBy: sum
+		sourceColumn: ICULOS
+
+		annotation SummarizationSetBy = Automatic
+
+	column SevereComplications
+		dataType: string
+		lineageTag: bf74bdeb-80c7-45d6-a665-674b232021e2
+		summarizeBy: none
+		sourceColumn: SevereComplications
+
+		annotation SummarizationSetBy = Automatic
+
+	column DiagCode
+		dataType: string
+		lineageTag: 70b7a1e4-fc99-47a9-96f6-576d92444386
+		summarizeBy: none
+		sourceColumn: DiagCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column DRG
+		dataType: string
+		lineageTag: e70a494a-82e8-4e63-a253-1a87474c4b8f
+		summarizeBy: none
+		sourceColumn: DRG
+
+		annotation SummarizationSetBy = Automatic
+
+	column DeathCause
+		dataType: string
+		lineageTag: 3523b0c0-af49-4f59-86b2-0ae7234dee13
+		summarizeBy: none
+		sourceColumn: DeathCause
+
+		annotation SummarizationSetBy = Automatic
+
+	column Frailty
+		dataType: string
+		lineageTag: dd7feff1-c6a3-4b6a-be01-37ee3edacc0b
+		summarizeBy: none
+		sourceColumn: Frailty
+
+		annotation SummarizationSetBy = Automatic
+
+	column OperationProcedures
+		dataType: string
+		lineageTag: 0d9b68f5-d0a5-4b6a-b01d-9e43553d7899
+		summarizeBy: none
+		sourceColumn: OperationProcedures
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 07_ATRCompleteDataset = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(data_path & "07_ATRCompleteDataset.csv"),[Delimiter=",",  Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"InstitutionID", Int64.Type}, {"TraumaNo", Int64.Type}, {"IncidentNo", Int64.Type}, {"RegId", Int64.Type}, {"HospitalName", type text}, {"State", type text}, {"DOB", type datetime}, {"Age", Int64.Type}, {"Sex", Int64.Type}, {"ICDQualifier", type text}, {"Comorb", type text}, {"Ethnicity", type text}, {"ResidPcode", type text}, {"Occupation", type text}, {"DOIJ", type datetime}, {"InjuryCause", type text}, {"InjuryType", Int64.Type}, {"InjuryPcode", Int64.Type}, {"InjuryIntent", Int64.Type}, {"InjuryPlace", type text}, {"ActEngaged", type text}, {"InjuryEvent", type text}, {"SafetyDevice", type text}, {"InjuryLat", type text}, {"InjuryLong", type text}, {"TranspMode", Int64.Type}, {"AmbulanceArrTime", type datetime}, {"OtherHospTransfer", Int64.Type}, {"RefHospID1", Int64.Type}, {"RefHospArrDateTime1", type datetime}, {"RefHospDeptDateTime1", type datetime}, {"RefHospTranspMode1", Int64.Type}, {"RefHospID2", Int64.Type}, {"RefHospArrDateTime2", type datetime}, {"RefHospDeptDateTime2", type datetime}, {"RefHospTranspMode2", Int64.Type}, {"RefHospID3", type text}, {"RefHospArrDateTime3", type text}, {"RefHospDeptDateTime3", type text}, {"RefHospTranspMode3", type text}, {"PreHospBloodTransf", Int64.Type}, {"PreHospCPR", Int64.Type}, {"PreHospCardArrest", Int64.Type}, {"ScenePulse", Int64.Type}, {"SceneSystolic", Int64.Type}, {"SceneRespiRate", Int64.Type}, {"SceneTemp", type number}, {"SceneGCSEye", Int64.Type}, {"SceneGCSVoice", Int64.Type}, {"SceneGCSMotor", Int64.Type}, {"SceneTotalGCS", Int64.Type}, {"RefHospPulse1", type text}, {"RefHospSystolic1", type text}, {"RefHospRespiRate1", type text}, {"RefHospTemp1", type text}, {"RefHospGCSEye1", type text}, {"RefHospGCSVoice1", type text}, {"RefHospGCSMotor1", type text}, {"RefHospTotalGCS1", type text}, {"RefHospPulse2", type text}, {"RefHospSystolic2", type text}, {"RefHospRespiRate2", type text}, {"RefHospTemp2", type text}, {"RefHospGCSEye2", type text}, {"RefHospGCSVoice2", type text}, {"RefHospGCSMotor2", type text}, {"RefHospTotalGCS2", type text}, {"RefHospPulse3", type text}, {"RefHospSystolic3", type text}, {"RefHospRespiRate3", type text}, {"RefHospTemp3", type text}, {"RefHospGCSEye3", type text}, {"RefHospGCSVoice3", type text}, {"RefHospGCSMotor3", type text}, {"RefHospTotalGCS3", type text}, {"ArrivalDateTime", type datetime}, {"ArrivalPulse", Int64.Type}, {"ArrivalSystolic", Int64.Type}, {"ArrivalRespiRate", Int64.Type}, {"ArrivalTemp", type number}, {"ArrivalGCSEye", Int64.Type}, {"ArrivalGCSVoice", Int64.Type}, {"ArrivalGCSMotor", Int64.Type}, {"ArrivalTotalGCS", Int64.Type}, {"ArrivalCPR", Int64.Type}, {"ArrivalBloodTransf", Int64.Type}, {"ArrivalPatIntubated", Int64.Type}, {"ArrivalPatIntubatedDate", type datetime}, {"ArrivalRespQualifier", Int64.Type}, {"ArrivalBloodAlcoholCon", type number}, {"FirstBaseExcess", Int64.Type}, {"FirstINR", type number}, {"EDDischargeDateTime", type datetime}, {"EDDisposition", Int64.Type}, {"ED_LOS", type number}, {"TraumaCall", type text}, {"TertSurvey", type text}, {"PregnancyStatus", type text}, {"ICDDiag24HR", Int64.Type}, {"VentDays", Int64.Type}, {"UnplannedOT", type text}, {"UnplannedICU", type text}, {"AISCode", type text}, {"AISCount", type text}, {"AIS_BodyRegion", Int64.Type}, {"Abd_MaxAIS", Int64.Type}, {"Abdo", Int64.Type}, {"Ext_MaxAIS", Int64.Type}, {"External", Int64.Type}, {"Face_MaxAIS", Int64.Type}, {"Face", Int64.Type}, {"Head_MaxAIS", Int64.Type}, {"Head", Int64.Type}, {"LoEx_MaxAIS", Int64.Type}, {"Lowerextrem", Int64.Type}, {"Neck_MaxAIS", Int64.Type}, {"Neck", Int64.Type}, {"Spine_MaxAIS", Int64.Type}, {"Spine", Int64.Type}, {"Thor_MaxAIS", Int64.Type}, {"Thorax", Int64.Type}, {"UpEx_MaxAIS", Int64.Type}, {"Upperextrem", Int64.Type}, {"DischargeDateTime", type datetime}, {"DischargeDest", Int64.Type}, {"ISS", Int64.Type}, {"ATR_ISS", Int64.Type}, {"NISS", Int64.Type}, {"ATR_NISS", type text}, {"LOS", type number}, {"ICULOS", Int64.Type}, {"SevereComplications", type text}, {"DiagCode", type text}, {"DRG", type text}, {"DeathCause", type text}, {"Frailty", type text}, {"OperationProcedures", type text}, {"OpProc1", type text}, {"OperationDT1", type datetime}, {"OpProc2", type text}, {"OperationDT2", type text}, {"OpProc3", type text}, {"OperationDT3", type text}, {"OpProc4", type text}, {"OperationDT4", type text}, {"OpProc5", type text}, {"OperationDT5", type text}, {"OpProc6", type text}, {"OperationDT6", type text}, {"OpProc7", type text}, {"OperationDT7", type text}, {"OpProc8", type text}, {"OperationDT8", type text}, {"OpProc9", type text}, {"OperationDT9", type text}, {"OpProc10", type text}, {"OperationDT10", type text}, {"OpProc11", type text}, {"OperationDT11", type text}, {"OpProc12", type text}, {"OperationDT12", type text}, {"OpProc13", type text}, {"OperationDT13", type text}, {"OpProc14", type text}, {"OperationDT14", type text}, {"OpProc15", type text}, {"OperationDT15", type text}, {"OpProc16", type text}, {"OperationDT16", type text}, {"OpProc17", type text}, {"OperationDT17", type text}, {"OpProc18", type text}, {"OperationDT18", type text}, {"OpProc19", type text}, {"OperationDT19", type text}, {"OpProc20", type text}, {"OperationDT20", type text}, {"OpProc21", type text}, {"OperationDT21", type text}, {"OpProc22", type text}, {"OperationDT22", type text}, {"OpProc23", type text}, {"OperationDT23", type text}, {"OpProc24", type text}, {"OperationDT24", type text}, {"OpProc25", type text}, {"OperationDT25", type text}, {"OpProc26", type text}, {"OperationDT26", type text}, {"OpProc27", type text}, {"OperationDT27", type text}, {"OpProc28", type text}, {"OperationDT28", type text}, {"OpProc29", type text}, {"OperationDT29", type text}, {"OpProc30", type text}, {"OperationDT30", type text}, {"OpProc31", type text}, {"OperationDT31", type text}, {"OpProc32", type text}, {"OperationDT32", type text}, {"OpProc33", type text}, {"OperationDT33", type text}, {"OpProc34", type text}, {"OperationDT34", type text}, {"OpProc35", type text}, {"OperationDT35", type text}, {"OpProc36", type text}, {"OperationDT36", type text}, {"OpProc37", type text}, {"OperationDT37", type text}, {"OpProc38", type text}, {"OperationDT38", type text}, {"OpProc39", type text}, {"OperationDT39", type text}, {"OpProc40", type text}, {"OperationDT40", type text}, {"OpProc41", type text}, {"OperationDT41", type text}, {"OpProc42", type text}, {"OperationDT42", type text}, {"OpProc43", type text}, {"OperationDT43", type text}, {"OpProc44", type text}, {"OperationDT44", type text}, {"OpProc45", type text}, {"OperationDT45", type text}, {"OpProc46", type text}, {"OperationDT46", type text}, {"OpProc47", type text}, {"OperationDT47", type text}, {"OpProc48", type text}, {"OperationDT48", type text}, {"OpProc49", type text}, {"OperationDT49", type text}, {"OpProc50", type text}, {"OperationDT50", type text}, {"OpProc51", type text}, {"OperationDT51", type text}, {"OpProc52", type text}, {"OperationDT52", type text}, {"OpProc53", type text}, {"OperationDT53", type text}, {"OpProc54", type text}, {"OperationDT54", type text}, {"OpProc55", type text}, {"OperationDT55", type text}, {"OpProc56", type text}, {"OperationDT56", type text}, {"OpProc57", type text}, {"OperationDT57", type text}, {"OpProc58", type text}, {"OperationDT58", type text}, {"OpProc59", type text}, {"OperationDT59", type text}, {"OpProc60", type text}, {"OperationDT60", type text}, {"OpProc61", type text}, {"OperationDT61", type text}, {"OpProc62", type text}, {"OperationDT62", type text}, {"OpProc63", type text}, {"OperationDT63", type text}, {"OpProc64", type text}, {"OperationDT64", type text}, {"OpProc65", type text}, {"OperationDT65", type text}, {"OpProc66", type text}, {"OperationDT66", type text}, {"OpProc67", type text}, {"OperationDT67", type text}, {"OpProc68", type text}, {"OperationDT68", type text}, {"OpProc69", type text}, {"OperationDT69", type text}, {"OpProc70", type text}, {"OperationDT70", type text}, {"OpProc71", type text}, {"OperationDT71", type text}, {"OpProc72", type text}, {"OperationDT72", type text}, {"OpProc73", type text}, {"OperationDT73", type text}, {"OpProc74", type text}, {"OperationDT74", type text}, {"OpProc75", type text}, {"OperationDT75", type text}, {"OpProc76", type text}, {"OperationDT76", type text}, {"OpProc77", type text}, {"OperationDT77", type text}, {"OpProc78", type text}, {"OperationDT78", type text}, {"OpProc79", type text}, {"OperationDT79", type text}, {"OpProc80", type text}, {"OperationDT80", type text}, {"OpProc81", type text}, {"OperationDT81", type text}, {"OpProc82", type text}, {"OperationDT82", type text}, {"OpProc83", type text}, {"OperationDT83", type text}, {"OpProc84", type text}, {"OperationDT84", type text}, {"OpProc85", type text}, {"OperationDT85", type text}, {"OpProc86", type text}, {"OperationDT86", type text}, {"OpProc87", type text}, {"OperationDT87", type text}, {"OpProc88", type text}, {"OperationDT88", type text}, {"OpProc89", type text}, {"OperationDT89", type text}, {"OpProc90", type text}, {"OperationDT90", type text}, {"OpProc91", type text}, {"OperationDT91", type text}, {"OpProc92", type text}, {"OperationDT92", type text}, {"OpProc93", type text}, {"OperationDT93", type text}, {"OpProc94", type text}, {"OperationDT94", type text}, {"OpProc95", type text}, {"OperationDT95", type text}, {"OpProc96", type text}, {"OperationDT96", type text}, {"OpProc97", type text}, {"OperationDT97", type text}, {"OpProc98", type text}, {"OperationDT98", type text}, {"OpProc99", type text}, {"OperationDT99", type text}, {"OpProc100", type text}, {"OperationDT100", type text}, {"OpProc101", type text}, {"OperationDT101", type text}, {"OpProc102", type text}, {"OperationDT102", type text}, {"OpProc103", type text}, {"OperationDT103", type text}, {"OpProc104", type text}, {"OperationDT104", type text}, {"OpProc105", type text}, {"OperationDT105", type text}, {"OpProc106", type text}, {"OperationDT106", type text}, {"OpProc107", type text}, {"OperationDT107", type text}, {"OpProc108", type text}, {"OperationDT108", type text}, {"OpProc109", type text}, {"OperationDT109", type text}, {"OpProc110", type text}, {"OperationDT110", type text}, {"OpProc111", type text}, {"OperationDT111", type text}, {"OpProc112", type text}, {"OperationDT112", type text}, {"OpProc113", type text}, {"OperationDT113", type text}, {"OpProc114", type text}, {"OperationDT114", type text}, {"OpProc115", type text}, {"OperationDT115", type text}, {"OpProc116", type text}, {"OperationDT116", type text}, {"OpProc117", type text}, {"OperationDT117", type text}, {"OpProc118", type text}, {"OperationDT118", type text}, {"OpProc119", type text}, {"OperationDT119", type text}, {"OpProc120", type text}, {"OperationDT120", type text}, {"OpProc121", type text}, {"OperationDT121", type text}, {"OpProc122", type text}, {"OperationDT122", type text}, {"OpProc123", type text}, {"OperationDT123", type text}, {"OpProc124", type text}, {"OperationDT124", type text}, {"OpProc125", type text}, {"OperationDT125", type text}, {"OpProc126", type text}, {"OperationDT126", type text}, {"OpProc127", type text}, {"OperationDT127", type text}, {"OpProc128", type text}, {"OperationDT128", type text}, {"OpProc129", type text}, {"OperationDT129", type text}, {"OpProc130", type text}, {"OperationDT130", type text}, {"OpProc131", type text}, {"OperationDT131", type text}, {"OpProc132", type text}, {"OperationDT132", type text}, {"OpProc133", type text}, {"OperationDT133", type text}, {"OpProc134", type text}, {"OperationDT134", type text}, {"OpProc135", type text}, {"OperationDT135", type text}, {"OpProc136", type text}, {"OperationDT136", type text}, {"OpProc137", type text}, {"OperationDT137", type text}, {"OpProc138", type text}, {"OperationDT138", type text}, {"OpProc139", type text}, {"OperationDT139", type text}, {"OpProc140", type text}, {"OperationDT140", type text}, {"OpProc141", type text}, {"OperationDT141", type text}, {"OpProc142", type text}, {"OperationDT142", type text}, {"OpProc143", type text}, {"OperationDT143", type text}, {"OpProc144", type text}, {"OperationDT144", type text}, {"OpProc145", type text}, {"OperationDT145", type text}, {"OpProc146", type text}, {"OperationDT146", type text}, {"OpProc147", type text}, {"OperationDT147", type text}, {"OpProc148", type text}, {"OperationDT148", type text}, {"OpProc149", type text}, {"OperationDT149", type text}, {"OpProc150", type text}, {"OperationDT150", type text}, {"OpProc151", type text}, {"OperationDT151", type text}, {"OpProc152", type text}, {"OperationDT152", type text}, {"OpProc153", type text}, {"OperationDT153", type text}, {"OpProc154", type text}, {"OperationDT154", type text}, {"OpProc155", type text}, {"OperationDT155", type text}, {"OpProc156", type text}, {"OperationDT156", type text}, {"OpProc157", type text}, {"OperationDT157", type text}, {"OpProc158", type text}, {"OperationDT158", type text}, {"OpProc159", type text}, {"OperationDT159", type text}, {"OpProc160", type text}, {"OperationDT160", type text}, {"OpProc161", type text}, {"OperationDT161", type text}, {"OpProc162", type text}, {"OperationDT162", type text}, {"OpProc163", type text}, {"OperationDT163", type text}, {"OpProc164", type text}, {"OperationDT164", type text}, {"OpProc165", type text}, {"OperationDT165", type text}, {"OpProc166", type text}, {"OperationDT166", type text}, {"OpProc167", type text}, {"OperationDT167", type text}, {"OpProc168", type text}, {"OperationDT168", type text}, {"OpProc169", type text}, {"OperationDT169", type text}, {"OpProc170", type text}, {"OperationDT170", type text}, {"OpProc171", type text}, {"OperationDT171", type text}, {"OpProc172", type text}, {"OperationDT172", type text}, {"OpProc173", type text}, {"OperationDT173", type text}, {"OpProc174", type text}, {"OperationDT174", type text}, {"OpProc175", type text}, {"OperationDT175", type text}, {"OpProc176", type text}, {"OperationDT176", type text}, {"OpProc177", type text}, {"OperationDT177", type text}, {"OpProc178", type text}, {"OperationDT178", type text}, {"OpProc179", type text}, {"OperationDT179", type text}, {"OpProc180", type text}, {"OperationDT180", type text}, {"OpProc181", type text}, {"OperationDT181", type text}, {"OpProc182", type text}, {"OperationDT182", type text}, {"OpProc183", type text}, {"OperationDT183", type text}, {"OpProc184", type text}, {"OperationDT184", type text}, {"OpProc185", type text}, {"OperationDT185", type text}, {"OpProc186", type text}, {"OperationDT186", type text}, {"OpProc187", type text}, {"OperationDT187", type text}, {"OpProc188", type text}, {"OperationDT188", type text}, {"OpProc189", type text}, {"OperationDT189", type text}, {"OpProc190", type text}, {"OperationDT190", type text}, {"OpProc191", type text}, {"OperationDT191", type text}, {"OpProc192", type text}, {"OperationDT192", type text}, {"OpProc193", type text}, {"OperationDT193", type text}, {"OpProc194", type text}, {"OperationDT194", type text}, {"OpProc195", type text}, {"OperationDT195", type text}, {"OpProc196", type text}, {"OperationDT196", type text}, {"OpProc197", type text}, {"OperationDT197", type text}, {"OpProc198", type text}, {"OperationDT198", type text}, {"OpProc199", type text}, {"OperationDT199", type text}, {"OpProc200", type text}, {"OperationDT200", type text}, {"OpProc201", type text}, {"OperationDT201", type text}, {"OpProc202", type text}, {"OperationDT202", type text}, {"OpProc203", type text}, {"OperationDT203", type text}, {"OpProc204", type text}, {"OperationDT204", type text}, {"OpProc205", type text}, {"OperationDT205", type text}, {"OpProc206", type text}, {"OperationDT206", type text}, {"OpProc207", type text}, {"OperationDT207", type text}, {"OpProc208", type text}, {"OperationDT208", type text}, {"OpProc209", type text}, {"OperationDT209", type text}, {"OpProc210", type text}, {"OperationDT210", type text}, {"OpProc211", type text}, {"OperationDT211", type text}, {"OpProc212", type text}, {"OperationDT212", type text}, {"OpProc213", type text}, {"OperationDT213", type text}, {"OpProc214", type text}, {"OperationDT214", type text}, {"OpProc215", type text}, {"OperationDT215", type text}, {"OpProc216", type text}, {"OperationDT216", type text}, {"OpProc217", type text}, {"OperationDT217", type text}, {"OpProc218", type text}, {"OperationDT218", type text}, {"OpProc219", type text}, {"OperationDT219", type text}, {"OpProc220", type text}, {"OperationDT220", type text}, {"OpProc221", type text}, {"OperationDT221", type text}, {"OpProc222", type text}, {"OperationDT222", type text}, {"OpProc223", type text}, {"OperationDT223", type text}, {"OpProc224", type text}, {"OperationDT224", type text}, {"OpProc225", type text}, {"OperationDT225", type text}, {"OpProc226", type text}, {"OperationDT226", type text}, {"OpProc227", type text}, {"OperationDT227", type text}, {"OpProc228", type text}, {"OperationDT228", type text}, {"OpProc229", type text}, {"OperationDT229", type text}, {"OpProc230", type text}, {"OperationDT230", type text}, {"OpProc231", type text}, {"OperationDT231", type text}, {"OpProc232", type text}, {"OperationDT232", type text}, {"OpProc233", type text}, {"OperationDT233", type text}, {"OpProc234", type text}, {"OperationDT234", type text}, {"OpProc235", type text}, {"OperationDT235", type text}, {"OpProc236", type text}, {"OperationDT236", type text}, {"OpProc237", type text}, {"OperationDT237", type text}, {"OpProc238", type text}, {"OperationDT238", type text}, {"OpProc239", type text}, {"OperationDT239", type text}, {"OpProc240", type text}, {"OperationDT240", type text}, {"OpProc241", type text}, {"OperationDT241", type text}, {"OpProc242", type text}, {"OperationDT242", type text}, {"OpProc243", type text}, {"OperationDT243", type text}, {"OpProc244", type text}, {"OperationDT244", type text}, {"OpProc245", type text}, {"OperationDT245", type text}, {"OpProc246", type text}, {"OperationDT246", type text}, {"OpProc247", type text}, {"OperationDT247", type text}, {"OpProc248", type text}, {"OperationDT248", type text}, {"OpProc249", type text}, {"OperationDT249", type text}, {"OpProc250", type text}, {"OperationDT250", type text}, {"CTPerfDt1", type datetime}, {"CTType1", type text}, {"CTPerfDt2", type text}, {"CTType2", type text}, {"CTPerfDt3", type text}, {"CTType3", type text}, {"CTPerfDt4", type text}, {"CTType4", type text}, {"CTPerfDt5", type text}, {"CTType5", type text}, {"CTPerfDt6", type text}, {"CTType6", type text}, {"CTPerfDt7", type text}, {"CTType7", type text}, {"CTPerfDt8", type text}, {"CTType8", type text}, {"CTPerfDt9", type text}, {"CTType9", type text}, {"CTPerfDt10", type text}, {"CTType10", type text}, {"CTPerfDt11", type text}, {"CTType11", type text}, {"CTPerfDt12", type text}, {"CTType12", type text}, {"CTPerfDt13", type text}, {"CTType13", type text}, {"CTPerfDt14", type text}, {"CTType14", type text}, {"CTPerfDt15", type text}, {"CTType15", type text}, {"CTPerfDt16", type text}, {"CTType16", type text}, {"CTPerfDt17", type text}, {"CTType17", type text}, {"CTPerfDt18", type text}, {"CTType18", type text}, {"CTPerfDt19", type text}, {"CTType19", type text}, {"CTPerfDt20", type text}, {"CTType20", type text}}),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Changed Type",{"InstitutionID", "TraumaNo", "IncidentNo", "RegId", "HospitalName", "State", "DOB", "Age", "Sex", "ICDQualifier", "Comorb", "Ethnicity", "ResidPcode", "Occupation", "DOIJ", "InjuryCause", "InjuryType", "InjuryPcode", "InjuryIntent", "InjuryPlace", "ActEngaged", "InjuryEvent", "SafetyDevice", "InjuryLat", "InjuryLong", "TranspMode", "AmbulanceArrTime", "OtherHospTransfer", "RefHospID1", "RefHospArrDateTime1", "RefHospDeptDateTime1", "RefHospTranspMode1", "RefHospID2", "RefHospArrDateTime2", "RefHospDeptDateTime2", "RefHospTranspMode2", "RefHospID3", "RefHospArrDateTime3", "RefHospDeptDateTime3", "RefHospTranspMode3", "PreHospBloodTransf", "PreHospCPR", "PreHospCardArrest", "ScenePulse", "SceneSystolic", "SceneRespiRate", "SceneTemp", "SceneGCSEye", "SceneGCSVoice", "SceneGCSMotor", "SceneTotalGCS", "RefHospPulse1", "RefHospSystolic1", "RefHospRespiRate1", "RefHospTemp1", "RefHospGCSEye1", "RefHospGCSVoice1", "RefHospGCSMotor1", "RefHospTotalGCS1", "RefHospPulse2", "RefHospSystolic2", "RefHospRespiRate2", "RefHospTemp2", "RefHospGCSEye2", "RefHospGCSVoice2", "RefHospGCSMotor2", "RefHospTotalGCS2", "RefHospPulse3", "RefHospSystolic3", "RefHospRespiRate3", "RefHospTemp3", "RefHospGCSEye3", "RefHospGCSVoice3", "RefHospGCSMotor3", "RefHospTotalGCS3", "ArrivalDateTime", "ArrivalPulse", "ArrivalSystolic", "ArrivalRespiRate", "ArrivalTemp", "ArrivalGCSEye", "ArrivalGCSVoice", "ArrivalGCSMotor", "ArrivalTotalGCS", "ArrivalCPR", "ArrivalBloodTransf", "ArrivalPatIntubated", "ArrivalPatIntubatedDate", "ArrivalRespQualifier", "ArrivalBloodAlcoholCon", "FirstBaseExcess", "FirstINR", "EDDischargeDateTime", "EDDisposition", "ED_LOS", "TraumaCall", "TertSurvey", "PregnancyStatus", "ICDDiag24HR", "VentDays", "UnplannedOT", "UnplannedICU", "AISCode", "AISCount", "AIS_BodyRegion", "Abd_MaxAIS", "Abdo", "Ext_MaxAIS", "External", "Face_MaxAIS", "Face", "Head_MaxAIS", "Head", "LoEx_MaxAIS", "Lowerextrem", "Neck_MaxAIS", "Neck", "Spine_MaxAIS", "Spine", "Thor_MaxAIS", "Thorax", "UpEx_MaxAIS", "Upperextrem", "DischargeDateTime", "DischargeDest", "ISS", "ATR_ISS", "NISS", "ATR_NISS", "LOS", "ICULOS", "SevereComplications", "DiagCode", "DRG", "DeathCause", "Frailty", "OperationProcedures"})
+				in
+				    #"Removed Other Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

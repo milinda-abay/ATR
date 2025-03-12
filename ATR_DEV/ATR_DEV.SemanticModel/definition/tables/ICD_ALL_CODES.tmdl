@@ -1,0 +1,51 @@
+table ICD_ALL_CODES
+	lineageTag: 145278e0-02a1-4caa-b085-bc2e4626955a
+
+	column CodeId
+		dataType: string
+		lineageTag: f867995f-522f-4d69-9821-6a718c15837c
+		summarizeBy: none
+		sourceColumn: CodeId
+
+		annotation SummarizationSetBy = Automatic
+
+	column Desc
+		dataType: string
+		lineageTag: fe0c2422-7590-4c80-835d-5271c601320b
+		summarizeBy: none
+		sourceColumn: Desc
+
+		annotation SummarizationSetBy = Automatic
+
+	column clean_code_id
+		dataType: string
+		lineageTag: 3e7200ed-d9f4-490a-875f-ab0d2560fbb3
+		summarizeBy: none
+		sourceColumn: clean_code_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Code letter'
+		dataType: string
+		lineageTag: 30af5a12-22be-404b-817a-d819073554cd
+		summarizeBy: none
+		sourceColumn: Code letter
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ICD_ALL_CODES = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(data_path & "ICD_ALL_CODES.csv"),[Delimiter=",", Columns=2, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Inserted Replaced Text" = Table.AddColumn(#"Promoted Headers", "clean_code_id", each Text.Replace([CodeId], ".", ""), type text),
+				    #"Inserted First Characters" = Table.AddColumn(#"Inserted Replaced Text", "Code letter", each Text.Start([CodeId], 1), type text),
+				    #"Filtered Rows" = Table.SelectRows(#"Inserted First Characters", each true)
+				in
+				    #"Filtered Rows"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

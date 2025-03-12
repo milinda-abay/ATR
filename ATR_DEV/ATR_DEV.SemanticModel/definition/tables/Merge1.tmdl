@@ -1,0 +1,72 @@
+table Merge1
+	lineageTag: a3be208e-7c62-4961-98b0-9207622a5e1e
+
+	column CodeId
+		dataType: string
+		lineageTag: 8fc30a14-9d0b-4ba3-87e7-0b567848c22e
+		summarizeBy: none
+		sourceColumn: CodeId
+
+		annotation SummarizationSetBy = Automatic
+
+	column Desc
+		dataType: string
+		lineageTag: 6b709907-cf60-454e-93a9-db9c2094918b
+		summarizeBy: none
+		sourceColumn: Desc
+
+		annotation SummarizationSetBy = Automatic
+
+	column clean_code_id
+		dataType: string
+		lineageTag: cbe5a591-09ff-481b-8fc8-fa5706e17fa6
+		summarizeBy: none
+		sourceColumn: clean_code_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Code letter'
+		dataType: string
+		lineageTag: 3db83906-9d7d-4cea-a013-a134334ba6fd
+		summarizeBy: none
+		sourceColumn: Code letter
+
+		annotation SummarizationSetBy = Automatic
+
+	column prior_completion
+		dataType: string
+		lineageTag: 56a398ef-96b3-4a39-b6cb-c2944251a13b
+		summarizeBy: none
+		sourceColumn: prior_completion
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'ATR Code final'
+		dataType: string
+		lineageTag: ee2f1723-9d0c-408a-a13f-1dd4c7a218f6
+		summarizeBy: none
+		sourceColumn: ATR Code final
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Merge1 = m
+		mode: import
+		queryGroup: WIP
+		source =
+				let
+				    Source = Table.NestedJoin(ICD_ALL_CODES, {"clean_code_id"}, cause_original_ancelin_map, {"ICD10 Code"}, "cause_original_ancelin_map", JoinKind.LeftOuter),
+				    #"Expanded cause_original_ancelin_map" = Table.ExpandTableColumn(Source, "cause_original_ancelin_map", {"ATR Code", "prior_completion"}, {"ATR Code", "prior_completion"}),
+				    #"Merged Queries" = Table.NestedJoin(#"Expanded cause_original_ancelin_map", {"CodeId"}, missing_codes, {"InjuryCause (In ATR DB)"}, "missing_codes", JoinKind.LeftOuter),
+				    #"Expanded missing_codes" = Table.ExpandTableColumn(#"Merged Queries", "missing_codes", {"ATR Code", "prior_completion"}, {"ATR Code.1", "prior_completion.1"}),
+				    #"Added Conditional Column" = Table.AddColumn(#"Expanded missing_codes", "ATR Code final", each if [ATR Code] = null then [ATR Code.1] else [ATR Code], type text),
+				    #"Merged Columns" = Table.CombineColumns(Table.TransformColumnTypes(#"Added Conditional Column", {{"prior_completion", type text}, {"prior_completion.1", type text}}, "en-AU"),{"prior_completion", "prior_completion.1"},Combiner.CombineTextByDelimiter("", QuoteStyle.None),"prior_completion.2"),
+				    #"Renamed Columns" = Table.RenameColumns(#"Merged Columns",{{"prior_completion.2", "prior_completion"}}),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Renamed Columns",{"CodeId", "Desc", "clean_code_id", "Code letter", "prior_completion", "ATR Code final"}),
+				    #"Filtered Rows" = Table.SelectRows(#"Removed Other Columns", each ([Code letter] = "-" or [Code letter] = "V" or [Code letter] = "W" or [Code letter] = "X" or [Code letter] = "Y") or  ([prior_completion]="1" or [prior_completion] ="0"))
+				in
+				    #"Filtered Rows"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
