@@ -143,29 +143,29 @@ table DIM_AGE
 
 	column Adult/Child =
 			SWITCH(
-			  TRUE,
-			  ISBLANK('DIM_AGE'[Age 5Y (80+)]),
-			  "(Blank)",
-			  'DIM_AGE'[Age 5Y (80+)] IN {"15-19",
-			    "20-24",
-			    "25-29",
-			    "30-34",
-			    "35-39",
-			    "40-44",
-			    "45-49",
-			    "50-54",
-			    "55-59",
-			    "60-64",
-			    "65-69",
-			    "70-74",
-			    "75-79",
-			    "80+"},
-			  "Adult >15+",
-			  'DIM_AGE'[Age 5Y (80+)] IN {"0-4",
-			    "5-9",
-			    "10-14"},
-			  "Child < 15",
-			  'DIM_AGE'[Age 5Y (80+)]
+				TRUE,
+				ISBLANK('DIM_AGE'[Age 5Y (80+)]),
+				"(Blank)",
+				'DIM_AGE'[Age 5Y (80+)] IN {"15-19",
+					"20-24",
+					"25-29",
+					"30-34",
+					"35-39",
+					"40-44",
+					"45-49",
+					"50-54",
+					"55-59",
+					"60-64",
+					"65-69",
+					"70-74",
+					"75-79",
+					"80+"},
+				"Adult ≥ 15+",
+				'DIM_AGE'[Age 5Y (80+)] IN {"0-4",
+					"5-9",
+					"10-14"},
+				"Child < 15",
+				'DIM_AGE'[Age 5Y (80+)]
 			)
 		lineageTag: 0d98746e-1fd4-4eed-b190-d9b722f01191
 		summarizeBy: none
@@ -187,7 +187,7 @@ table DIM_AGE
 				  ]
 				}
 
-		annotation GroupingDesignState = {"Version":0,"Sources":[{"Name":"d","Entity":"DIM_AGE"}],"GroupedColumns":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"Age 5Y (80+)"}}],"GroupItems":[{"DisplayName":"(Blank)","BlankDefaultPlaceholder":true},{"DisplayName":"Adult >15+","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"Age 5Y (80+)"}}],"Values":[[{"Literal":{"Value":"'15-19'"}}],[{"Literal":{"Value":"'20-24'"}}],[{"Literal":{"Value":"'25-29'"}}],[{"Literal":{"Value":"'30-34'"}}],[{"Literal":{"Value":"'35-39'"}}],[{"Literal":{"Value":"'40-44'"}}],[{"Literal":{"Value":"'45-49'"}}],[{"Literal":{"Value":"'50-54'"}}],[{"Literal":{"Value":"'55-59'"}}],[{"Literal":{"Value":"'60-64'"}}],[{"Literal":{"Value":"'65-69'"}}],[{"Literal":{"Value":"'70-74'"}}],[{"Literal":{"Value":"'75-79'"}}],[{"Literal":{"Value":"'80+'"}}]]}}},{"DisplayName":"Child < 15","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"Age 5Y (80+)"}}],"Values":[[{"Literal":{"Value":"'0-4'"}}],[{"Literal":{"Value":"'5-9'"}}],[{"Literal":{"Value":"'10-14'"}}]]}}}]}
+		annotation GroupingDesignState = {"Version":0,"Sources":[{"Name":"d","Entity":"DIM_AGE"}],"GroupedColumns":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"Age 5Y (80+)"}}],"GroupItems":[{"DisplayName":"(Blank)","BlankDefaultPlaceholder":true},{"DisplayName":"Adult ≥ 15+","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"Age 5Y (80+)"}}],"Values":[[{"Literal":{"Value":"'15-19'"}}],[{"Literal":{"Value":"'20-24'"}}],[{"Literal":{"Value":"'25-29'"}}],[{"Literal":{"Value":"'30-34'"}}],[{"Literal":{"Value":"'35-39'"}}],[{"Literal":{"Value":"'40-44'"}}],[{"Literal":{"Value":"'45-49'"}}],[{"Literal":{"Value":"'50-54'"}}],[{"Literal":{"Value":"'55-59'"}}],[{"Literal":{"Value":"'60-64'"}}],[{"Literal":{"Value":"'65-69'"}}],[{"Literal":{"Value":"'70-74'"}}],[{"Literal":{"Value":"'75-79'"}}],[{"Literal":{"Value":"'80+'"}}]]}}},{"DisplayName":"Child < 15","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"Age 5Y (80+)"}}],"Values":[[{"Literal":{"Value":"'0-4'"}}],[{"Literal":{"Value":"'5-9'"}}],[{"Literal":{"Value":"'10-14'"}}]]}}}]}
 
 		annotation SummarizationSetBy = Automatic
 

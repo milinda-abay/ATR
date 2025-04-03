@@ -12,7 +12,7 @@ relationship 1b9fc787-c34d-95dd-9f76-1a7dac2ccb75
 
 relationship 56b62fac-0729-ab81-3c1d-b1a35a0aa44c
 	fromColumn: FACT_ATR.InjuryPlace
-	toColumn: DIM_INJURY_PLACE.injury_place_code_id
+	toColumn: DIM_INJURY_PLACE.icd_code
 
 relationship b933da92-f866-85bc-abdf-51d2b7a5a6cd
 	fromColumn: FACT_ATR.Sex
@@ -34,10 +34,6 @@ relationship 12afed58-07d0-2797-18ab-a7dae2e435e0
 	fromColumn: FACT_ATR.InjuryType
 	toColumn: DIM_INJURY_TYPE.injury_type_code_id
 
-relationship 362ad281-e02e-ed0d-84bb-baab19157cf1
-	fromColumn: FACT_ATR.ActEngaged
-	toColumn: DIM_INJURY_ACTIVITY.InjuryActivityCodeId
-
 relationship 79de172c-4b9a-b79d-a7a8-432091a499cc
 	fromColumn: FACT_ATR.State
 	toColumn: DIM_STATE.state
@@ -50,11 +46,11 @@ relationship f95b5593-e710-4fec-4bad-3e416eba6aeb
 	fromColumn: FACT_ATR.DischargeDest
 	toColumn: DIM_DISCHAGRE.destination_id
 
-relationship d1cee87c-07b3-dcc2-14fe-bdcbee5a3a92
-	fromColumn: FACT_ATR.InjuryCause
-	toColumn: DIM_INJURY_CAUSE.cause_icd_code_id
+relationship AutoDetected_569f4684-ffb4-4752-8e57-4572d1038092
+	fromColumn: FACT_ATR.ActEngaged
+	toColumn: DIM_INJURY_ACTIVITY.ActEngaged
 
-relationship a08d2842-b51b-308d-03aa-dd20b62fd45a
+relationship AutoDetected_4df2fb00-febe-4140-866e-ca52023cdc0f
 	fromColumn: FACT_ATR.InjuryCause
-	toColumn: DIM_ICD_ALL_CODES.CodeId
+	toColumn: DIM_INJURY_CAUSE.InjuryCause
 

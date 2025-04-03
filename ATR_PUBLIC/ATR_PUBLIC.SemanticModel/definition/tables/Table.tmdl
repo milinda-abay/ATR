@@ -1,0 +1,28 @@
+table Table
+	lineageTag: 850fdaaa-ad70-4df0-bee8-e2a8b2b64d9b
+
+	column atr_code
+		lineageTag: bc66da17-fa3a-49aa-9f1d-5b36b088f95c
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: DIM_INJURY_CAUSE[atr_code]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column atr_description
+		lineageTag: 5bbb4d24-5e5e-4e54-852c-706f5ee9f21b
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: DIM_INJURY_CAUSE[atr_description]
+		sortByColumn: atr_code
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Table = calculated
+		mode: import
+		source = ALL(DIM_INJURY_CAUSE[atr_code],DIM_INJURY_CAUSE[atr_description])
+
+	annotation PBI_Id = fd8ab8b1b8be43d28ace516f9c024ded
+

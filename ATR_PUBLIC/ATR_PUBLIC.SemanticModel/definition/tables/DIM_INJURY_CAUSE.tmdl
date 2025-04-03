@@ -1,69 +1,63 @@
 table DIM_INJURY_CAUSE
-	lineageTag: 3c833ef7-1be0-48bb-86e0-9c202ea3e667
+	lineageTag: a7a6b21b-6b33-4c5e-a3fe-76df548f8ce4
 
-	column cause_order
+	column InjuryCause
+		dataType: string
+		lineageTag: 40a26d72-551c-4b3c-bb4d-1fe440042635
+		summarizeBy: none
+		sourceColumn: InjuryCause
+
+		annotation SummarizationSetBy = Automatic
+
+	column icd_code_group
+		dataType: string
+		lineageTag: 0d04c3e3-529b-4d01-adc1-6994ba2d8b61
+		summarizeBy: none
+		sourceColumn: icd_code_group
+
+		annotation SummarizationSetBy = Automatic
+
+	column Desc
+		dataType: string
+		lineageTag: dc426d44-4ca5-4558-b1ff-78281e14e18d
+		summarizeBy: none
+		sourceColumn: Desc
+
+		annotation SummarizationSetBy = Automatic
+
+	column clean_code_id
+		dataType: string
+		lineageTag: 7a54a775-b310-4ae6-9ffa-583f05d39f75
+		summarizeBy: none
+		sourceColumn: clean_code_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column code_letter
+		dataType: string
+		lineageTag: 17644064-1967-40f4-bcba-14c23061e46a
+		summarizeBy: none
+		sourceColumn: code_letter
+
+		annotation SummarizationSetBy = Automatic
+
+	column atr_code
 		dataType: int64
 		formatString: 0
-		lineageTag: 93fb2a52-fc52-47c8-b0ce-aaf81f03d20e
+		lineageTag: 6ca5172b-7f32-4685-ba2c-23ab5d556f46
 		summarizeBy: none
-		sourceColumn: cause_order
-
-		annotation SummarizationSetBy = Automatic
-
-	column Transport
-		dataType: string
-		lineageTag: 7be07030-6433-4c9f-aef5-5718fcc4b7d9
-		summarizeBy: none
-		sourceColumn: Transport
-
-		annotation SummarizationSetBy = Automatic
-
-	column 'Transport - order'
-		dataType: string
-		lineageTag: e7d2494c-1974-4b12-8b1e-264602abe123
-		summarizeBy: none
-		sourceColumn: Transport - order
-
-		annotation SummarizationSetBy = Automatic
-
-	column cause_code_atr
-		dataType: string
-		lineageTag: b347b479-43b5-4e8e-a0ac-cd6475fde34f
-		summarizeBy: none
-		sourceColumn: cause_code_atr
-
-		annotation SummarizationSetBy = Automatic
-
-	column cause_icd_code_id
-		dataType: string
-		lineageTag: d426d35f-5339-45fe-be54-ddc9b6b74e9d
-		summarizeBy: none
-		sourceColumn: cause_icd_code_id
-
-		annotation SummarizationSetBy = Automatic
-
-	column icd_code_description
-		dataType: string
-		lineageTag: 1ddfc665-5a2f-47f1-9883-97b1587a64e9
-		summarizeBy: none
-		sourceColumn: icd_code_description
-
-		annotation SummarizationSetBy = Automatic
-
-	column 'ATR Code'
-		dataType: int64
-		formatString: 0
-		lineageTag: 18beb700-d6f1-4db4-964f-40d5f9cddb26
-		summarizeBy: none
-		sourceColumn: ATR Code
+		sourceColumn: atr_code
 
 		annotation SummarizationSetBy = Automatic
 
 	column atr_description
 		dataType: string
-		lineageTag: 9ba59b3e-cf61-4ab3-b16b-0da595b3e912
+		lineageTag: d93ae384-1d48-4130-b9b0-6b402cb9dac9
 		summarizeBy: none
 		sourceColumn: atr_description
+		sortByColumn: atr_code
+
+		changedProperty = SortByColumn
 
 		annotation SummarizationSetBy = Automatic
 
@@ -88,7 +82,7 @@ table DIM_INJURY_CAUSE
 				"Pedestrian",
 				"Other"
 			)
-		lineageTag: 7b9d561f-af34-4a1b-b3ec-b91a349fba99
+		lineageTag: c65b1f50-780f-4446-b1d0-da8501002956
 		summarizeBy: none
 
 		extendedProperty GroupingMetadata =
@@ -112,71 +106,33 @@ table DIM_INJURY_CAUSE
 
 		annotation SummarizationSetBy = Automatic
 
-	hierarchy 'Transport Hierarchy'
-		lineageTag: b0012c44-0424-4bcb-aa9f-68ee769ebb42
+	column atr_broad_group
+		dataType: string
+		lineageTag: 21eee9e3-0ee9-46bd-8ff3-6f62aaa154d1
+		summarizeBy: none
+		sourceColumn: atr_broad_group
 
-		level Transport
-			lineageTag: 01479165-d072-4274-9dd4-6836d5a4ce16
-			column: Transport
+		annotation SummarizationSetBy = Automatic
 
-	partition DIM_INJURY_CAUSE-58cbba83-91ef-4dc9-b388-76564cf898f9 = m
+	column atr_broad_group_sort
+		dataType: int64
+		formatString: 0
+		lineageTag: 12a0160f-9e56-45ef-9978-ccabe5e08d14
+		summarizeBy: none
+		sourceColumn: atr_broad_group_sort
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DIM_INJURY_CAUSE = m
 		mode: import
 		queryGroup: Dimension
-		source = ```
+		source =
 				let
-				    Source = Table.NestedJoin(injury_cause, {"cause_code_atr"}, cause_code_lookup, {"ICD10 Code"}, "cause_code_lookup", JoinKind.LeftOuter),
-				    #"Expanded cause_code_lookup" = Table.ExpandTableColumn(Source, "cause_code_lookup", {"ATR Code"}, {"ATR Code"}),
-				    #"Merged Queries" = Table.NestedJoin(#"Expanded cause_code_lookup", {"ATR Code"}, look_up_cause_description, {"atr_code"}, "look_up_cause_description", JoinKind.LeftOuter),
-				    #"Expanded look_up_cause_description" = Table.ExpandTableColumn(#"Merged Queries", "look_up_cause_description", {"atr_description"}, {"atr_description"}),
-				    
-				    look_up_cause = [#"Motor Vehicle Driver/Passenger" = 1,
-					#"Motorcycle rider/pillion" = 2,
-					#"Pedal cyclist" = 3,
-					#"Pedestrian" = 4,
-					#"Other Transport Related" = 5,
-					#"Horse-related" = 6,
-					#"High fall >1m" = 7,
-					#"Low Fall" = 8,
-					#"Striking against or by object" = 9,
-					#"Struck by or Collision with a Person" = 10,
-					#"Cutting, Piercing Object" = 11,
-					#"Submersion or Drowning" = 12,
-					#"Other Threat to Breathing" = 13,
-					#"Fire, Flames, Smoke" = 14,
-					#"Firearm" = 15,
-					#"Other" = 16,
-					#"Unknown" = 17],
-				    look_up_transport = [
-				    #"Motor Vehicle Driver/Passenger" = "Transport",
-					#"Motorcycle rider/pillion" = "Transport",
-					#"Pedal cyclist" = "Transport",
-					#"Pedestrian" = "Transport",
-					#"Other Transport Related" = "Transport",
-					#"Horse-related" = "Non Transport",
-					#"High fall >1m" = "Non Transport",
-					#"Low Fall" = "Non Transport",
-					#"Striking against or by object" = "Non Transport",
-					#"Struck by or Collision with a Person" = "Non Transport",
-					#"Cutting, Piercing Object" = "Non Transport",
-					#"Submersion or Drowning" = "Non Transport",
-					#"Other Threat to Breathing" = "Non Transport",
-					#"Fire, Flames, Smoke" = "Non Transport",
-					#"Firearm" = "Non Transport",
-					#"Other" = "Non Transport",
-					#"Unknown" = "Non Transport"
-				    ],
-				    #"Added Custom" = Table.AddColumn(#"Expanded look_up_cause_description", "cause_order", each Record.Field(look_up_cause,[atr_description]), Int64.Type),
-				    #"Added Custom1" = Table.AddColumn(#"Added Custom", "Transport", each Record.Field(look_up_transport, [atr_description]), type text),
-				    #"Duplicated Column1" = Table.DuplicateColumn(#"Added Custom1", "Transport", "Transport - order"),
-				    #"Replaced Value1" = Table.ReplaceValue(#"Duplicated Column1","Non Transport","2",Replacer.ReplaceText,{"Transport - order"}),
-				    #"Replaced Value" = Table.ReplaceValue(#"Replaced Value1","Transport","1",Replacer.ReplaceText,{"Transport - order"}),
-				    #"Replaced Errors" = Table.ReplaceErrorValues(#"Replaced Value", {{"cause_order", null}, {"Transport", null}, {"Transport - order", null}}),
-				    #"Removed Duplicates" = Table.Distinct(#"Replaced Errors", {"cause_icd_code_id"})
+				    Source = injury_cause
 				in
-				    #"Removed Duplicates"
-				```
-
-	annotation PBI_ResultType = Table
+				    Source
 
 	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
 

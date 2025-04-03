@@ -2,8 +2,7 @@ expression hospital =
 		let
 		    Source = #"07_ATRCompleteDataset"[[InstitutionID], [HospitalName]],
 		    #"Removed Duplicates" = Table.Distinct(Source, {"InstitutionID"}),
-		    #"Sorted Rows1" = Table.Sort(#"Removed Duplicates",{{"InstitutionID", Order.Ascending}}),
-		    #"Sorted Rows" = Table.Sort(#"Sorted Rows1",{{"HospitalName", Order.Ascending}, {"InstitutionID", Order.Ascending}})
+		    #"Sorted Rows" = Table.Sort(#"Removed Duplicates",{{"HospitalName", Order.Ascending}, {"InstitutionID", Order.Ascending}})
 		in
 		    #"Sorted Rows"
 	lineageTag: b988c2d5-8f4c-48bd-bd60-14b38bf9f32d
@@ -259,80 +258,32 @@ expression hospital_features =
 
 expression injury_activity =
 		let
-		    Source = icd_am,
-		    #"Renamed Columns" = Table.RenameColumns(Source,{{"ICD-10-AM Code", "InjuryActivityCodeId"}}),
-		    #"Filtered Rows" = Table.SelectRows(#"Renamed Columns", each Text.StartsWith([InjuryActivityCodeId], "U")),
-		    #"Extracted Text After Delimiter" = Table.TransformColumns(#"Filtered Rows", {{"ICD-10 Map", each Text.AfterDelimiter(_, "="), type text}}),
-		    table_type = TableType(#"Extracted Text After Delimiter"),
-		    table_code = #table( table_type, {
-		        {"U50","Team ball sports","0"},
-		        {"U51","Team bat or stick sports","0"},
-		        {"U52","Team water sports","0"},
-		        {"U53","Boating sports","0"},
-		        {"U54","Individual water sports","0"},
-		        {"U56","Individual athletic activities","0"},
-		        {"U57","Acrobatic sports","0"},
-		        {"U58","Aesthetic activities","0"},
-		        {"U59","Racquet sports","0"},
-		        {"U60","Target and precision sports","0"},
-		        {"U61","Combative sports","0"},
-		        {"U62","Power sports","0"},
-		        {"U63","Equestrian activities","0"},
-		        {"U64","Adventure sports","0"},
-		        {"U65","Wheeled motor sports","0"},
-		        {"U66","Wheeled non-motored sports","0"},
-		        {"U67","Multidiscipline sports","0"},
-		        {"U68","Aero sports","0"},
-		        {"U70","Other specified sport and exercise activity","0"},
-		        {"U73","Other activity","0"}
-		        } ),
-		    Custom1 = table_code,
-		    #"Appended Query" = Table.Combine({Custom1, #"Extracted Text After Delimiter"})
+		    Source = #"07_ATRCompleteDataset"[[ActEngaged]],
+		    #"Removed Duplicates" = Table.Distinct(Source)
 		in
-		    #"Appended Query"
+		    #"Removed Duplicates"
 	lineageTag: dc80e1a1-1878-4852-a24c-05c8bd9c3f7c
 	queryGroup: Pre-process
 
-	annotation PBI_ResultType = Exception
+	annotation PBI_ResultType = Table
 
-expression injury_cause = ```
+	annotation PBI_NavigationStepName = Navigation
+
+expression injury_cause =
 		let
-		    Source = List.RemoveMatchingItems(List.Distinct( #"07_ATRCompleteDataset"[InjuryCause]), {""}),
-		    #"Converted to Table" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
-		    #"Renamed Columns" = Table.RenameColumns(#"Converted to Table",{{"Column1", "cause_icd_code_id"}}),
-		    #"Changed Type" = Table.TransformColumnTypes(#"Renamed Columns",{{"cause_icd_code_id", type text}}),
-		    #"Duplicated Column" = Table.DuplicateColumn(#"Changed Type", "cause_icd_code_id", "cause_code_atr"),
-		    #"Replaced Value" = Table.ReplaceValue(#"Duplicated Column",".","",Replacer.ReplaceText,{"cause_code_atr"}),
-		    #"Merged Queries" = Table.NestedJoin(#"Replaced Value", {"cause_icd_code_id"}, #"ICD-10-AM", {"icd_code"}, "icd_am", JoinKind.LeftOuter),
-		    #"Expanded icd_am1" = Table.ExpandTableColumn(#"Merged Queries", "icd_am", {"icd_code_description"}, {"icd_code_description"}),
-		    table_type = TableType(#"Expanded icd_am1"),
-		    table_code = #table( table_type, {
-		        {"U50","Team ball sports","0"},
-		        {"U51","Team bat or stick sports","0"},
-		        {"U52","Team water sports","0"},
-		        {"U53","Boating sports","0"},
-		        {"U54","Individual water sports","0"},
-		        {"U56","Individual athletic activities","0"},
-		        {"U57","Acrobatic sports","0"},
-		        {"U58","Aesthetic activities","0"},
-		        {"U59","Racquet sports","0"},
-		        {"U60","Target and precision sports","0"},
-		        {"U61","Combative sports","0"},
-		        {"U62","Power sports","0"},
-		        {"U63","Equestrian activities","0"},
-		        {"U64","Adventure sports","0"},
-		        {"U65","Wheeled motor sports","0"},
-		        {"U66","Wheeled non-motored sports","0"},
-		        {"U67","Multidiscipline sports","0"},
-		        {"U68","Aero sports","0"},
-		        {"U70","Other specified sport and exercise activity","0"},
-		        {"U73","Other activity","0"}
-		        } ),
-		    
-		    #"Appended Query" = #"Expanded icd_am1"
+		    Source = #"07_ATRCompleteDataset"[[InjuryCause]],
+		    #"Removed Duplicates" = Table.Distinct(Source),
+		    #"Merged Queries" = Table.NestedJoin(#"Removed Duplicates", {"InjuryCause"}, icd_atr, {"icd_code"}, "icd_am", JoinKind.LeftOuter),
+		    #"Expanded icd_am1" = Table.ExpandTableColumn(#"Merged Queries", "icd_am", {"icd_code_group", "Desc", "clean_code_id", "code_letter", "atr_code"}, {"icd_code_group", "Desc", "clean_code_id", "code_letter", "atr_code"}),
+		    #"Replaced Value" = Table.ReplaceValue(#"Expanded icd_am1",each Text.Contains([atr_code], "exclude") ,"30",(x,y,z) as text => if y then z else x,{"atr_code"}),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Replaced Value",{{"atr_code", Int64.Type}}),
+		    #"Merged Queries1" = Table.NestedJoin(#"Changed Type", {"atr_code"}, atr_codes, {"atr_code"}, "atr_codes", JoinKind.LeftOuter),
+		    #"Expanded atr_codes" = Table.ExpandTableColumn(#"Merged Queries1", "atr_codes", {"atr_description", "atr_broad_group", "atr_broad_group_sort"}, {"atr_description", "atr_broad_group", "atr_broad_group_sort"}),
+		    #"Replaced Value2" = Table.ReplaceValue(#"Expanded atr_codes",null,40,Replacer.ReplaceValue,{"atr_code"}),
+		    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value2",each [atr_code],"x",(x,y,z) as text => if y = 30 then "Requested for exlusion" else if y = 40 then "New unmatched code" else x ,{"atr_description"}),
+		    #"Changed Type1" = Table.TransformColumnTypes(#"Replaced Value1",{{"atr_code", Int64.Type}})
 		in
-		    #"Appended Query"
-		```
+		    #"Changed Type1"
 	lineageTag: b0088671-d192-45c5-82c0-3488d02945c9
 	queryGroup: Pre-process
 
@@ -747,25 +698,13 @@ expression 07_ATRCompleteDataset = ```
 		  #"Changed Type1" = Table.TransformColumnTypes(
 		    #"Extracted Text Between Delimiters", 
 		    {{"AISCount", Int64.Type}}
-		  )
+		  ),
+		    filter_incorrect_ages = Table.SelectRows(#"Changed Type1", each ([Age] <> 120 and [Age] <> 121 and [Age] <> 122 and [Age] <> 123 and [Age] <> 999) ),
+		    filter_historical_nz_data = Table.SelectRows(filter_incorrect_ages, each not ( [State] = "NZ" and [DOIJ] < #datetime(2017,7,1,0,0,0)))
 		in
-		  #"Changed Type1"
+		    filter_historical_nz_data
 		```
 	lineageTag: d483fa6c-fc92-46b8-9ad6-c8de7ac3123c
-	queryGroup: Source
-
-	annotation PBI_ResultType = Table
-
-	annotation PBI_NavigationStepName = Navigation
-
-expression icd_am =
-		let
-		    Source = Csv.Document(File.Contents(data_path&"\e18_icd-10-am_eleventh_edition_to_icd-10_2016_0.txt"),[Delimiter=",", Columns=3, Encoding=1252, QuoteStyle=QuoteStyle.None]),
-		    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}, {"Column2", type text}, {"Column3", type text}}),
-		    #"Promoted Headers" = Table.PromoteHeaders(#"Changed Type", [PromoteAllScalars=true])
-		in
-		    #"Promoted Headers"
-	lineageTag: 0ad2adee-7652-489c-be89-01403e6554ec
 	queryGroup: Source
 
 	annotation PBI_ResultType = Table
@@ -1024,11 +963,6 @@ expression #shared =
 
 	annotation PBI_ResultType = Function
 
-expression ICD-10-AM_mapping_table = "https://www.ihacpa.gov.au/sites/default/files/2022-12/ICD-10%20and%20ICD-10-AM%20mapping%20tables%20-%20Twelfth%20Edition.XLSX" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
-	lineageTag: 025a5e7f-5921-4c20-a5e4-07c63998852a
-
-	annotation PBI_ResultType = Text
-
 expression hospital_features_csv =
 		let
 		    Source = Csv.Document(File.Contents(data_path &"Hospital features.csv"),[Delimiter=",", Columns=7, Encoding=1252, QuoteStyle=QuoteStyle.None]),
@@ -1066,10 +1000,10 @@ expression ATRCompleteDataset_Aggregated =
 
 expression injury_place =
 		let
-		    Source = #"ICD-10-AM_injury_place",
-		    #"Renamed Columns" = Table.RenameColumns(Source,{{"icd_code", "injury_place_code_id"}})
+		    Source = Table.NestedJoin(injury_place_new, {"Code"}, icd_atr, {"clean_code_id"}, "icd_atr", JoinKind.LeftOuter),
+		    #"Expanded icd_atr" = Table.ExpandTableColumn(Source, "icd_atr", {"icd_code"}, {"icd_code"})
 		in
-		    #"Renamed Columns"
+		    #"Expanded icd_atr"
 	lineageTag: 195f24db-7a56-4351-acc8-30cc2889c2f6
 	queryGroup: Pre-process
 
@@ -1156,30 +1090,6 @@ expression vemd_code =
 		in
 		    #"Removed Blank Rows"
 	lineageTag: 08ccd004-2d6a-4113-a137-00e4cd21ab73
-	queryGroup: Pre-process
-
-	annotation PBI_NavigationStepName = Navigation
-
-	annotation PBI_ResultType = Table
-
-expression atr_vemd =
-		let
-		    Source = #"VOTOR_ICDevent_Mapping_ATR mapping",
-		    #"Removed Other Columns" = Table.SelectColumns(Source,{"ATR Code_3", "Description_4", "VEMD Code_5", "Column14"}),
-		    #"Cleaned Text1" = Table.TransformColumns(#"Removed Other Columns",{{"Description_4", Text.Clean, type text}, {"VEMD Code_5", Text.Clean, type text}, {"Column14", Text.Clean, type text}}),
-		    #"Trimmed Text" = Table.TransformColumns(#"Cleaned Text1",{{"Description_4", Text.Trim, type text}, {"VEMD Code_5", Text.Trim, type text}, {"Column14", Text.Trim, type text}}),
-		    #"Kept First Rows" = Table.FirstN(#"Trimmed Text",17),
-		    #"Renamed Columns" = Table.RenameColumns(#"Kept First Rows",{{"ATR Code_3", "atr_code"}, {"Description_4", "atr_description"}, {"VEMD Code_5", "vemd_code"}}),
-		    #"Split Column by Delimiter" = Table.ExpandListColumn(Table.TransformColumns(#"Renamed Columns", {{"vemd_code", Splitter.SplitTextByDelimiter(",", QuoteStyle.Csv), let itemType = (type nullable text) meta [Serialized.Text = true] in type {itemType}}}), "vemd_code"),
-		    #"Cleaned Text2" = Table.TransformColumns(#"Split Column by Delimiter",{{"vemd_code", Text.Clean, type text}}),
-		    #"Trimmed Text1" = Table.TransformColumns(#"Cleaned Text2",{{"vemd_code", Text.Trim, type text}}),
-		    #"Split Column by Delimiter1" = Table.ExpandListColumn(Table.TransformColumns(#"Trimmed Text1", {{"Column14", Splitter.SplitTextByDelimiter(",", QuoteStyle.Csv), let itemType = (type nullable text) meta [Serialized.Text = true] in type {itemType}}}), "Column14"),
-		    #"Trimmed Text2" = Table.TransformColumns(#"Split Column by Delimiter1",{{"Column14", Text.Trim, type text}}),
-		    #"Changed Type" = Table.TransformColumnTypes(#"Trimmed Text2",{{"vemd_code", type text}}),
-		    #"Cleaned Text" = Table.TransformColumns(#"Changed Type",{{"vemd_code", Text.Clean, type text}})
-		in
-		    #"Cleaned Text"
-	lineageTag: 619d12ef-4507-4366-94d5-a487710c021a
 	queryGroup: Pre-process
 
 	annotation PBI_NavigationStepName = Navigation
@@ -1288,21 +1198,6 @@ expression hospital_lookup =
 
 	annotation PBI_ResultType = Record
 
-expression '07_ATRCompleteDataset (2)' =
-		let
-		    Source = #"07_ATRCompleteDataset",
-		    #"Removed Other Columns" = Table.SelectColumns(Source,{"InstitutionID", "HospitalName"}),
-		    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns"),
-		    #"Sorted Rows" = Table.Sort(#"Removed Duplicates",{{"InstitutionID", Order.Ascending}})
-		in
-		    #"Sorted Rows"
-	lineageTag: 097b715a-d093-4ebf-a9e9-8980bf9bfb56
-	queryGroup: DEV
-
-	annotation PBI_NavigationStepName = Navigation
-
-	annotation PBI_ResultType = Table
-
 expression FACT_NATIONAL =
 		let
 		    Source = FACT_ATR
@@ -1332,18 +1227,10 @@ expression icd_10_vemd_atr_code =
 
 expression ICD-10-AM =
 		let
-		    Source = Pdf.Tables(File.Contents(data_path & "icd-10-am_chronicle_-_eleventh_edition.pdf"), [Implementation="1.3"]),
-		    #"Filtered Rows" = Table.SelectRows(Source, each ([Kind] = "Table")),
-		    #"Inserted Text After Delimiter" = Table.AddColumn(#"Filtered Rows", "Text After Delimiter", each Text.AfterDelimiter([Id], "Table"), type text),
-		    #"Changed Type1" = Table.TransformColumnTypes(#"Inserted Text After Delimiter",{{"Text After Delimiter", Int64.Type}}),
-		    #"Filtered Rows1" = Table.SelectRows(#"Changed Type1", each [Text After Delimiter] <= 1285 and [Text After Delimiter] >= 4),
-		    #"Removed Other Columns" = Table.SelectColumns(#"Filtered Rows1",{"Data"}),
-		    #"Expanded Data" = Table.ExpandTableColumn(#"Removed Other Columns", "Data", {"Column1", "Column2"}, {"Column1", "Column2"}),
-		    #"Cleaned Text" = Table.TransformColumns(#"Expanded Data",{{"Column1", Text.Clean, type text}, {"Column2", Text.Clean, type text}}),
-		    #"Trimmed Text" = Table.TransformColumns(#"Cleaned Text",{{"Column1", Text.Trim, type text}, {"Column2", Text.Trim, type text}}),
-		    #"Changed Type" = Table.TransformColumnTypes(#"Trimmed Text",{{"Column1", type text}, {"Column2", type text}}),
-		    #"Filtered Rows2" = Table.SelectRows(#"Changed Type", each not (Text.Contains([Column1], "Chapter")or Text.Contains([Column1], "-"))),
-		    #"Renamed Columns" = Table.RenameColumns(#"Filtered Rows2",{{"Column1", "icd_code"}, {"Column2", "icd_code_description"}})
+		    Source = Csv.Document(File.Contents(data_path & "ICD_ALL_CODES.csv"),[Delimiter=",", Columns=2, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+		    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+		    #"Inserted Replaced Text" = Table.AddColumn(#"Promoted Headers", "clean_code_id", each Text.Replace([CodeId], ".", ""), type text),
+		    #"Renamed Columns" = Table.RenameColumns(#"Inserted Replaced Text",{{"CodeId", "icd_code"}, {"Desc", "icd_code_description"}})
 		in
 		    #"Renamed Columns"
 	lineageTag: d6e9dcd5-ad0c-4e4a-9058-e50703ae0a50
@@ -1353,63 +1240,112 @@ expression ICD-10-AM =
 
 	annotation PBI_ResultType = Table
 
-expression missing_cause_code_maps =
+expression icd_atr =
 		let
 		    Source = Excel.Workbook(File.Contents(data_path & "VOTOR_ICDevent_Mapping_ATR mapping.xlsx"), null, true),
-		    Cause1 = Source{[Name="missing_cause_code"]}[Data],
-		    #"Promoted Headers" = Table.PromoteHeaders(Cause1, [PromoteAllScalars=true]),
-		    #"Renamed Columns" = Table.RenameColumns(#"Promoted Headers",{{"Column3", "atr_code_description"}, {"Column4", "icd10_map"}}),
-		    #"Removed Other Columns1" = Table.SelectColumns(#"Renamed Columns",{"missing_cause_code", "atr_code_description"}),
-		    #"Changed Type" = Table.TransformColumnTypes(#"Removed Other Columns1",{{"missing_cause_code", type text}, {"atr_code_description", type text}}),
-		    #"Trimmed Text" = Table.TransformColumns(#"Changed Type",{ {"missing_cause_code", Text.Trim, type text}, {"atr_code_description", Text.Trim, type text}}),
-		    #"Cleaned Text" = Table.TransformColumns(#"Trimmed Text",{ {"missing_cause_code", Text.Clean, type text}, {"atr_code_description", Text.Clean, type text}}),
-		    #"Merged Queries" = Table.NestedJoin(#"Cleaned Text", {"atr_code_description"}, atr_vemd, {"atr_description"}, "atr_vemd", JoinKind.LeftOuter),
-		    #"Expanded atr_vemd" = Table.ExpandTableColumn(#"Merged Queries", "atr_vemd", {"atr_code"}, {"ATR Code"}),
-		    #"Renamed Columns1" = Table.RenameColumns(#"Expanded atr_vemd",{{"missing_cause_code", "ICD10 Code"}, {"atr_code_description", "Description"}}),
-		    #"Removed Duplicates" = Table.Distinct(#"Renamed Columns1")
+		    FINAL_CODE_MAPPING_Sheet = Source{[Item="FINAL_CODE_MAPPING",Kind="Sheet"]}[Data],
+		    #"Removed Top Rows" = Table.Skip(FINAL_CODE_MAPPING_Sheet,2),
+		    #"Promoted Headers" = Table.PromoteHeaders(#"Removed Top Rows", [PromoteAllScalars=true]),
+		    #"Cleaned Text" = Table.TransformColumns(Table.TransformColumnTypes(#"Promoted Headers", {{"icd_code", type text}, {"clean_code_id", type text}, {"prior_completion", type text}, {"prior ATR Code", type text}, {"atr_code", type text}}, "en-AU"),{{"icd_code_group", Text.Clean, type text}, {"icd_code", Text.Clean, type text}, {"Desc", Text.Clean, type text}, {"clean_code_id", Text.Clean, type text}, {"code_letter", Text.Clean, type text}, {"prior_completion", Text.Clean, type text}, {"prior ATR Code", Text.Clean, type text}, {"atr_code", Text.Clean, type text}}),
+		    #"Trimmed Text" = Table.TransformColumns(#"Cleaned Text",{{"icd_code_group", Text.Trim, type text}, {"icd_code", Text.Trim, type text}, {"Desc", Text.Trim, type text}, {"clean_code_id", Text.Trim, type text}, {"code_letter", Text.Trim, type text}, {"prior_completion", Text.Trim, type text}, {"prior ATR Code", Text.Trim, type text}, {"atr_code", Text.Trim, type text}}),
+		    #"Removed Other Columns" = Table.SelectColumns(#"Trimmed Text",{"icd_code_group", "icd_code", "Desc", "clean_code_id", "code_letter", "atr_code"})
 		in
-		    #"Removed Duplicates"
-	lineageTag: 7dc19d53-037e-4385-a1e4-66b16759ee58
-	queryGroup: Pre-process\fix_cause_code
+		    #"Removed Other Columns"
+	lineageTag: d3158263-b3c3-4cf4-bbc9-ca3b882f4c2e
+	queryGroup: Source
 
 	annotation PBI_NavigationStepName = Navigation
 
 	annotation PBI_ResultType = Table
 
-expression cause_code_lookup =
+expression injury_place_new =
 		let
-		    Source = Table.Combine({missing_cause_code_maps, cause_code_vemd_atr})
+		    Source = Excel.Workbook(File.Contents("E:\projects\ATR\data\injury place codes.xlsx"), null, true),
+		    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Code", type text}, {"Description", type text}, {"VEMD code", Int64.Type}, {"Column4", type any}, {"VEMD Code", Int64.Type}, {"Description_1", type text}}),
+		    #"Removed Other Columns" = Table.SelectColumns(#"Changed Type",{"Code", "Description", "VEMD code"}),
+		    #"Merged Queries" = Table.NestedJoin(#"Removed Other Columns", {"VEMD code"}, VEMD_place, {"VEMD Code"}, "VEMD_place", JoinKind.LeftOuter),
+		    #"Expanded VEMD_place" = Table.ExpandTableColumn(#"Merged Queries", "VEMD_place", {"Description_1"}, {"vemd_place_description"})
 		in
-		    Source
-	lineageTag: e22663de-6625-4a5e-9211-b47f11f41048
-	queryGroup: Pre-process\fix_cause_code
+		    #"Expanded VEMD_place"
+	lineageTag: b60f01fe-e5f5-4437-a24c-36ce6cb326d6
+	queryGroup: Source
 
 	annotation PBI_NavigationStepName = Navigation
 
 	annotation PBI_ResultType = Table
 
-expression look_up_cause_description =
+expression VEMD_place =
 		let
-		    Source = atr_vemd,
-		    #"Removed Other Columns" = Table.SelectColumns(Source,{"atr_code", "atr_description"}),
-		    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns")
+		    Source = Excel.Workbook(File.Contents("E:\projects\ATR\data\injury place codes.xlsx"), null, true),
+		    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Code", type text}, {"Description", type text}, {"VEMD code", Int64.Type}, {"Column4", type any}, {"VEMD Code", Int64.Type}, {"Description_1", type text}}),
+		    #"Removed Other Columns" = Table.SelectColumns(#"Changed Type",{"VEMD Code", "Description_1"}),
+		    #"Kept First Rows" = Table.FirstN(#"Removed Other Columns",13)
 		in
-		    #"Removed Duplicates"
-	lineageTag: c39a8128-5c2b-4aeb-98d6-423a371b5a4c
+		    #"Kept First Rows"
+	lineageTag: 5cb3eab2-7fd6-4e94-bef9-bdc4b8a460a5
+	queryGroup: Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression atr_codes =
+		let
+		    Source = #"VOTOR_ICDevent_Mapping_ATR mapping",
+		    #"Removed Other Columns" = Table.SelectColumns(Source,{"ATR Code_3", "Description_4"}),
+		    #"Cleaned Text1" = Table.TransformColumns(#"Removed Other Columns",{{"Description_4", Text.Clean, type text}}),
+		    #"Trimmed Text" = Table.TransformColumns(#"Cleaned Text1",{{"Description_4", Text.Trim, type text}}),
+		    #"Kept First Rows" = Table.FirstN(#"Trimmed Text",17),
+		    #"Renamed Columns" = Table.RenameColumns(#"Kept First Rows",{{"ATR Code_3", "atr_code"}, {"Description_4", "atr_description"} }),
+		    #"Added Conditional Column" = Table.AddColumn(#"Renamed Columns", "atr_broad_group", each if  List.Contains( {1,2,3,4,7,8}, [atr_code]) then [atr_description] else "Other", type text),
+		    #"Added Conditional Column1" = Table.AddColumn(#"Added Conditional Column", "atr_broad_group_sort", each if [atr_broad_group] = "Other" then 9 else [atr_code], Int64.Type)
+		in
+		    #"Added Conditional Column1"
+	lineageTag: ba9abd45-d39a-491b-b65e-c17ef323a861
 	queryGroup: Pre-process
 
 	annotation PBI_NavigationStepName = Navigation
 
 	annotation PBI_ResultType = Table
 
-expression cause_code_vemd_atr =
+expression DIM_ICD_ALL_CODES =
 		let
-		    Source = #"VOTOR_ICDevent_Mapping_ATR mapping",
-		    #"Removed Other Columns" = Table.SelectColumns(Source,{"ICD10 Code", "Description", "VEMD Code", "ATR Code"})
+		    Source = Csv.Document(File.Contents(data_path & "ICD_ALL_CODES.csv"),[Delimiter=",", Columns=2, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+		    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+		    #"Inserted Replaced Text" = Table.AddColumn(#"Promoted Headers", "clean_code_id", each Text.Replace([CodeId], ".", ""), type text),
+		    #"Filtered Rows" = Table.SelectRows(#"Inserted Replaced Text", each ([CodeId] = "-99"))
 		in
-		    #"Removed Other Columns"
-	lineageTag: 19112da1-1e07-4675-8219-738bd6aa33c0
-	queryGroup: Pre-process\fix_cause_code
+		    #"Filtered Rows"
+	lineageTag: bde04a96-317d-4786-8545-4e294da207b9
+	queryGroup: Dimension
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression '07_ATRCompleteDataset (2)' =
+		let
+		    Source = #"07_ATRCompleteDataset"
+		in
+		    Source
+	lineageTag: bcf39959-80a0-4139-88a0-9404b377cc35
+	queryGroup: DEV
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'ATRCompleteDataset (2)' =
+		let
+		    Source = ATRCompleteDataset
+		in
+		    Source
+	lineageTag: 2d45ca0d-af93-4a4b-ad96-27e8c7d77d5a
+	queryGroup: DEV
 
 	annotation PBI_NavigationStepName = Navigation
 

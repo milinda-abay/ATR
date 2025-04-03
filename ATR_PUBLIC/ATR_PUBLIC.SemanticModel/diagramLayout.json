@@ -4,8 +4,8 @@
     {
       "ordinal": 0,
       "scrollPosition": {
-        "x": 176.55780595966104,
-        "y": 372.828376662391
+        "x": 356.02356618028807,
+        "y": 0
       },
       "nodes": [
         {
@@ -23,13 +23,13 @@
         },
         {
           "location": {
-            "x": 295.82268492845736,
-            "y": 196.66677378451351
+            "x": 283.74361850405336,
+            "y": 319.87325131343471
           },
           "nodeIndex": "DIM COUNTRY",
           "nodeLineageTag": "040ee51b-e479-4456-b9de-32547dde189f",
           "size": {
-            "height": 104,
+            "height": 72,
             "width": 234
           },
           "zIndex": 4,
@@ -104,19 +104,6 @@
           },
           "zIndex": 17,
           "expandedHeight": 152
-        },
-        {
-          "location": {
-            "x": 1318.0345825356044,
-            "y": 156.08880708749143
-          },
-          "nodeIndex": "DIM_INJURY_CAUSE",
-          "nodeLineageTag": "3c833ef7-1be0-48bb-86e0-9c202ea3e667",
-          "size": {
-            "height": 248,
-            "width": 234
-          },
-          "zIndex": 13
         },
         {
           "location": {
@@ -196,10 +183,11 @@
           "nodeIndex": "FACT_ATR",
           "nodeLineageTag": "cf5fb583-fad1-460b-bba1-284a8ef1dcc4",
           "size": {
-            "height": 847.98808751088791,
+            "height": 392,
             "width": 416
           },
-          "zIndex": 14
+          "zIndex": 14,
+          "expandedHeight": 847.98808751088791
         },
         {
           "location": {
@@ -252,26 +240,39 @@
             "height": 104,
             "width": 234
           },
-          "zIndex": 1,
+          "zIndex": 2,
           "expandedHeight": 272
         },
         {
           "location": {
-            "x": 737.131224233472,
-            "y": 463.81499729580867
+            "x": 2527.9959234327625,
+            "y": 654.31019891093274
           },
-          "nodeIndex": "DIM_ICD_ALL_CODES",
-          "nodeLineageTag": "3c77e549-b962-42af-a729-5391ded9986c",
+          "nodeIndex": "Table",
+          "nodeLineageTag": "850fdaaa-ad70-4df0-bee8-e2a8b2b64d9b",
           "size": {
-            "height": 152,
+            "height": 72,
+            "width": 234
+          },
+          "zIndex": 1,
+          "expandedHeight": 200
+        },
+        {
+          "location": {
+            "x": 810.79255989916726,
+            "y": 447.86706631330964
+          },
+          "nodeIndex": "DIM_INJURY_CAUSE",
+          "size": {
+            "height": 248,
             "width": 234
           },
           "zIndex": 0
         }
       ],
       "name": "All tables",
-      "zoomValue": 116.67566827776834,
-      "pinKeyFieldsToTop": false,
+      "zoomValue": 73.840632534620809,
+      "pinKeyFieldsToTop": true,
       "showExtraHeaderInfo": false,
       "hideKeyFieldsWhenCollapsed": false,
       "tablesLocked": false
@@ -295,20 +296,6 @@
             "width": 320
           },
           "zIndex": 16
-        },
-        {
-          "location": {
-            "x": 1317.5061313882597,
-            "y": 0
-          },
-          "nodeIndex": "DIM_INJURY_CAUSE",
-          "nodeLineageTag": "3c833ef7-1be0-48bb-86e0-9c202ea3e667",
-          "size": {
-            "height": 104,
-            "width": 234
-          },
-          "zIndex": 1,
-          "expandedHeight": 300
         },
         {
           "location": {
@@ -543,20 +530,6 @@
           },
           "zIndex": 8,
           "expandedHeight": 104
-        },
-        {
-          "location": {
-            "x": 1116.7785167021693,
-            "y": 0
-          },
-          "nodeIndex": "DIM_INJURY_CAUSE",
-          "nodeLineageTag": "3c833ef7-1be0-48bb-86e0-9c202ea3e667",
-          "size": {
-            "height": 104,
-            "width": 234
-          },
-          "zIndex": 15,
-          "expandedHeight": 300
         },
         {
           "location": {

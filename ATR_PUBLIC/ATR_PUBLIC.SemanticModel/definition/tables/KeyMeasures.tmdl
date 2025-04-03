@@ -14,9 +14,8 @@ table KeyMeasures
 		lineageTag: 728a6a72-bacb-4162-b3dd-81956398a241
 
 	measure Deaths = CALCULATE([Number of cases], DIM_DISCHAGRE[Mortality] = "Deaths")
+		formatString: 0
 		lineageTag: 48816487-e768-47df-8eb9-cda0974dfa87
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure 'Death %' =
 			
@@ -104,7 +103,7 @@ table KeyMeasures
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure Measure = LOWER(USERPRINCIPALNAME())
+	measure Measure = SELECTEDVALUE(FACT_ATR[TimeToED])
 		lineageTag: e67cc513-cb72-405c-8c26-8f072b7813b7
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -179,7 +178,7 @@ table KeyMeasures
 			    FACT_ATR[TimeToED] > lower_bound && FACT_ATR[TimeToED] < upper_bound
 			)
 			VAR result = CALCULATE(
-			    AVERAGE(FACT_ATR[TimeToED]),
+			    MEDIAN(FACT_ATR[TimeToED]),
 			    VALUES(FACT_ATR[RegId]),
 			    final_table
 			    )
@@ -254,7 +253,7 @@ table KeyMeasures
 			
 			VAR _cases = [Number of cases]
 			
-			VAR _results = IF(_cases <5 , BLANK(), _cases)
+			VAR _results = IF(_cases <=5 , BLANK(), _cases)
 			
 			 RETURN
 			 IF(ISBLANK(_cases), BLANK(), _results)

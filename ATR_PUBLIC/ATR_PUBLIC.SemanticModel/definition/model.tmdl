@@ -44,15 +44,11 @@ queryGroup Source\ICD-10-AM/ACHI\ICD-10
 
 	annotation PBI_QueryGroupOrder = 0
 
-queryGroup Pre-process\fix_cause_code
-
-	annotation PBI_QueryGroupOrder = 0
-
-annotation PBI_QueryOrder = ["Calendar","DIM_AGE","DIM_GENDER","DIM_INJURY_TYPE","DIM_STATE","DIM_TRANSPORT","DIM_INJURY_PLACE","DIM_INJURY_INTENT","DIM_INJURY_ACTIVITY","DIM_INJURY_CAUSE","DIM_INJURY_SEVERITY","DIM_DISCHAGRE","DIM_BODY_REGION","DIM COUNTRY","RESTRICTED_HOSPITAL","FACT_ATR","FACT_NATIONAL","age_lookup","hospital_lookup","hospital","hospital_features","ATRCompleteDataset_Aggregated","ATRCompleteDataset","injury_activity","injury_cause","body_region","07_ATRCompleteDataset","icd_am","hospital_features_csv","VOTOR_ICDevent_Mapping_ATR mapping","TableType","BodyRegion","07_ATRCompleteDataset (2)","icd_10_vemd_atr_code","missing_cause_code","InjuryCause","cause_code_modification","StartDate","EndDate","data_path","ICD-10-AM_mapping_table","KeyMeasures","#shared","ICD-10-AM","injury_place","ICD-10-AM_injury_place","ICD-10-AM_injury_activity","B  ICD-10 Place of occurrence","C  ICD-10 Activity","vemd_code","atr_vemd","cause_code_lookup","cause_code_vemd_atr","missing_cause_code_maps","look_up_cause_description","DIM_ICD_ALL_CODES"]
+annotation PBI_QueryOrder = ["Calendar","DIM_AGE","DIM_GENDER","DIM_INJURY_TYPE","DIM_STATE","DIM_TRANSPORT","DIM_INJURY_PLACE","DIM_INJURY_INTENT","DIM_INJURY_ACTIVITY","DIM_INJURY_SEVERITY","DIM_DISCHAGRE","DIM_BODY_REGION","DIM COUNTRY","RESTRICTED_HOSPITAL","FACT_ATR","FACT_NATIONAL","age_lookup","hospital_lookup","hospital","hospital_features","ATRCompleteDataset_Aggregated","ATRCompleteDataset","injury_activity","injury_cause","body_region","07_ATRCompleteDataset","hospital_features_csv","VOTOR_ICDevent_Mapping_ATR mapping","TableType","BodyRegion","ATRCompleteDataset (2)","07_ATRCompleteDataset (2)","icd_10_vemd_atr_code","missing_cause_code","InjuryCause","cause_code_modification","StartDate","EndDate","data_path","KeyMeasures","#shared","ICD-10-AM","injury_place","ICD-10-AM_injury_place","ICD-10-AM_injury_activity","B  ICD-10 Place of occurrence","C  ICD-10 Activity","vemd_code","DIM_ICD_ALL_CODES","icd_atr","injury_place_new","VEMD_place","atr_codes","DIM_INJURY_CAUSE"]
 
 annotation __PBI_TimeIntelligenceEnabled = 0
 
-annotation PBIDesktopVersion = 2.140.1205.0 (25.02)+2ab3defe107764e1cf486b42122d9362df7f34ea
+annotation PBIDesktopVersion = 2.141.1253.0 (25.03)+74f9999a1e95f78c739f3ea2b96ba340e9ba8729
 
 annotation __TEdtr = 1
 
@@ -67,7 +63,6 @@ ref table DIM_TRANSPORT
 ref table DIM_INJURY_PLACE
 ref table DIM_INJURY_INTENT
 ref table DIM_INJURY_ACTIVITY
-ref table DIM_INJURY_CAUSE
 ref table DIM_INJURY_SEVERITY
 ref table DIM_DISCHAGRE
 ref table DIM_BODY_REGION
@@ -76,7 +71,8 @@ ref table RESTRICTED_HOSPITAL
 ref table FACT_ATR
 ref table KeyMeasures
 ref table 'Time intelligence'
-ref table DIM_ICD_ALL_CODES
+ref table Table
+ref table DIM_INJURY_CAUSE
 
 ref cultureInfo en-US
 

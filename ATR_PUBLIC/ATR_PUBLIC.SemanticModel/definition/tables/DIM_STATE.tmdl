@@ -37,6 +37,9 @@ table DIM_STATE
 		dataCategory: StateOrProvince
 		summarizeBy: none
 		sourceColumn: jurisdiction
+		sortByColumn: state_sort
+
+		changedProperty = SortByColumn
 
 		annotation SummarizationSetBy = Automatic
 

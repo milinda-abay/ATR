@@ -1,27 +1,11 @@
 table DIM_INJURY_ACTIVITY
 	lineageTag: 03b4465e-269e-415b-8b44-fb51a722c7b1
 
-	column InjuryActivityCodeId
+	column ActEngaged
 		dataType: string
-		lineageTag: 3a4f50a4-9d25-468c-a4b2-227360b13552
+		lineageTag: a60906c9-fb97-4400-aa2f-9c7dbeddd3aa
 		summarizeBy: none
-		sourceColumn: InjuryActivityCodeId
-
-		annotation SummarizationSetBy = Automatic
-
-	column 'ICD-10 code descriptor'
-		dataType: string
-		lineageTag: aa7a7390-eb5c-4190-8f56-364c3496756d
-		summarizeBy: none
-		sourceColumn: ICD-10 code descriptor
-
-		annotation SummarizationSetBy = Automatic
-
-	column 'ICD-10 Map'
-		dataType: string
-		lineageTag: 75829b7e-0b09-43dd-a4a3-1a92bf3f02e2
-		summarizeBy: none
-		sourceColumn: ICD-10 Map
+		sourceColumn: ActEngaged
 
 		annotation SummarizationSetBy = Automatic
 
@@ -35,4 +19,6 @@ table DIM_INJURY_ACTIVITY
 				    Source
 
 	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
 
