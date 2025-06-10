@@ -112,11 +112,9 @@ table Calendar
 			  "Q4",
 			  "Other"
 			)
-		dataType: string
 		formatString: 0
 		lineageTag: 71401937-5422-4bc8-83c5-5e700fea8d53
 		summarizeBy: none
-		isDataTypeInferred
 
 		extendedProperty GroupingMetadata =
 				{

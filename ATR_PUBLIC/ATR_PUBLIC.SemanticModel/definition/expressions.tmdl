@@ -949,6 +949,8 @@ expression data_path = "E:\projects\ATR\data\" meta [IsParameterQuery=true, List
 
 	annotation PBI_ResultType = Text
 
+	annotation PBI_NavigationStepName = Navigation
+
 expression #shared =
 		let
 		    Source = #shared,

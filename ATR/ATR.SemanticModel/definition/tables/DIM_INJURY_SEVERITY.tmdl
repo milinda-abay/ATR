@@ -110,11 +110,9 @@ table DIM_INJURY_SEVERITY
 			  "Not stated/inadequately described",
 			  "Other"
 			)
-		dataType: string
 		formatString: 0
 		lineageTag: b18aa950-3b95-49f0-8699-99a79800e517
 		summarizeBy: none
-		isDataTypeInferred
 		sortByColumn: severity_order
 
 		extendedProperty GroupingMetadata =

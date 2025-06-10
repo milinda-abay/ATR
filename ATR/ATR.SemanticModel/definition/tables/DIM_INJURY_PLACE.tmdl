@@ -52,10 +52,8 @@ table DIM_INJURY_PLACE
 				"Streets & Highways",
 				"Other"
 			)
-		dataType: string
 		lineageTag: 73148460-d9bc-4384-bb77-5e46f51e195e
 		summarizeBy: none
-		isDataTypeInferred
 
 		extendedProperty GroupingMetadata =
 				{

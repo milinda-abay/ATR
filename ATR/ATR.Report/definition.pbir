@@ -3,7 +3,6 @@
   "datasetReference": {
     "byPath": {
       "path": "../ATR.SemanticModel"
-    },
-    "byConnection": null
+    }
   }
 }

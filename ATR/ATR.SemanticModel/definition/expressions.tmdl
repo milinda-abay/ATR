@@ -1312,7 +1312,7 @@ expression EndDate = #date(2025, 1, 1) meta [IsParameterQuery=true, Type="Date",
 
 	annotation PBI_NavigationStepName = Navigation
 
-expression data_path = "C:\Users\maba0001\projects\ATR\data\" meta [IsParameterQuery=true, List={"E:\projects\ATR\data\", "C:\Users\maba0001\projects\ATR\data\", "C:\Users\bose_nivea\projects\ATR\"}, DefaultValue="E:\projects\ATR\data\", Type="Text", IsParameterQueryRequired=true]
+expression data_path = "E:\projects\ATR\data\" meta [IsParameterQuery=true, List={"E:\projects\ATR\data\", "C:\Users\maba0001\projects\ATR\data\", "C:\Users\bose_nivea\projects\ATR\"}, DefaultValue="E:\projects\ATR\data\", Type="Text", IsParameterQueryRequired=true]
 	lineageTag: d33d6cbc-baeb-411c-a777-0043c198ad8f
 
 	annotation PBI_ResultType = Text
