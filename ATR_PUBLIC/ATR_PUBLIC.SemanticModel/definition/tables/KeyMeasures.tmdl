@@ -29,8 +29,8 @@ table KeyMeasures
 			result =  DIVIDE(deaths,[Number of cases])
 			
 			RETURN
-			result
-		formatString: 0.0%;-0.0%;0.0%
+			result * 100
+		formatString: 0.0
 		lineageTag: a405fd1c-c04f-4f2d-a6a7-a5ada48186e7
 
 		changedProperty = FormatString

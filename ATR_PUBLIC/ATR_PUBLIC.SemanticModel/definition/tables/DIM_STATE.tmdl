@@ -46,17 +46,17 @@ table DIM_STATE
 	hierarchy 'iso3 Hierarchy'
 		lineageTag: 9fecd155-be19-46dc-8fa4-1bb7405ccef0
 
-		level country
+		level Country
 			lineageTag: f467d3d8-d443-4dbe-a875-df1091d93f0e
 			column: country
+
+		level Jurisdiction
+			lineageTag: b3910897-97ed-4aa3-831b-ca25666aac61
+			column: jurisdiction
 
 		level state
 			lineageTag: ebcda919-04df-499c-bffd-39cb24f8b4a5
 			column: state
-
-		level jurisdiction
-			lineageTag: b3910897-97ed-4aa3-831b-ca25666aac61
-			column: jurisdiction
 
 	partition DIM_STATE-67a9bcee-2b57-4be8-b55d-bc7a6fe2a900 = m
 		mode: import

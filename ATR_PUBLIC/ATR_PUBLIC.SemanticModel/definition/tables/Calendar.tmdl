@@ -161,6 +161,10 @@ table Calendar
 			lineageTag: cbccbc93-1f36-4a13-b518-991330cf3e4f
 			column: cal_year
 
+		level Year-Qtr
+			lineageTag: 4ad75728-53e9-4e3b-8f06-413514c69000
+			column: 'cal_qtr (groups)'
+
 		level Month
 			lineageTag: 2d816ff4-56c6-44c6-8c07-4225306c26da
 			column: cal_month_name
