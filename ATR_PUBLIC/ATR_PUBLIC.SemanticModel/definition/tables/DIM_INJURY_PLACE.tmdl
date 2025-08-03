@@ -96,6 +96,61 @@ table DIM_INJURY_PLACE
 
 		annotation SummarizationSetBy = Automatic
 
+		annotation __PBI_SemanticLinks = [{"LinkTarget":{"TableName":"DIM_INJURY_PLACE","TableItemName":"vemd_place_description (groups)","ObjectType":4},"LinkType":"UsedInGroup"}]
+
+	column 'vemd_place_description (groups)' =
+			SWITCH(
+				TRUE,
+				ISBLANK('DIM_INJURY_PLACE'[vemd_place_description]),
+				"(Blank)",
+				'DIM_INJURY_PLACE'[vemd_place_description] IN {"Athletics and sports area"},
+				"Athletics and sports area",
+				'DIM_INJURY_PLACE'[vemd_place_description] IN {"Farm"},
+				"Farm",
+				'DIM_INJURY_PLACE'[vemd_place_description] IN {"Home"},
+				"Home",
+				'DIM_INJURY_PLACE'[vemd_place_description] IN {"Industrial or constructional area"},
+				"Industrial or constructional area",
+				'DIM_INJURY_PLACE'[vemd_place_description] IN {"Medical hospital"},
+				"Medical hospital",
+				'DIM_INJURY_PLACE'[vemd_place_description] IN {"Mine or quarry"},
+				"Mine or quarry",
+				'DIM_INJURY_PLACE'[vemd_place_description] IN {"Other specified place"},
+				"Other specified place",
+				'DIM_INJURY_PLACE'[vemd_place_description] IN {"Residential Institution"},
+				"Residential Institution",
+				'DIM_INJURY_PLACE'[vemd_place_description] IN {"Road, street, or highway"},
+				"Road, street, or highway",
+				'DIM_INJURY_PLACE'[vemd_place_description] IN {"School"},
+				"School",
+				'DIM_INJURY_PLACE'[vemd_place_description] IN {"Trade or service area"},
+				"Trade or service area",
+				"test"
+			)
+		lineageTag: 634da2c5-aa33-43ba-b9a3-028115f52ce1
+		summarizeBy: none
+
+		extendedProperty GroupingMetadata =
+				{
+				  "version": 0,
+				  "groupedColumns": [
+				    {
+				      "Column": {
+				        "Expression": {
+				          "SourceRef": {
+				            "Entity": "DIM_INJURY_PLACE"
+				          }
+				        },
+				        "Property": "vemd_place_description"
+				      }
+				    }
+				  ]
+				}
+
+		annotation GroupingDesignState = {"Version":0,"Sources":[{"Name":"d","Entity":"DIM_INJURY_PLACE"}],"GroupedColumns":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"vemd_place_description"}}],"GroupItems":[{"DisplayName":"(Blank)","BlankDefaultPlaceholder":true},{"DisplayName":"Athletics and sports area","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"vemd_place_description"}}],"Values":[[{"Literal":{"Value":"'Athletics and sports area'"}}]]}}},{"DisplayName":"Farm","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"vemd_place_description"}}],"Values":[[{"Literal":{"Value":"'Farm'"}}]]}}},{"DisplayName":"Home","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"vemd_place_description"}}],"Values":[[{"Literal":{"Value":"'Home'"}}]]}}},{"DisplayName":"Industrial or constructional area","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"vemd_place_description"}}],"Values":[[{"Literal":{"Value":"'Industrial or constructional area'"}}]]}}},{"DisplayName":"Medical hospital","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"vemd_place_description"}}],"Values":[[{"Literal":{"Value":"'Medical hospital'"}}]]}}},{"DisplayName":"Mine or quarry","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"vemd_place_description"}}],"Values":[[{"Literal":{"Value":"'Mine or quarry'"}}]]}}},{"DisplayName":"Other specified place","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"vemd_place_description"}}],"Values":[[{"Literal":{"Value":"'Other specified place'"}}]]}}},{"DisplayName":"Residential Institution","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"vemd_place_description"}}],"Values":[[{"Literal":{"Value":"'Residential Institution'"}}]]}}},{"DisplayName":"Road, street, or highway","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"vemd_place_description"}}],"Values":[[{"Literal":{"Value":"'Road, street, or highway'"}}]]}}},{"DisplayName":"School","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"vemd_place_description"}}],"Values":[[{"Literal":{"Value":"'School'"}}]]}}},{"DisplayName":"Trade or service area","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"vemd_place_description"}}],"Values":[[{"Literal":{"Value":"'Trade or service area'"}}]]}}},{"DisplayName":"test"}]}
+
+		annotation SummarizationSetBy = Automatic
+
 	partition DIM_INJURY_PLACE-15eb47e0-01f9-42a8-a8d4-be8f35c6eedc = m
 		mode: import
 		queryGroup: Dimension
@@ -105,7 +160,7 @@ table DIM_INJURY_PLACE
 				in
 				    Source
 
-	annotation PBI_ResultType = Exception
+	annotation PBI_ResultType = Table
 
 	annotation PBI_NavigationStepName = Navigation
 

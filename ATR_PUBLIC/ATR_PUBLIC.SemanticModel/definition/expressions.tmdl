@@ -944,7 +944,7 @@ expression EndDate = #date(2025, 1, 1) meta [IsParameterQuery=true, Type="Date",
 
 	annotation PBI_NavigationStepName = Navigation
 
-expression data_path = "C:\Users\maba0001\Projects\ATR\data\" meta [IsParameterQuery=true, List={"E:\projects\ATR\data\", "C:\Users\maba0001\Projects\ATR\data\"}, DefaultValue="E:\projects\ATR\data\", Type="Text", IsParameterQueryRequired=true]
+expression data_path = "E:\projects\ATR\data\" meta [IsParameterQuery=true, List={"E:\projects\ATR\data\", "C:\Users\maba0001\Projects\ATR\data\"}, DefaultValue="E:\projects\ATR\data\", Type="Text", IsParameterQueryRequired=true]
 	lineageTag: d33d6cbc-baeb-411c-a777-0043c198ad8f
 
 	annotation PBI_ResultType = Text
@@ -1002,10 +1002,65 @@ expression ATRCompleteDataset_Aggregated =
 
 expression injury_place =
 		let
-		    Source = Table.NestedJoin(injury_place_new, {"Code"}, icd_atr, {"clean_code_id"}, "icd_atr", JoinKind.LeftOuter),
-		    #"Expanded icd_atr" = Table.ExpandTableColumn(Source, "icd_atr", {"icd_code"}, {"icd_code"})
+		  Source = Table.NestedJoin(
+		    injury_place_new,
+		    {"Code"},
+		    icd_atr,
+		    {"clean_code_id"},
+		    "icd_atr",
+		    JoinKind.LeftOuter
+		  ),
+		  #"Expanded icd_atr" = Table.ExpandTableColumn(Source, "icd_atr", {"icd_code"}, {"icd_code"}),
+		  #"Include missing places" = Table.InsertRows(
+		    #"Expanded icd_atr",
+		    0,
+		    {
+		      [
+		        Code                   = "-99",
+		        Description            = "Fix this",
+		        #"VEMD code"           = -1,
+		        vemd_place_description = "Unspecified Place",
+		        icd_code               = "-99"
+		      ],
+		      [
+		        Code                   = "1",
+		        Description            = "Fix this",
+		        #"VEMD code"           = -1,
+		        vemd_place_description = "Unspecified Place",
+		        icd_code               = "W92.5"
+		      ],
+		      [
+		        Code                   = "Y299",
+		        Description            = "Fix this",
+		        #"VEMD code"           = -1,
+		        vemd_place_description = "Unspecified Place",
+		        icd_code               = "Y29.9"
+		      ],
+		      [
+		        Code                   = "Y340",
+		        Description            = "Fix this",
+		        #"VEMD code"           = -1,
+		        vemd_place_description = "Unspecified Place",
+		        icd_code               = "Y34.0"
+		      ],
+		      [
+		        Code                   = "Y9223",
+		        Description            = "Fix this",
+		        #"VEMD code"           = -1,
+		        vemd_place_description = "Unspecified Place",
+		        icd_code               = "Y92.23"
+		      ],
+		      [
+		        Code                   = "Y9224",
+		        Description            = "Fix this",
+		        #"VEMD code"           = -1,
+		        vemd_place_description = "Unspecified Place",
+		        icd_code               = "Y92.24"
+		      ]
+		    }
+		  )
 		in
-		    #"Expanded icd_atr"
+		  #"Include missing places"
 	lineageTag: 195f24db-7a56-4351-acc8-30cc2889c2f6
 	queryGroup: Pre-process
 

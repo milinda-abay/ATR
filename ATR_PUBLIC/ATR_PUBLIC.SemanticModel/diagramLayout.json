@@ -280,14 +280,14 @@
     {
       "ordinal": 1,
       "scrollPosition": {
-        "x": 0,
+        "x": 109.42323377116752,
         "y": 0
       },
       "nodes": [
         {
           "location": {
-            "x": 1045.0107481669509,
-            "y": 395.97711201899585
+            "x": 963.698621150555,
+            "y": 321.85127163348136
           },
           "nodeIndex": "FACT_ATR",
           "nodeLineageTag": "cf5fb583-fad1-460b-bba1-284a8ef1dcc4",
@@ -490,7 +490,7 @@
         }
       ],
       "name": "FACT_ATR",
-      "zoomValue": 40.05255472488313,
+      "zoomValue": 70.618209043159879,
       "pinKeyFieldsToTop": true,
       "showExtraHeaderInfo": false,
       "hideKeyFieldsWhenCollapsed": false,
@@ -734,6 +734,6 @@
       "tablesLocked": false
     }
   ],
-  "selectedDiagram": "Layout 1",
+  "selectedDiagram": "FACT_ATR",
   "defaultDiagram": "All tables"
 }
