@@ -944,7 +944,7 @@ expression EndDate = #date(2025, 1, 1) meta [IsParameterQuery=true, Type="Date",
 
 	annotation PBI_NavigationStepName = Navigation
 
-expression data_path = "E:\projects\ATR\data\" meta [IsParameterQuery=true, List={"E:\projects\ATR\data\", "C:\Users\maba0001\Projects\ATR\", "C:\Users\bose_nivea\projects\ATR\"}, DefaultValue="E:\projects\ATR\data\", Type="Text", IsParameterQueryRequired=true]
+expression data_path = "C:\Users\maba0001\Projects\ATR\data\" meta [IsParameterQuery=true, List={"E:\projects\ATR\data\", "C:\Users\maba0001\Projects\ATR\data\"}, DefaultValue="E:\projects\ATR\data\", Type="Text", IsParameterQueryRequired=true]
 	lineageTag: d33d6cbc-baeb-411c-a777-0043c198ad8f
 
 	annotation PBI_ResultType = Text
@@ -1262,7 +1262,7 @@ expression icd_atr =
 
 expression injury_place_new =
 		let
-		    Source = Excel.Workbook(File.Contents("E:\projects\ATR\data\injury place codes.xlsx"), null, true),
+		    Source = Excel.Workbook(File.Contents(data_path & "injury place codes.xlsx"), null, true),
 		    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
 		    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true]),
 		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Code", type text}, {"Description", type text}, {"VEMD code", Int64.Type}, {"Column4", type any}, {"VEMD Code", Int64.Type}, {"Description_1", type text}}),
@@ -1276,11 +1276,11 @@ expression injury_place_new =
 
 	annotation PBI_NavigationStepName = Navigation
 
-	annotation PBI_ResultType = Table
+	annotation PBI_ResultType = Exception
 
 expression VEMD_place =
 		let
-		    Source = Excel.Workbook(File.Contents("E:\projects\ATR\data\injury place codes.xlsx"), null, true),
+		    Source = Excel.Workbook(File.Contents(data_path & "injury place codes.xlsx"), null, true),
 		    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
 		    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true]),
 		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Code", type text}, {"Description", type text}, {"VEMD code", Int64.Type}, {"Column4", type any}, {"VEMD Code", Int64.Type}, {"Description_1", type text}}),
@@ -1293,7 +1293,7 @@ expression VEMD_place =
 
 	annotation PBI_NavigationStepName = Navigation
 
-	annotation PBI_ResultType = Table
+	annotation PBI_ResultType = Exception
 
 expression atr_codes =
 		let
