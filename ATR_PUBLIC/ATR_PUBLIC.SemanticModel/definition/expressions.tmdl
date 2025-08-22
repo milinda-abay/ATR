@@ -1384,18 +1384,6 @@ expression DIM_ICD_ALL_CODES =
 
 	annotation PBI_ResultType = Table
 
-expression '07_ATRCompleteDataset (2)' =
-		let
-		    Source = #"07_ATRCompleteDataset"
-		in
-		    Source
-	lineageTag: bcf39959-80a0-4139-88a0-9404b377cc35
-	queryGroup: DEV
-
-	annotation PBI_NavigationStepName = Navigation
-
-	annotation PBI_ResultType = Table
-
 expression 'ATRCompleteDataset (2)' =
 		let
 		    Source = ATRCompleteDataset

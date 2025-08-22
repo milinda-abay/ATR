@@ -48,7 +48,7 @@ annotation PBI_QueryOrder = ["Calendar","DIM_AGE","DIM_GENDER","DIM_INJURY_TYPE"
 
 annotation __PBI_TimeIntelligenceEnabled = 0
 
-annotation PBIDesktopVersion = 2.145.1602.0 (25.07)+10647c9fa319b5e39936cdb21328038c371d1fe4
+annotation PBIDesktopVersion = 2.146.1026.0 (25.08)+fb98ab832373de81dccd5c01cd96306a48477556
 
 annotation __TEdtr = 1
 
@@ -73,6 +73,7 @@ ref table KeyMeasures
 ref table 'Time intelligence'
 ref table Table
 ref table DIM_INJURY_CAUSE
+ref table '07_ATRCompleteDataset (2)'
 
 ref cultureInfo en-US
 
