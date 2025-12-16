@@ -268,16 +268,6 @@
             "width": 234
           },
           "zIndex": 0
-        },
-        {
-          "location": {},
-          "nodeIndex": "07_ATRCompleteDataset (2)",
-          "nodeLineageTag": "f8a62717-4ffb-4609-a12a-a4571e2ff03e",
-          "size": {
-            "height": 300,
-            "width": 234
-          },
-          "zIndex": 0
         }
       ],
       "name": "All tables",
@@ -290,7 +280,7 @@
     {
       "ordinal": 1,
       "scrollPosition": {
-        "x": 109.42323377116752,
+        "x": 0,
         "y": 0
       },
       "nodes": [
@@ -302,10 +292,11 @@
           "nodeIndex": "FACT_ATR",
           "nodeLineageTag": "cf5fb583-fad1-460b-bba1-284a8ef1dcc4",
           "size": {
-            "height": 696.829664,
+            "height": 392,
             "width": 320
           },
-          "zIndex": 16
+          "zIndex": 16,
+          "expandedHeight": 696.829664
         },
         {
           "location": {
@@ -329,10 +320,11 @@
           "nodeIndex": "DIM_DISCHAGRE",
           "nodeLineageTag": "1433fcf5-b67e-478d-ba83-2ff01f5845f8",
           "size": {
-            "height": 152,
+            "height": 104,
             "width": 226
           },
-          "zIndex": 3
+          "zIndex": 3,
+          "expandedHeight": 152
         },
         {
           "location": {
@@ -342,10 +334,11 @@
           "nodeIndex": "DIM_INJURY_ACTIVITY",
           "nodeLineageTag": "03b4465e-269e-415b-8b44-fb51a722c7b1",
           "size": {
-            "height": 152,
+            "height": 104,
             "width": 234
           },
-          "zIndex": 4
+          "zIndex": 4,
+          "expandedHeight": 152
         },
         {
           "location": {
@@ -411,10 +404,11 @@
           "nodeIndex": "DIM_AGE",
           "nodeLineageTag": "bbda7cb2-f964-4241-817d-d7bd147de2cf",
           "size": {
-            "height": 248,
+            "height": 104,
             "width": 234
           },
-          "zIndex": 15
+          "zIndex": 15,
+          "expandedHeight": 248
         },
         {
           "location": {
@@ -493,10 +487,11 @@
           },
           "nodeIndex": "DIM_STATE",
           "size": {
-            "height": 300,
+            "height": 104,
             "width": 234
           },
-          "zIndex": 0
+          "zIndex": 0,
+          "expandedHeight": 300
         }
       ],
       "name": "FACT_ATR",
