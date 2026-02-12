@@ -3,7 +3,9 @@ table DIM_BODY_REGION
 	lineageTag: 5313bb13-59b4-48da-943d-9455fa00df4c
 
 	/// Returns the currently selected body region from the slicer or filter. This measure displays which specific body area (e.g., head, chest, abdomen) is being analyzed in the current view.
-	measure selected_body_region = SELECTEDVALUE(DIM_BODY_REGION[body_region_description])
+	measure selected_body_region =
+			
+			SELECTEDVALUE ( DIM_BODY_REGION[body_region_description] )
 		lineageTag: 9b88ce79-6ccd-4b8a-a649-00afae75e20a
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}

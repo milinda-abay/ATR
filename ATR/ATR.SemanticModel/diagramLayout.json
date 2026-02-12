@@ -4,7 +4,7 @@
     {
       "ordinal": 0,
       "scrollPosition": {
-        "x": 0,
+        "x": 58.993542785429533,
         "y": 0
       },
       "nodes": [
@@ -274,8 +274,8 @@
         },
         {
           "location": {
-            "x": 1877.3740739984914,
-            "y": 1208.8251101702476
+            "x": 1844.9276245564067,
+            "y": 1153.4752846513975
           },
           "nodeIndex": "ICD-10-AM",
           "nodeLineageTag": "95f44289-ae58-40ef-83be-c73ad90dfe26",
@@ -314,20 +314,14 @@
           "zIndex": 2
         },
         {
-          "location": {},
+          "location": {
+            "x": 2527.9959234327625,
+            "y": 599.17361457518689
+          },
           "nodeIndex": "icd_10_vemd_atr_code",
           "nodeLineageTag": "f34c39f3-a0c8-459f-9d16-a6de45477f6b",
           "size": {
             "height": 176,
-            "width": 234
-          },
-          "zIndex": 0
-        },
-        {
-          "location": {},
-          "nodeIndex": "Data Dictionary",
-          "size": {
-            "height": 200,
             "width": 234
           },
           "zIndex": 0
@@ -805,6 +799,6 @@
       "tablesLocked": false
     }
   ],
-  "selectedDiagram": "FACT_ATR",
+  "selectedDiagram": "All tables",
   "defaultDiagram": "All tables"
 }
