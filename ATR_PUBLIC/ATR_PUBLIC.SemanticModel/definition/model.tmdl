@@ -44,13 +44,13 @@ queryGroup Source\ICD-10-AM/ACHI\ICD-10
 
 	annotation PBI_QueryGroupOrder = 0
 
-annotation PBI_QueryOrder = ["Calendar","DIM_AGE","DIM_GENDER","DIM_INJURY_TYPE","DIM_STATE","DIM_TRANSPORT","DIM_INJURY_PLACE","DIM_INJURY_INTENT","DIM_INJURY_ACTIVITY","DIM_INJURY_SEVERITY","DIM_DISCHAGRE","DIM_BODY_REGION","DIM COUNTRY","RESTRICTED_HOSPITAL","FACT_ATR","FACT_NATIONAL","age_lookup","hospital_lookup","hospital","hospital_features","ATRCompleteDataset_Aggregated","ATRCompleteDataset","injury_activity","injury_cause","body_region","07_ATRCompleteDataset","hospital_features_csv","VOTOR_ICDevent_Mapping_ATR mapping","TableType","BodyRegion","ATRCompleteDataset (2)","icd_10_vemd_atr_code","missing_cause_code","InjuryCause","cause_code_modification","StartDate","EndDate","data_path","KeyMeasures","#shared","ICD-10-AM","injury_place","ICD-10-AM_injury_place","ICD-10-AM_injury_activity","B  ICD-10 Place of occurrence","C  ICD-10 Activity","vemd_code","DIM_ICD_ALL_CODES","icd_atr","injury_place_new","VEMD_place","atr_codes","DIM_INJURY_CAUSE"]
+annotation PBI_QueryOrder = ["Calendar","DIM_AGE","DIM_GENDER","DIM_INJURY_TYPE","DIM_STATE","DIM_TRANSPORT","DIM_INJURY_PLACE","DIM_INJURY_INTENT","DIM_INJURY_ACTIVITY","DIM_INJURY_SEVERITY","DIM_DISCHAGRE","DIM_BODY_REGION","DIM COUNTRY","RESTRICTED_HOSPITAL","FACT_ATR","FACT_NATIONAL","age_lookup","hospital_lookup","hospital","hospital_features","ATRCompleteDataset_Aggregated","ATRCompleteDataset","injury_activity","injury_cause","body_region","07_ATRCompleteDataset","hospital_features_csv","VOTOR_ICDevent_Mapping_ATR mapping","TableType","BodyRegion","ATRCompleteDataset (2)","07_ATRCompleteDataset (2)","icd_10_vemd_atr_code","missing_cause_code","InjuryCause","cause_code_modification","StartDate","EndDate","data_path","KeyMeasures","#shared","ICD-10-AM","injury_place","ICD-10-AM_injury_place","ICD-10-AM_injury_activity","B  ICD-10 Place of occurrence","C  ICD-10 Activity","vemd_code","DIM_ICD_ALL_CODES","icd_atr","injury_place_new","VEMD_place","atr_codes","DIM_INJURY_CAUSE"]
 
 annotation __PBI_TimeIntelligenceEnabled = 0
 
 annotation __TEdtr = 1
 
-annotation PBI_ProTooling = ["CalcGroup","DevMode"]
+annotation PBI_ProTooling = ["CalcGroup","DevMode","TMDLView_Desktop"]
 
 ref table Calendar
 ref table DIM_AGE
@@ -71,6 +71,7 @@ ref table KeyMeasures
 ref table 'Time intelligence'
 ref table Table
 ref table DIM_INJURY_CAUSE
+ref table '07_ATRCompleteDataset (2)'
 
 ref cultureInfo en-US
 

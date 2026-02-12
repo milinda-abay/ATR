@@ -1,0 +1,117 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.5.0/schema.json",
+  "name": "17e7398cb15ac50077c7",
+  "position": {
+    "x": 876.00354714750222,
+    "y": 532.072125332545,
+    "z": 3000,
+    "height": 187.28938811705586,
+    "width": 404.37481525273427,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Data period",
+                    "textStyle": {
+                      "fontSize": "12pt",
+                      "color": "#d2d0ce"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Australian jurisdiction - 1-Jul-2015 to 30-Jun-2024",
+                    "textStyle": {
+                      "fontSize": "12pt",
+                      "color": "#d2d0ce"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "New Zealand jurisdiction - 1-Jul-2017 to 30-Jun-2024",
+                    "textStyle": {
+                      "fontSize": "12pt",
+                      "color": "#d2d0ce"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Lyell McEwin from 1-Jan-2018",
+                    "textStyle": {
+                      "fontSize": "12pt",
+                      "color": "#d2d0ce"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Sunshine Coast University Hospital from 1-Oct-2018",
+                    "textStyle": {
+                      "fontSize": "12pt",
+                      "color": "#d2d0ce"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Townsville University Hospital from 1-Jan-2020",
+                    "textStyle": {
+                      "fontSize": "12pt",
+                      "color": "#d2d0ce"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Royal Hobart Hospital from 1-Apr-2020",
+                    "textStyle": {
+                      "fontSize": "12pt",
+                      "color": "#d2d0ce"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.5.0/schema.json",
+  "name": "0bd15d4aba15770d90ce",
+  "position": {
+    "x": 420.62894167528071,
+    "y": 343.50286192614408,
+    "z": 26500,
+    "height": 45.503851237409414,
+    "width": 201.61706394421404,
+    "tabOrder": 6000
+  },
+  "visual": {
+    "visualType": "image",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "imageUrl": {
+              "expr": {
+                "ResourcePackageItem": {
+                  "PackageName": "RegisteredResources",
+                  "PackageType": 1,
+                  "ItemName": "Truma_SA0015822053029502792.jpg"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "parentGroupName": "b708500e53ee4c707bc1",
+  "howCreated": "InsertVisualButton"
+}

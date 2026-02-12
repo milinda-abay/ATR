@@ -1,0 +1,75 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.5.0/schema.json",
+  "name": "ec77c1a411aa6bd222b0",
+  "position": {
+    "x": 134.10399513731556,
+    "y": 60.261921865502565,
+    "z": 1000,
+    "height": 493.97800740454215,
+    "width": 847.0619439686136,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "BoxandWhiskerByMAQ1823AD39DT234AB532063E128AX",
+    "query": {
+      "queryState": {
+        "measure": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "KeyMeasures"
+                    }
+                  },
+                  "Property": "Time to ED"
+                }
+              },
+              "queryRef": "KeyMeasures.Time to ED",
+              "nativeQueryRef": "Time to ED"
+            }
+          ]
+        },
+        "categoryGroup": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DIM_STATE"
+                    }
+                  },
+                  "Property": "jurisdiction"
+                }
+              },
+              "queryRef": "DIM_STATE.jurisdiction",
+              "nativeQueryRef": "jurisdiction",
+              "active": true
+            }
+          ]
+        },
+        "category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_ATR"
+                    }
+                  },
+                  "Property": "RegId"
+                }
+              },
+              "queryRef": "FACT_ATR.RegId",
+              "nativeQueryRef": "RegId"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

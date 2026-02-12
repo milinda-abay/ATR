@@ -28,7 +28,7 @@ table RESTRICTED_HOSPITAL
 	column lat
 		dataType: double
 		lineageTag: 4db53ae8-1243-428f-a0db-08bdc6c055ca
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: lat
 
 		annotation SummarizationSetBy = Automatic
@@ -38,7 +38,7 @@ table RESTRICTED_HOSPITAL
 	column long
 		dataType: double
 		lineageTag: af8e2d12-03f9-47ba-92c1-c40f9403b850
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: long
 
 		annotation SummarizationSetBy = Automatic

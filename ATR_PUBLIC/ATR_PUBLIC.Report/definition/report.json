@@ -1,0 +1,879 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/3.1.0/schema.json",
+  "themeCollection": {
+    "baseTheme": {
+      "name": "CY24SU08",
+      "reportVersionAtImport": {
+        "visual": "1.8.94",
+        "report": "2.0.94",
+        "page": "1.3.94"
+      },
+      "type": "SharedResources"
+    },
+    "customTheme": {
+      "name": "Innovate6103183883091632.json",
+      "reportVersionAtImport": {
+        "visual": "1.8.101",
+        "report": "2.0.101",
+        "page": "1.3.101"
+      },
+      "type": "RegisteredResources"
+    }
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "Filterd5d7ed25d9c04d070958",
+        "ordinal": 0,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DIM_AGE"
+              }
+            },
+            "Property": "age_5y"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "DIM_AGE",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Not": {
+                  "Expression": {
+                    "In": {
+                      "Expressions": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Source": "d"
+                              }
+                            },
+                            "Property": "age_5y"
+                          }
+                        }
+                      ],
+                      "Values": [
+                        [
+                          {
+                            "Literal": {
+                              "Value": "'-1'"
+                            }
+                          }
+                        ]
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User",
+        "objects": {
+          "general": [
+            {
+              "properties": {
+                "isInvertedSelectionMode": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "6c6527be98d67de33760",
+        "ordinal": 1,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DIM_INJURY_CAUSE"
+              }
+            },
+            "Property": "atr_code"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "DIM_INJURY_CAUSE",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Not": {
+                  "Expression": {
+                    "In": {
+                      "Expressions": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Source": "d"
+                              }
+                            },
+                            "Property": "atr_code"
+                          }
+                        }
+                      ],
+                      "Values": [
+                        [
+                          {
+                            "Literal": {
+                              "Value": "30L"
+                            }
+                          }
+                        ],
+                        [
+                          {
+                            "Literal": {
+                              "Value": "40L"
+                            }
+                          }
+                        ]
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User",
+        "objects": {
+          "general": [
+            {
+              "properties": {
+                "isInvertedSelectionMode": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "7886dfbe0dce43a5d5ac",
+        "ordinal": 2,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DIM_INJURY_PLACE"
+              }
+            },
+            "Property": "Code"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "User",
+        "objects": {
+          "general": [
+            {
+              "properties": {
+                "isInvertedSelectionMode": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "68e0353477cc12650096",
+        "ordinal": 3,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calendar"
+              }
+            },
+            "Property": "cal_date"
+          }
+        },
+        "type": "Advanced",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "c",
+              "Entity": "Calendar",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "And": {
+                  "Left": {
+                    "Comparison": {
+                      "ComparisonKind": 4,
+                      "Left": {
+                        "Column": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Source": "c"
+                            }
+                          },
+                          "Property": "cal_date"
+                        }
+                      },
+                      "Right": {
+                        "DateSpan": {
+                          "Expression": {
+                            "Literal": {
+                              "Value": "datetime'2024-06-30T00:00:00'"
+                            }
+                          },
+                          "TimeUnit": 5
+                        }
+                      }
+                    }
+                  },
+                  "Right": {
+                    "Comparison": {
+                      "ComparisonKind": 2,
+                      "Left": {
+                        "Column": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Source": "c"
+                            }
+                          },
+                          "Property": "cal_date"
+                        }
+                      },
+                      "Right": {
+                        "DateSpan": {
+                          "Expression": {
+                            "Literal": {
+                              "Value": "datetime'2015-07-01T00:00:00'"
+                            }
+                          },
+                          "TimeUnit": 5
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
+      },
+      {
+        "name": "Filter596cd92dc230726046c4",
+        "ordinal": 4,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DIM_GENDER"
+              }
+            },
+            "Property": "description"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "DIM_GENDER",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Not": {
+                  "Expression": {
+                    "In": {
+                      "Expressions": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Source": "d"
+                              }
+                            },
+                            "Property": "description"
+                          }
+                        }
+                      ],
+                      "Values": [
+                        [
+                          {
+                            "Literal": {
+                              "Value": "'Intersex or indeterminate'"
+                            }
+                          }
+                        ],
+                        [
+                          {
+                            "Literal": {
+                              "Value": "'Not stated/inadequately described'"
+                            }
+                          }
+                        ]
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User",
+        "objects": {
+          "general": [
+            {
+              "properties": {
+                "isInvertedSelectionMode": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "Filter4676c65da4828e00eb48",
+        "ordinal": 5,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DIM_TRANSPORT"
+              }
+            },
+            "Property": "description"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "DIM_TRANSPORT",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Not": {
+                  "Expression": {
+                    "In": {
+                      "Expressions": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Source": "d"
+                              }
+                            },
+                            "Property": "description"
+                          }
+                        }
+                      ],
+                      "Values": [
+                        [
+                          {
+                            "Literal": {
+                              "Value": "null"
+                            }
+                          }
+                        ],
+                        [
+                          {
+                            "Literal": {
+                              "Value": "'Not stated/inadequately described'"
+                            }
+                          }
+                        ]
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User",
+        "objects": {
+          "general": [
+            {
+              "properties": {
+                "isInvertedSelectionMode": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "Filterd6d250dccc49588e95ea",
+        "ordinal": 6,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "FACT_ATR"
+              }
+            },
+            "Property": "InjuryDt"
+          }
+        },
+        "type": "Advanced",
+        "howCreated": "User"
+      },
+      {
+        "name": "4ddfe058305b32e43c89",
+        "ordinal": 7,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DIM_STATE"
+              }
+            },
+            "Property": "jurisdiction"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "DIM_STATE",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Not": {
+                  "Expression": {
+                    "In": {
+                      "Expressions": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Source": "d"
+                              }
+                            },
+                            "Property": "jurisdiction"
+                          }
+                        }
+                      ],
+                      "Values": [
+                        [
+                          {
+                            "Literal": {
+                              "Value": "null"
+                            }
+                          }
+                        ]
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User",
+        "objects": {
+          "general": [
+            {
+              "properties": {
+                "isInvertedSelectionMode": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "Filter52290654b00d81030cba",
+        "ordinal": 8,
+        "field": {
+          "GroupRef": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DIM_INJURY_SEVERITY"
+              }
+            },
+            "Property": "severity",
+            "GroupedColumns": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DIM_INJURY_SEVERITY"
+                    }
+                  },
+                  "Property": "iss_id"
+                }
+              }
+            ]
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "DIM_INJURY_SEVERITY",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Not": {
+                  "Expression": {
+                    "In": {
+                      "Expressions": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Source": "d"
+                              }
+                            },
+                            "Property": "severity"
+                          }
+                        }
+                      ],
+                      "Values": [
+                        [
+                          {
+                            "Literal": {
+                              "Value": "null"
+                            }
+                          }
+                        ],
+                        [
+                          {
+                            "Literal": {
+                              "Value": "'Not stated/inadequately described'"
+                            }
+                          }
+                        ]
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User",
+        "objects": {
+          "general": [
+            {
+              "properties": {
+                "isInvertedSelectionMode": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "filterSortOrder": "Custom"
+  },
+  "objects": {
+    "section": [
+      {
+        "properties": {
+          "verticalAlignment": {
+            "expr": {
+              "Literal": {
+                "Value": "'Top'"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "outspacePane": [
+      {
+        "properties": {
+          "expanded": {
+            "expr": {
+              "Literal": {
+                "Value": "false"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "publicCustomVisuals": [
+    "BBED0A4D4D8D44CE93CF2DAFADEE466C",
+    "BoxandWhiskerByMAQ1823AD39DT234AB532063E128AX",
+    "charticulator58556A88422D44A99D9BF0052B958F87",
+    "charticulatorVisualCommunity_VIEW",
+    "ChordChart1444757060245",
+    "heatStreams74779FE5319F4655BE62C4C5FD0ABFB1",
+    "payPalKPIDonutChart55A431AB15A540ED924ACD72ED8D259F",
+    "PBI_CV_815282F9_27F5_4950_9430_E910E0A8DB6A",
+    "RadarChart1446119667547",
+    "RHTML_FUNNEL_978302916642",
+    "SandDance201929976D117A654D0BAB8E96507442D80B",
+    "sankey02300D1BE6F5427989F3DE31CCA9E0F32020",
+    "StreamGraph1446659696222",
+    "Sunburst1445472000808",
+    "TornadoChart1452517688218"
+  ],
+  "resourcePackages": [
+    {
+      "name": "SharedResources",
+      "type": "SharedResources",
+      "items": [
+        {
+          "name": "CY24SU08",
+          "path": "BaseThemes/CY24SU08.json",
+          "type": "BaseTheme"
+        }
+      ]
+    },
+    {
+      "name": "RegisteredResources",
+      "type": "RegisteredResources",
+      "items": [
+        {
+          "name": "ACT_logo_(1)32648824505162377.png",
+          "path": "ACT_logo_(1)32648824505162377.png",
+          "type": "Image"
+        },
+        {
+          "name": "ANZTR_logo_stacked_RGB38178135014691716.jpg",
+          "path": "ANZTR_logo_stacked_RGB38178135014691716.jpg",
+          "type": "Image"
+        },
+        {
+          "name": "ANZTS07915489789239682.png",
+          "path": "ANZTS07915489789239682.png",
+          "type": "Image"
+        },
+        {
+          "name": "ATR_Annual+Report_19-20_FA_2we7365968606040225.jpg",
+          "path": "ATR_Annual+Report_19-20_FA_2we7365968606040225.jpg",
+          "type": "Image"
+        },
+        {
+          "name": "AusTQIP_logo_small_(1)2951354870839842.jpg",
+          "path": "AusTQIP_logo_small_(1)2951354870839842.jpg",
+          "type": "Image"
+        },
+        {
+          "name": "Gold_Coast_Health5310910972561766.jpg",
+          "path": "Gold_Coast_Health5310910972561766.jpg",
+          "type": "Image"
+        },
+        {
+          "name": "Innovate6103183883091632.json",
+          "path": "Innovate6103183883091632.json",
+          "type": "Image"
+        },
+        {
+          "name": "ITIM2908557452396221.jpg",
+          "path": "ITIM2908557452396221.jpg",
+          "type": "Image"
+        },
+        {
+          "name": "JHH_Childrens6624439758144698.png",
+          "path": "JHH_Childrens6624439758144698.png",
+          "type": "Image"
+        },
+        {
+          "name": "logo-svhs-1305476207114966123.png",
+          "path": "logo-svhs-1305476207114966123.png",
+          "type": "Image"
+        },
+        {
+          "name": "logo-the-alfred-118884691970693113.png",
+          "path": "logo-the-alfred-118884691970693113.png",
+          "type": "Image"
+        },
+        {
+          "name": "monash_logo_112366081234952575.jpg",
+          "path": "monash_logo_112366081234952575.jpg",
+          "type": "Image"
+        },
+        {
+          "name": "NCCTRC7047210284572221.png",
+          "path": "NCCTRC7047210284572221.png",
+          "type": "Image"
+        },
+        {
+          "name": "NSWHNEHealth-logo251235951088155.png",
+          "path": "NSWHNEHealth-logo251235951088155.png",
+          "type": "Image"
+        },
+        {
+          "name": "NZTR12014193106245341.png",
+          "path": "NZTR12014193106245341.png",
+          "type": "Image"
+        },
+        {
+          "name": "QLD_Govt22343463869793556.png",
+          "path": "QLD_Govt22343463869793556.png",
+          "type": "Image"
+        },
+        {
+          "name": "racs_logo45905141100397207.png",
+          "path": "racs_logo45905141100397207.png",
+          "type": "Image"
+        },
+        {
+          "name": "RCHM7387599238531044.png",
+          "path": "RCHM7387599238531044.png",
+          "type": "Image"
+        },
+        {
+          "name": "RMH052653322517536516.png",
+          "path": "RMH052653322517536516.png",
+          "type": "Image"
+        },
+        {
+          "name": "Royal_Perth6035447275760015.png",
+          "path": "Royal_Perth6035447275760015.png",
+          "type": "Image"
+        },
+        {
+          "name": "rpah_logo_lg017817067169393574.png",
+          "path": "rpah_logo_lg017817067169393574.png",
+          "type": "Image"
+        },
+        {
+          "name": "SAHlogo-horiz-fullcolour15653683237346416.png",
+          "path": "SAHlogo-horiz-fullcolour15653683237346416.png",
+          "type": "Image"
+        },
+        {
+          "name": "schn-logo@2x6968074103998672.png",
+          "path": "schn-logo@2x6968074103998672.png",
+          "type": "Image"
+        },
+        {
+          "name": "starship5624827221269608.png",
+          "path": "starship5624827221269608.png",
+          "type": "Image"
+        },
+        {
+          "name": "stgeorge_05104251115689673.png",
+          "path": "stgeorge_05104251115689673.png",
+          "type": "Image"
+        },
+        {
+          "name": "TAS_Gov3210046878207382.png",
+          "path": "TAS_Gov3210046878207382.png",
+          "type": "Image"
+        },
+        {
+          "name": "TeWhatuOra6526133422705802.png",
+          "path": "TeWhatuOra6526133422705802.png",
+          "type": "Image"
+        },
+        {
+          "name": "Townsville_logo5202957270357782.png",
+          "path": "Townsville_logo5202957270357782.png",
+          "type": "Image"
+        },
+        {
+          "name": "Truma_SA0015822053029502792.jpg",
+          "path": "Truma_SA0015822053029502792.jpg",
+          "type": "Image"
+        },
+        {
+          "name": "VSTR019729662428120465.png",
+          "path": "VSTR019729662428120465.png",
+          "type": "Image"
+        },
+        {
+          "name": "WCH_banner_full8841288173505617.png",
+          "path": "WCH_banner_full8841288173505617.png",
+          "type": "Image"
+        }
+      ]
+    }
+  ],
+  "settings": {
+    "useStylableVisualContainerHeader": true,
+    "defaultFilterActionIsDataFilter": true,
+    "defaultDrillFilterOtherVisuals": true,
+    "allowChangeFilterTypes": true,
+    "useEnhancedTooltips": true,
+    "queryLimitOption": "None",
+    "customMemoryLimit": "1048576",
+    "customTimeoutLimit": "225"
+  },
+  "slowDataSourceSettings": {
+    "isCrossHighlightingDisabled": false,
+    "isSlicerSelectionsButtonEnabled": false,
+    "isFilterSelectionsButtonEnabled": false,
+    "isFieldWellButtonEnabled": false,
+    "isApplyAllButtonEnabled": false
+  }
+}

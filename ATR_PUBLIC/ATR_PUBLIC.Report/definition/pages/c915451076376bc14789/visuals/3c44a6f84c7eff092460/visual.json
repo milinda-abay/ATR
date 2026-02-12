@@ -1,0 +1,101 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.5.0/schema.json",
+  "name": "3c44a6f84c7eff092460",
+  "position": {
+    "x": 10.185113554732828,
+    "y": 0,
+    "z": 0,
+    "height": 662.88114052052822,
+    "width": 594.13162402608168,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DIM_INJURY_PLACE"
+                    }
+                  },
+                  "Property": "icd_code"
+                }
+              },
+              "queryRef": "DIM_INJURY_PLACE.icd_code",
+              "nativeQueryRef": "icd_code"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DIM_INJURY_PLACE"
+                    }
+                  },
+                  "Property": "vemd_place_description"
+                }
+              },
+              "queryRef": "DIM_INJURY_PLACE.vemd_place_description",
+              "nativeQueryRef": "vemd_place_description"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_ATR"
+                    }
+                  },
+                  "Property": "InjuryPlace"
+                }
+              },
+              "queryRef": "FACT_ATR.InjuryPlace",
+              "nativeQueryRef": "InjuryPlace"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "DIM_INJURY_PLACE"
+                  }
+                },
+                "Property": "icd_code"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
+      }
+    },
+    "objects": {
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "289.56009924939974D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "DIM_INJURY_PLACE.vemd_place_description"
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

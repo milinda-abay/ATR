@@ -1,0 +1,72 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.5.0/schema.json",
+  "name": "60819cd8bafceb36b77e",
+  "position": {
+    "x": 0,
+    "y": 452.5,
+    "z": 4000,
+    "height": 267.5,
+    "width": 150.83333333333334,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "slicer",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "GroupRef": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DIM_INJURY_CAUSE"
+                    }
+                  },
+                  "Property": "atr_description (groups)",
+                  "GroupedColumns": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "DIM_INJURY_CAUSE"
+                          }
+                        },
+                        "Property": "atr_description"
+                      }
+                    }
+                  ]
+                }
+              },
+              "queryRef": "DIM_INJURY_CAUSE.atr_description (groups)",
+              "nativeQueryRef": "Cause",
+              "active": true,
+              "displayName": "Cause"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "data": [
+        {
+          "properties": {
+            "mode": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Basic'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {}
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

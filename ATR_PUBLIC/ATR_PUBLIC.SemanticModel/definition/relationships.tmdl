@@ -7,7 +7,6 @@ relationship b0bf6363-60bb-4c15-b50d-41b467b6a901
 	toColumn: DIM_INJURY_SEVERITY.iss_id
 
 relationship 1b9fc787-c34d-95dd-9f76-1a7dac2ccb75
-	isActive: false
 	fromColumn: FACT_ATR.State
 	toColumn: RESTRICTED_HOSPITAL.InstCodeId
 
