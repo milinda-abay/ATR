@@ -711,30 +711,6 @@ expression 07_ATRCompleteDataset = ```
 
 	annotation PBI_NavigationStepName = Navigation
 
-expression TableType =
-		let
-		  Source = (InputTable as table) as type =>
-		    let
-		      Source = Table.Schema(InputTable),
-		      SortRows = Table.Sort(Source, {{"Position", Order.Ascending}}),
-		      AddCustom = Table.AddColumn(
-		        SortRows,
-		        "TypeNames",
-		        each Expression.Identifier([Name]) & " = " & [Kind]
-		      ),
-		      TypeString = "type table [" & Text.Combine(AddCustom[TypeNames], ", ") & "]",
-		      Output = Expression.Evaluate(TypeString)
-		    in
-		      Output
-		in
-		  Source
-	lineageTag: 4a7dce2a-aa5b-4161-af1c-9d3b1223f1bf
-	queryGroup: Functions
-
-	annotation PBI_ResultType = Function
-
-	annotation PBI_NavigationStepName = Navigation
-
 expression BodyRegion =
 		let
 		  Source = (_) =>
@@ -944,26 +920,12 @@ expression EndDate = #date(2025, 1, 1) meta [IsParameterQuery=true, Type="Date",
 
 	annotation PBI_NavigationStepName = Navigation
 
-expression data_path = "C:\Users\maba0001\Projects\ATR\data\" meta [IsParameterQuery=true, List={"E:\projects\ATR\data\", "C:\Users\maba0001\Projects\ATR\data\"}, DefaultValue="E:\projects\ATR\data\", Type="Text", IsParameterQueryRequired=true]
+expression data_path = "E:\projects\ATR\data\" meta [IsParameterQuery=true, List={"E:\projects\ATR\data\", "C:\Users\maba0001\Projects\ATR\data\"}, DefaultValue="E:\projects\ATR\data\", Type="Text", IsParameterQueryRequired=true]
 	lineageTag: d33d6cbc-baeb-411c-a777-0043c198ad8f
 
 	annotation PBI_ResultType = Text
 
 	annotation PBI_NavigationStepName = Navigation
-
-expression #shared =
-		let
-		    Source = #shared,
-		    #"Converted to Table" = Record.ToTable(Source),
-		    #"Filtered Rows" = Table.SelectRows(#"Converted to Table", each ([Name] = "Table.ExpandRecordColumn")),
-		    Value = #"Filtered Rows"{0}[Value]
-		in
-		    Value
-	lineageTag: dd38ae48-f8bd-4e13-8cf7-d5b194d428d4
-
-	annotation PBI_NavigationStepName = Navigation
-
-	annotation PBI_ResultType = Function
 
 expression hospital_features_csv =
 		let
@@ -1068,91 +1030,6 @@ expression injury_place =
 
 	annotation PBI_ResultType = Table
 
-expression ICD-10-AM_injury_place =
-		let
-		    Source = #"ICD-10-AM",
-		    #"Filtered Rows" = Table.SelectRows(Source, each Text.StartsWith([icd_code], "Y92")),
-		    #"Merged Queries" = Table.NestedJoin(#"Filtered Rows", {"icd_code"}, #"B  ICD-10 Place of occurrence", {"ICD-10-AM map"}, "B  ICD-10 Place of occurrence", JoinKind.LeftOuter),
-		    #"Expanded B  ICD-10 Place of occurrence" = Table.ExpandTableColumn(#"Merged Queries", "B  ICD-10 Place of occurrence", {"ICD-10 category descriptor"}, {"icd_place_category"}),
-		    #"Sorted Rows" = Table.Sort(#"Expanded B  ICD-10 Place of occurrence",{{"icd_code", Order.Ascending}}),
-		    #"Removed Duplicates" = Table.Distinct(#"Sorted Rows", {"icd_code"}),
-		    replace_record = [Y92="Other specified places",Y92.22="Medical hospital",Y92.63="Mine or quarry",Y92.89 ="Other specified places",Y92.40="Street and highway"],
-		    #"Replaced Value" = Table.ReplaceValue(#"Removed Duplicates",each [icd_code] ,replace_record,(x,y,z) as text => if Record.HasFields(z, y) then Record.Field(z,y) else x,{"icd_place_category"}),
-		    #"Filled Up" = Table.FillUp(#"Replaced Value",{"icd_place_category"})
-		in
-		    #"Filled Up"
-	lineageTag: 18630809-4bd0-4161-9b5f-438ca988fc9b
-	queryGroup: Source\ICD-10-AM/ACHI
-
-	annotation PBI_NavigationStepName = Navigation
-
-	annotation PBI_ResultType = Table
-
-expression ICD-10-AM_injury_activity =
-		let
-		    Source = #"ICD-10-AM",
-		    #"Filtered Rows" = Table.SelectRows(Source, each Text.StartsWith([icd_code], "U5") or Text.StartsWith([icd_code], "U6") or Text.StartsWith([icd_code], "U7") and not Text.StartsWith([icd_code], "U78") and not Text.StartsWith([icd_code], "U79")),
-		    #"Merged Queries" = Table.NestedJoin(#"Filtered Rows", {"icd_code"}, #"C  ICD-10 Activity", {"ICD-10-AM map"}, "C  ICD-10 Activity", JoinKind.LeftOuter),
-		    #"Expanded C  ICD-10 Activity" = Table.ExpandTableColumn(#"Merged Queries", "C  ICD-10 Activity", {"ICD-10 category descriptor"}, {"icd_activity_category"}),
-		    #"Sorted Rows" = Table.Sort(#"Expanded C  ICD-10 Activity",{{"icd_code", Order.Ascending}})
-		in
-		    #"Sorted Rows"
-	lineageTag: daf77e64-dfd6-45bf-9726-ce4f1c4e9542
-	queryGroup: Source\ICD-10-AM/ACHI
-
-	annotation PBI_NavigationStepName = Navigation
-
-	annotation PBI_ResultType = Table
-
-expression 'B  ICD-10 Place of occurrence' =
-		let
-		    Source = Excel.Workbook(File.Contents(data_path & "ICD-10 and ICD-10-AM mapping tables - Twelfth Edition.XLSX"), null, true),
-		    #"B. ICD-10 Place of occurrence_Sheet" = Source{[Item="B. ICD-10 Place of occurrence",Kind="Sheet"]}[Data],
-		    #"Removed Top Rows" = Table.Skip(#"B. ICD-10 Place of occurrence_Sheet",1),
-		    #"Promoted Headers" = Table.PromoteHeaders(#"Removed Top Rows", [PromoteAllScalars=true]),
-		    #"Removed Other Columns" = Table.SelectColumns(#"Promoted Headers",{"ICD-10 Place of occurence category", "ICD-10 category descriptor", "ICD-10-AM map", "ICD-10-AM code descriptor of map"}),
-		    #"Changed Type" = Table.TransformColumnTypes(#"Removed Other Columns",{{"ICD-10 Place of occurence category", type text}, {"ICD-10 category descriptor", type text}, {"ICD-10-AM map", type text}, {"ICD-10-AM code descriptor of map", type text}})
-		in
-		    #"Changed Type"
-	lineageTag: cd7996f3-7a85-4e30-9596-1f76f5694735
-	queryGroup: Source\ICD-10-AM/ACHI\ICD-10
-
-	annotation PBI_NavigationStepName = Navigation
-
-	annotation PBI_ResultType = Table
-
-expression 'C  ICD-10 Activity' =
-		let
-		    Source = Excel.Workbook(File.Contents(data_path & "ICD-10 and ICD-10-AM mapping tables - Twelfth Edition.XLSX"), null, true),
-		    #"C. ICD-10 Activity_Sheet" = Source{[Item="C. ICD-10 Activity",Kind="Sheet"]}[Data],
-		    #"Removed Top Rows" = Table.Skip(#"C. ICD-10 Activity_Sheet",1),
-		    #"Promoted Headers" = Table.PromoteHeaders(#"Removed Top Rows", [PromoteAllScalars=true]),
-		    #"Removed Other Columns" = Table.SelectColumns(#"Promoted Headers",{"ICD-10 Activity category", "ICD-10 category descriptor", "ICD-10-AM map", "ICD-10-AM code descriptor of map"}),
-		    #"Changed Type" = Table.TransformColumnTypes(#"Removed Other Columns",{{"ICD-10 Activity category", type text}, {"ICD-10 category descriptor", type text}, {"ICD-10-AM map", type text}, {"ICD-10-AM code descriptor of map", type text}})
-		in
-		    #"Changed Type"
-	lineageTag: f5fc25bc-63bd-4c7a-ab22-cc151b3f15fc
-	queryGroup: Source\ICD-10-AM/ACHI\ICD-10
-
-	annotation PBI_NavigationStepName = Navigation
-
-	annotation PBI_ResultType = Table
-
-expression vemd_code =
-		let
-		    Source = #"VOTOR_ICDevent_Mapping_ATR mapping",
-		    #"Removed Other Columns" = Table.SelectColumns(Source,{"VEMD Code_1", "Description_2"}),
-		    #"Renamed Columns" = Table.RenameColumns(#"Removed Other Columns",{{"VEMD Code_1", "vemd_code"}, {"Description_2", "description"}}),
-		    #"Removed Blank Rows" = Table.SelectRows(#"Renamed Columns", each not List.IsEmpty(List.RemoveMatchingItems(Record.FieldValues(_), {"", null})))
-		in
-		    #"Removed Blank Rows"
-	lineageTag: 08ccd004-2d6a-4113-a137-00e4cd21ab73
-	queryGroup: Pre-process
-
-	annotation PBI_NavigationStepName = Navigation
-
-	annotation PBI_ResultType = Table
-
 expression 'VOTOR_ICDevent_Mapping_ATR mapping' =
 		let
 		    Source = Excel.Workbook(File.Contents(data_path & "VOTOR_ICDevent_Mapping_ATR mapping.xlsx"), null, true),
@@ -1163,59 +1040,6 @@ expression 'VOTOR_ICDevent_Mapping_ATR mapping' =
 		    #"Changed Type"
 	lineageTag: 91eb6000-e949-4301-abb2-ec3857d56bd9
 	queryGroup: Source
-
-	annotation PBI_NavigationStepName = Navigation
-
-	annotation PBI_ResultType = Table
-
-/// Direct grab of 07_complete_dataset injury cause code.
-expression InjuryCause =
-		let
-		    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("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", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [InjuryCause = _t]),
-		    #"Changed Type" = Table.TransformColumnTypes(Source,{{"InjuryCause", type text}})
-		in
-		    #"Changed Type"
-	lineageTag: 1caed80e-ce4a-4510-9474-7c49f1e7bd81
-	queryGroup: DEV
-
-	annotation PBI_NavigationStepName = Navigation
-
-	annotation PBI_ResultType = Table
-
-expression cause_code_modification =
-		let
-		    //Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("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", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#"ICD10 Code" = _t]),
-		    Source = #"VOTOR_ICDevent_Mapping_ATR mapping"[[#"ICD10 Code"]],
-		    #"Cleaned Text1" = Table.TransformColumns(Source,{{"ICD10 Code", Text.Clean, type text}}),
-		    #"Trimmed Text" = Table.TransformColumns(#"Cleaned Text1",{{"ICD10 Code", Text.Trim, type text}}),
-		    #"Duplicated Column" = Table.DuplicateColumn(#"Trimmed Text", "ICD10 Code", "ICD10 Code - Copy"),
-		    #"Split Column by Position" = Table.SplitColumn(#"Duplicated Column", "ICD10 Code - Copy", Splitter.SplitTextByPositions({0, 3}, false), {"ICD10 Code.1", "ICD10 Code.2"}),
-		    #"Inserted Merged Column" = Table.AddColumn(#"Split Column by Position", "look_up_v4", each Text.TrimEnd( Text.Combine({[ICD10 Code.1], ".", [ICD10 Code.2]}),"."), type text)
-		in
-		    #"Inserted Merged Column"
-	lineageTag: 143f35db-036e-4bd0-ab7b-a7f017b82927
-	queryGroup: DEV
-
-	annotation PBI_NavigationStepName = Navigation
-
-	annotation PBI_ResultType = Table
-
-expression missing_cause_code =
-		let
-		    Source = Table.NestedJoin(InjuryCause, {"InjuryCause"}, cause_code_modification, {"look_up_v4"}, "cause_code_modification", JoinKind.FullOuter),
-		    #"Expanded cause_code_modification" = Table.ExpandTableColumn(Source, "cause_code_modification", {"ICD10 Code", "ICD10 Code.1", "ICD10 Code.2", "look_up_v4"}, {"ICD10 Code", "ICD10 Code.1", "ICD10 Code.2", "look_up_v4"}),
-		    #"Kept Duplicates" = let columnNames = {"ICD10 Code"}, addCount = Table.Group(#"Expanded cause_code_modification", columnNames, {{"Count", Table.RowCount, type number}}), selectDuplicates = Table.SelectRows(addCount, each [Count] > 1), removeCount = Table.RemoveColumns(selectDuplicates, "Count") in Table.Join(#"Expanded cause_code_modification", columnNames, removeCount, columnNames, JoinKind.Inner),
-		    #"Sorted Rows" = Table.Sort(#"Kept Duplicates",{{"InjuryCause", Order.Ascending}}),
-		    #"Duplicated Column" = Table.DuplicateColumn(#"Sorted Rows", "InjuryCause", "InjuryCause - Copy"),
-		    #"Replaced Value" = Table.ReplaceValue(#"Duplicated Column",".","",Replacer.ReplaceText,{"InjuryCause - Copy"}),
-		    #"Renamed Columns" = Table.RenameColumns(#"Replaced Value",{{"InjuryCause - Copy", "missing_cause_code"}}),
-		    #"Reordered Columns" = Table.ReorderColumns(#"Renamed Columns",{"InjuryCause", "missing_cause_code", "ICD10 Code", "ICD10 Code.1", "ICD10 Code.2", "look_up_v4"}),
-		    #"Removed Other Columns" = Table.SelectColumns(#"Reordered Columns",{"InjuryCause", "missing_cause_code"}),
-		    #"Renamed Columns1" = Table.RenameColumns(#"Removed Other Columns",{{"missing_cause_code", "ICD10 Code"}, {"InjuryCause", "Description"}})
-		in
-		    #"Renamed Columns1"
-	lineageTag: 4080d56e-f574-47ab-935f-c1777767aa3e
-	queryGroup: DEV
 
 	annotation PBI_NavigationStepName = Navigation
 
@@ -1262,36 +1086,6 @@ expression FACT_NATIONAL =
 		    Source
 	lineageTag: 4571fc17-a764-438c-a871-f0ea9e4ffcdd
 	queryGroup: Production
-
-	annotation PBI_NavigationStepName = Navigation
-
-	annotation PBI_ResultType = Table
-
-expression icd_10_vemd_atr_code =
-		let
-		    Source = #"VOTOR_ICDevent_Mapping_ATR mapping",
-		    #"Removed Other Columns" = Table.SelectColumns(Source,{"ICD10 Code", "Description", "VEMD Code", "ATR Code"}),
-		    #"Appended Query" = Table.Combine({#"Removed Other Columns", missing_cause_code}),
-		    #"Sorted Rows" = Table.Sort(#"Appended Query",{{"ICD10 Code", Order.Ascending}})
-		in
-		    #"Sorted Rows"
-	lineageTag: 8b706975-318d-4c14-9841-4febc621243f
-	queryGroup: DEV
-
-	annotation PBI_NavigationStepName = Navigation
-
-	annotation PBI_ResultType = Table
-
-expression ICD-10-AM =
-		let
-		    Source = Csv.Document(File.Contents(data_path & "ICD_ALL_CODES.csv"),[Delimiter=",", Columns=2, Encoding=65001, QuoteStyle=QuoteStyle.None]),
-		    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
-		    #"Inserted Replaced Text" = Table.AddColumn(#"Promoted Headers", "clean_code_id", each Text.Replace([CodeId], ".", ""), type text),
-		    #"Renamed Columns" = Table.RenameColumns(#"Inserted Replaced Text",{{"CodeId", "icd_code"}, {"Desc", "icd_code_description"}})
-		in
-		    #"Renamed Columns"
-	lineageTag: d6e9dcd5-ad0c-4e4a-9058-e50703ae0a50
-	queryGroup: Source\ICD-10-AM/ACHI
 
 	annotation PBI_NavigationStepName = Navigation
 
@@ -1364,33 +1158,6 @@ expression atr_codes =
 		    #"Added Conditional Column1"
 	lineageTag: ba9abd45-d39a-491b-b65e-c17ef323a861
 	queryGroup: Pre-process
-
-	annotation PBI_NavigationStepName = Navigation
-
-	annotation PBI_ResultType = Table
-
-expression DIM_ICD_ALL_CODES =
-		let
-		    Source = Csv.Document(File.Contents(data_path & "ICD_ALL_CODES.csv"),[Delimiter=",", Columns=2, Encoding=65001, QuoteStyle=QuoteStyle.None]),
-		    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
-		    #"Inserted Replaced Text" = Table.AddColumn(#"Promoted Headers", "clean_code_id", each Text.Replace([CodeId], ".", ""), type text),
-		    #"Filtered Rows" = Table.SelectRows(#"Inserted Replaced Text", each ([CodeId] = "-99"))
-		in
-		    #"Filtered Rows"
-	lineageTag: bde04a96-317d-4786-8545-4e294da207b9
-	queryGroup: Dimension
-
-	annotation PBI_NavigationStepName = Navigation
-
-	annotation PBI_ResultType = Table
-
-expression 'ATRCompleteDataset (2)' =
-		let
-		    Source = ATRCompleteDataset
-		in
-		    Source
-	lineageTag: 2d45ca0d-af93-4a4b-ad96-27e8c7d77d5a
-	queryGroup: DEV
 
 	annotation PBI_NavigationStepName = Navigation
 

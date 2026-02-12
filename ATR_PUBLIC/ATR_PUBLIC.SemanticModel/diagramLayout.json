@@ -4,7 +4,7 @@
     {
       "ordinal": 0,
       "scrollPosition": {
-        "x": 0,
+        "x": 1090.5138722075005,
         "y": 0
       },
       "nodes": [
@@ -18,7 +18,7 @@
             "height": 104,
             "width": 234
           },
-          "zIndex": 10,
+          "zIndex": 11,
           "expandedHeight": 296
         },
         {
@@ -32,7 +32,7 @@
             "height": 72,
             "width": 234
           },
-          "zIndex": 4,
+          "zIndex": 5,
           "expandedHeight": 104
         },
         {
@@ -46,7 +46,7 @@
             "height": 104,
             "width": 234
           },
-          "zIndex": 5,
+          "zIndex": 6,
           "expandedHeight": 176
         },
         {
@@ -60,7 +60,7 @@
             "height": 104,
             "width": 234
           },
-          "zIndex": 6,
+          "zIndex": 7,
           "expandedHeight": 104
         },
         {
@@ -116,7 +116,7 @@
             "height": 104,
             "width": 234
           },
-          "zIndex": 7,
+          "zIndex": 8,
           "expandedHeight": 128
         },
         {
@@ -130,7 +130,7 @@
             "height": 104,
             "width": 234
           },
-          "zIndex": 12,
+          "zIndex": 13,
           "expandedHeight": 152
         },
         {
@@ -144,7 +144,7 @@
             "height": 104,
             "width": 234
           },
-          "zIndex": 11,
+          "zIndex": 12,
           "expandedHeight": 128
         },
         {
@@ -172,7 +172,7 @@
             "height": 104,
             "width": 234
           },
-          "zIndex": 8,
+          "zIndex": 9,
           "expandedHeight": 128
         },
         {
@@ -213,7 +213,7 @@
             "height": 72,
             "width": 234
           },
-          "zIndex": 9,
+          "zIndex": 10,
           "expandedHeight": 104
         },
         {
@@ -227,7 +227,7 @@
             "height": 72,
             "width": 234
           },
-          "zIndex": 3,
+          "zIndex": 4,
           "expandedHeight": 128
         },
         {
@@ -240,22 +240,8 @@
             "height": 104,
             "width": 234
           },
-          "zIndex": 2,
+          "zIndex": 3,
           "expandedHeight": 272
-        },
-        {
-          "location": {
-            "x": 2527.9959234327625,
-            "y": 654.31019891093274
-          },
-          "nodeIndex": "Table",
-          "nodeLineageTag": "850fdaaa-ad70-4df0-bee8-e2a8b2b64d9b",
-          "size": {
-            "height": 72,
-            "width": 234
-          },
-          "zIndex": 1,
-          "expandedHeight": 200
         },
         {
           "location": {
@@ -267,17 +253,7 @@
             "height": 248,
             "width": 234
           },
-          "zIndex": 0
-        },
-        {
-          "location": {},
-          "nodeIndex": "07_ATRCompleteDataset (2)",
-          "nodeLineageTag": "f8a62717-4ffb-4609-a12a-a4571e2ff03e",
-          "size": {
-            "height": 300,
-            "width": 234
-          },
-          "zIndex": 0
+          "zIndex": 1
         }
       ],
       "name": "All tables",
@@ -290,7 +266,7 @@
     {
       "ordinal": 1,
       "scrollPosition": {
-        "x": 109.03703314387334,
+        "x": 1564.1084999496131,
         "y": 0
       },
       "nodes": [
@@ -744,6 +720,6 @@
       "tablesLocked": false
     }
   ],
-  "selectedDiagram": "FACT_ATR",
+  "selectedDiagram": "Layout 1",
   "defaultDiagram": "All tables"
 }

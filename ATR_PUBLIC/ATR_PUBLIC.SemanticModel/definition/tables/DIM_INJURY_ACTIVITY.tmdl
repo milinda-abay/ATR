@@ -18,7 +18,7 @@ table DIM_INJURY_ACTIVITY
 				in
 				    Source
 
-	annotation PBI_ResultType = Table
+	annotation PBI_ResultType = Exception
 
 	annotation PBI_NavigationStepName = Navigation
 

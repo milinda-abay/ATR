@@ -80,5 +80,5 @@ table RESTRICTED_HOSPITAL
 				in
 				    #"Added Custom"
 
-	annotation PBI_ResultType = Table
+	annotation PBI_ResultType = Exception
 
