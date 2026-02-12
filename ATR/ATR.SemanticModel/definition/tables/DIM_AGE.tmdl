@@ -35,6 +35,9 @@ table DIM_AGE
 		lineageTag: ee47d7e7-579d-4b01-9fcf-4944c1e571ed
 		summarizeBy: none
 		sourceColumn: age_10y
+		sortByColumn: order_age_10y
+
+		changedProperty = SortByColumn
 
 		annotation SummarizationSetBy = Automatic
 
@@ -52,6 +55,9 @@ table DIM_AGE
 		lineageTag: d2336203-ce9f-415c-b5ba-cdf38bfb21ff
 		summarizeBy: none
 		sourceColumn: adult_child
+		sortByColumn: order_adult_child
+
+		changedProperty = SortByColumn
 
 		annotation SummarizationSetBy = Automatic
 

@@ -1,0 +1,66 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.5.0/schema.json",
+  "name": "9037aeac6a409a3b5814",
+  "position": {
+    "x": 0,
+    "y": 85.624176323562821,
+    "z": 0,
+    "height": 597.773752718538,
+    "width": 356.85603921186743,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DIM_HOSPITAL"
+                    }
+                  },
+                  "Property": "InstCodeId"
+                }
+              },
+              "queryRef": "DIM_HOSPITAL.InstCodeId",
+              "nativeQueryRef": "InstCodeId"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DIM_HOSPITAL"
+                    }
+                  },
+                  "Property": "HospitalName"
+                }
+              },
+              "queryRef": "DIM_HOSPITAL.HospitalName",
+              "nativeQueryRef": "HospitalName"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "KeyMeasures"
+                    }
+                  },
+                  "Property": "Number of cases"
+                }
+              },
+              "queryRef": "KeyMeasures.Number of injuries",
+              "nativeQueryRef": "Number of injuries"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}
