@@ -1,11 +1,14 @@
+/// Dimension table containing body regions affected by injury (e.g., head, chest, abdomen, extremities). Used to analyze injury patterns by anatomical location.
 table DIM_BODY_REGION
 	lineageTag: 5313bb13-59b4-48da-943d-9455fa00df4c
 
+	/// Returns the currently selected body region from the slicer or filter. This measure displays which specific body area (e.g., head, chest, abdomen) is being analyzed in the current view.
 	measure selected_body_region = SELECTEDVALUE(DIM_BODY_REGION[body_region_description])
 		lineageTag: 9b88ce79-6ccd-4b8a-a649-00afae75e20a
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	/// Body region code or identifier. Primary key for the anatomical area affected by injury.
 	column body_region
 		dataType: string
 		lineageTag: 1c4350f4-044a-4464-917d-55e7e273478e
@@ -17,6 +20,7 @@ table DIM_BODY_REGION
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Numerical sort order for body regions. Controls the display sequence in reports, typically ordered head-to-toe.
 	column sort_body_region
 		dataType: int64
 		formatString: 0
@@ -26,6 +30,7 @@ table DIM_BODY_REGION
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Descriptive label for body regions (e.g., Head, Face, Neck, Chest, Abdomen, Spine, Upper extremity, Lower extremity). User-friendly anatomical location text.
 	column body_region_description
 		dataType: string
 		lineageTag: bc7865cd-f3e5-45aa-8d68-cdfcaeb13252

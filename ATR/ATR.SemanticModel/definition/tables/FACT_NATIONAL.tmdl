@@ -1,6 +1,8 @@
+/// Fact table containing national-level trauma statistics and injury data. Used for benchmarking and comparing regional ATR data against national injury patterns and trends.
 table FACT_NATIONAL
 	lineageTag: fcf74439-6e69-4ef3-9566-5956f3d70fa2
 
+	/// National trauma registration ID. Unique identifier for each trauma case in the national dataset, used for counting patients and linking records.
 	column RegId
 		dataType: int64
 		formatString: 0
@@ -10,6 +12,7 @@ table FACT_NATIONAL
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Date and time when the injury occurred in the national dataset. Primary date field for analyzing national trauma trends over time.
 	column InjuryDt
 		dataType: dateTime
 		formatString: Long Date
@@ -21,6 +24,7 @@ table FACT_NATIONAL
 
 		annotation UnderlyingDateTimeDataType = Date
 
+	/// Injury Severity Score in the national dataset - a value from 0 to 75 measuring overall trauma severity. Calculated by squaring the three highest injury scores across different body regions and summing them.
 	column ISS
 		dataType: int64
 		formatString: 0
@@ -30,6 +34,7 @@ table FACT_NATIONAL
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Australian Trauma Registry version of the Injury Severity Score used in national reporting. A variant or adjusted ISS calculation specific to the ATR methodology.
 	column ATR_ISS
 		dataType: int64
 		formatString: 0
@@ -39,6 +44,7 @@ table FACT_NATIONAL
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Length of Stay in hospital (days) for national trauma cases. Total number of days from admission to discharge, used for resource planning and outcome analysis.
 	column LOS
 		dataType: double
 		lineageTag: b1f57d6a-4184-47f4-adfa-46b13b788ab3
@@ -49,6 +55,7 @@ table FACT_NATIONAL
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	/// Country where the national trauma case occurred or patient origin. Used for geographic analysis and international comparisons.
 	column country
 		dataType: string
 		lineageTag: 70455f15-6fec-44ca-8292-5df5e32f2afc
@@ -57,6 +64,7 @@ table FACT_NATIONAL
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Type of patient transfer in the national dataset (e.g., inter-hospital transfer, retrieval). Indicates patient movement between healthcare facilities.
 	column TransferType
 		dataType: string
 		lineageTag: cca0b836-14db-4a5b-906e-3b2ef3f49938
@@ -65,6 +73,7 @@ table FACT_NATIONAL
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Time in minutes from injury to Emergency Department arrival for national cases. Measures pre-hospital response time across the country.
 	column TimeToED
 		dataType: double
 		lineageTag: dc614ffe-4aa3-4c06-b5c3-ade06bbeef7c
@@ -75,6 +84,7 @@ table FACT_NATIONAL
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	/// Time in minutes spent in the Emergency Department for national cases. Measures ED processing efficiency from arrival to admission/discharge/transfer.
 	column TimeInED
 		dataType: double
 		lineageTag: f0700f9c-883a-48ba-b8fa-cc15517ce17a
@@ -85,6 +95,7 @@ table FACT_NATIONAL
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	/// Primary body region affected by injury in national data (e.g., head, chest, abdomen). Links to body region classification for anatomical analysis.
 	column body_region
 		dataType: string
 		lineageTag: f0106484-41d6-4557-b708-6ded9aeca4ce
@@ -93,6 +104,7 @@ table FACT_NATIONAL
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Index or sequence number for national trauma records. Used for record ordering or tracking within the national dataset.
 	column Index
 		dataType: int64
 		formatString: 0
@@ -102,6 +114,7 @@ table FACT_NATIONAL
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Hospital or institution identifier in the national dataset. Links to facility information for institution-level analysis and comparisons.
 	column InstitutionID
 		dataType: string
 		lineageTag: f753f976-e0b0-49b6-91fa-44f463978310
@@ -110,6 +123,7 @@ table FACT_NATIONAL
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Patient age in years at time of injury for national cases. Used for demographic analysis and age-based comparisons across the country.
 	column Age
 		dataType: int64
 		formatString: 0
@@ -119,6 +133,7 @@ table FACT_NATIONAL
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Patient biological sex in the national dataset. Links to gender dimension for demographic analysis and gender-based injury patterns.
 	column Sex
 		dataType: int64
 		formatString: 0
@@ -128,6 +143,7 @@ table FACT_NATIONAL
 
 		annotation SummarizationSetBy = Automatic
 
+	/// External cause of injury in national data (e.g., motor vehicle crash, fall, assault). Links to cause dimension for analyzing how injuries occurred across the country.
 	column InjuryCause
 		dataType: string
 		lineageTag: 89811f6d-de71-4a5e-8633-c48a00e4e3df
@@ -136,6 +152,7 @@ table FACT_NATIONAL
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Type or nature of injury in the national dataset (e.g., fracture, laceration, burn). Links to injury type dimension for classification analysis.
 	column InjuryType
 		dataType: int64
 		formatString: 0
@@ -145,6 +162,7 @@ table FACT_NATIONAL
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Intent or circumstances behind the injury in national data (e.g., unintentional, assault, self-harm). Links to intent dimension for prevention and policy analysis.
 	column InjuryIntent
 		dataType: int64
 		formatString: 0
@@ -154,6 +172,7 @@ table FACT_NATIONAL
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Location where the injury occurred in national cases (e.g., home, road, workplace). Links to place dimension for environmental safety analysis.
 	column InjuryPlace
 		dataType: string
 		lineageTag: 5cc8413d-4bd5-4eee-8f16-d75f96bb7f4f
@@ -162,6 +181,7 @@ table FACT_NATIONAL
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Transportation mode to hospital in national data (e.g., ambulance, helicopter, private vehicle). Links to transport dimension for pre-hospital service analysis.
 	column TranspMode
 		dataType: string
 		lineageTag: 5b526fb6-8c62-475a-adb2-1e01fe183c1b
@@ -170,6 +190,7 @@ table FACT_NATIONAL
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Inter-hospital transfer indicator for national cases. Value of 1 or -99 typically indicates direct arrival, other values indicate transfer from another facility.
 	column OtherHospTransfer
 		dataType: int64
 		formatString: 0
@@ -179,6 +200,7 @@ table FACT_NATIONAL
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Discharge destination for national trauma cases (e.g., home, rehabilitation, death). Links to discharge dimension for outcome analysis and mortality tracking.
 	column DischargeDest
 		dataType: int64
 		formatString: 0
@@ -188,6 +210,7 @@ table FACT_NATIONAL
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Activity engaged in at time of injury for national cases (e.g., sports, work, leisure). Links to activity dimension for understanding injury context and prevention strategies.
 	column ActEngaged
 		dataType: string
 		lineageTag: 750754d4-d274-4fb0-8d6b-706c76dc5130

@@ -1,6 +1,8 @@
+/// Dimension table containing external causes of injury (e.g., motor vehicle accident, fall, machinery). Used to categorize how injuries happened.
 table DIM_INJURY_CAUSE
 	lineageTag: 3c833ef7-1be0-48bb-86e0-9c202ea3e667
 
+	/// Injury cause ICD code identifier. Primary key for the external cause of injury.
 	column cause_icd_code_id
 		dataType: string
 		lineageTag: 3a8144e7-8af2-4a80-a661-98a0018186e5
@@ -9,6 +11,7 @@ table DIM_INJURY_CAUSE
 
 		annotation SummarizationSetBy = Automatic
 
+	/// ICD-10 external cause code description. Standardized medical classification text describing how the injury occurred.
 	column 'ICD-10 code descriptor'
 		dataType: string
 		lineageTag: 153146f0-583a-4e5f-bbcb-f254babd2190
@@ -17,6 +20,7 @@ table DIM_INJURY_CAUSE
 
 		annotation SummarizationSetBy = Automatic
 
+	/// ICD-10 cause mapping category. Groups related injury causes into broader categories (e.g., Falls, Transport accidents, Machinery, Assault).
 	column 'ICD-10 Map'
 		dataType: string
 		lineageTag: ddeba42e-0e24-4adb-a29e-630df5c0afdd
@@ -25,6 +29,7 @@ table DIM_INJURY_CAUSE
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Simplified injury cause category. High-level grouping of injury causes for easier analysis and reporting.
 	column Cause
 		dataType: string
 		lineageTag: 2dfa2639-1a5a-4f2d-a2b2-878fb3240112
@@ -35,6 +40,7 @@ table DIM_INJURY_CAUSE
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Numerical order for sorting injury causes. Used to control the display sequence in reports and charts.
 	column cause_order
 		dataType: int64
 		formatString: 0
@@ -44,6 +50,7 @@ table DIM_INJURY_CAUSE
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Transport-related flag or category. Indicates if the injury involved transportation (e.g., Motor vehicle, Pedestrian, Bicycle, Motorcycle).
 	column Transport
 		dataType: string
 		lineageTag: 7be07030-6433-4c9f-aef5-5718fcc4b7d9
@@ -52,6 +59,7 @@ table DIM_INJURY_CAUSE
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Display order for transport-related causes. Used for sorting transport injury types in reports.
 	column 'Transport - order'
 		dataType: string
 		lineageTag: e7d2494c-1974-4b12-8b1e-264602abe123

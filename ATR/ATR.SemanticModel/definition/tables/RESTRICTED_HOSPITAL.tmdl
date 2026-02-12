@@ -1,6 +1,8 @@
+/// Security table containing the list of hospitals that the current user has permission to access. Used to implement row-level security (RLS) to restrict data visibility based on user permissions.
 table RESTRICTED_HOSPITAL
 	lineageTag: 69b05caa-ae27-4cd9-9d6b-b0eca080af72
 
+	/// Hospital institution code identifier. Used for row-level security to control which hospitals a user can access.
 	column InstCodeId
 		dataType: string
 		lineageTag: 1c30aca8-8faa-41a1-9112-adcb110072aa
@@ -9,6 +11,7 @@ table RESTRICTED_HOSPITAL
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Name of the hospital that the user has permission to view. Used for displaying authorized hospital names.
 	column HospitalName
 		dataType: string
 		lineageTag: 5ec7cfee-6d69-45ca-933f-6e0a17357649
@@ -17,6 +20,7 @@ table RESTRICTED_HOSPITAL
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Email address of authorized user for this hospital. Used to map user login credentials to hospital access permissions.
 	column site_access_email
 		dataType: string
 		lineageTag: 9704ac54-bf8f-47a6-8a62-6a2bb1c3e51e
@@ -25,6 +29,7 @@ table RESTRICTED_HOSPITAL
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Latitude coordinate of the hospital location. Geographic data for authorized hospitals only.
 	column lat
 		dataType: double
 		lineageTag: 4db53ae8-1243-428f-a0db-08bdc6c055ca
@@ -35,6 +40,7 @@ table RESTRICTED_HOSPITAL
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	/// Longitude coordinate of the hospital location. Geographic data for authorized hospitals only.
 	column long
 		dataType: double
 		lineageTag: af8e2d12-03f9-47ba-92c1-c40f9403b850
@@ -45,6 +51,7 @@ table RESTRICTED_HOSPITAL
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	/// Postal code of the hospital. Location data for authorized facilities.
 	column postcode
 		dataType: string
 		lineageTag: e417f9d4-de86-4eb7-9b26-1f8f558dba81
@@ -53,6 +60,7 @@ table RESTRICTED_HOSPITAL
 
 		annotation SummarizationSetBy = Automatic
 
+	/// State where the authorized hospital is located. Used for geographic filtering within permitted data.
 	column state
 		dataType: string
 		lineageTag: bdbffc71-1e3c-4863-aff6-6ea13c37f891
@@ -61,6 +69,7 @@ table RESTRICTED_HOSPITAL
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Country where the restricted hospital is located. Used for geographic filtering and international data access control.
 	column country
 		dataType: string
 		lineageTag: 0ae494a3-ee72-441d-a262-7f8ea287fc37

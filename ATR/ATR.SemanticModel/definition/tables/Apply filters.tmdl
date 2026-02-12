@@ -1,3 +1,4 @@
+/// Helper table used to manage or apply dynamic filters in the report. Contains filter settings or parameters that control what data is displayed.
 table 'Apply filters'
 	lineageTag: fa2deb29-7d00-4390-8d60-315b7d39e23d
 
@@ -16,6 +17,7 @@ table 'Apply filters'
 				    )
 				```
 
+	/// Filter name or identifier. Defines which filters are available or active in the report for controlling data visibility.
 	column Filters
 		dataType: string
 		lineageTag: 72e6a193-8f23-454d-bd7b-4e9e33930061
@@ -25,6 +27,7 @@ table 'Apply filters'
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Sort order for filter options. Controls the sequence in which filters are displayed or applied.
 	column Ordinal
 		dataType: int64
 		formatString: 0

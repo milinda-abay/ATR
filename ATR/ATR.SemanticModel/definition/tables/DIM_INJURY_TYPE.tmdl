@@ -1,6 +1,8 @@
+/// Dimension table containing types of injuries (e.g., fracture, laceration, burn). Used to categorize and analyze different injury classifications.
 table DIM_INJURY_TYPE
 	lineageTag: ec7427fe-baac-40b0-ac83-0ee93cb2b448
 
+	/// Injury type code identifier. Primary key used to categorize the nature of injuries (e.g., blunt, penetrating, burn).
 	column injury_type_code_id
 		dataType: int64
 		formatString: 0
@@ -10,6 +12,7 @@ table DIM_INJURY_TYPE
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Descriptive label for the type of injury (e.g., Fracture, Laceration, Burn, Contusion, Internal injury). User-friendly text for reports and filtering.
 	column description
 		dataType: string
 		lineageTag: ab51ea04-e09b-45b6-baeb-9504ee9f0509

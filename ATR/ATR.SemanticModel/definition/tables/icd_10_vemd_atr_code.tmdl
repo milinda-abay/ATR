@@ -1,6 +1,8 @@
+/// Reference table mapping ICD-10 codes between Victorian Emergency Minimum Dataset (VEMD) and ATR coding systems. Used to standardize and translate medical codes across different data sources.
 table icd_10_vemd_atr_code
 	lineageTag: f34c39f3-a0c8-459f-9d16-a6de45477f6b
 
+	/// ICD-10 international classification code. Standardized medical code used globally to classify diseases, injuries, and health conditions.
 	column 'ICD10 Code'
 		dataType: string
 		lineageTag: 1df8ff7f-7ef3-4e0f-816e-e9f96ca2fbc5
@@ -9,6 +11,7 @@ table icd_10_vemd_atr_code
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Description of the ICD-10 code. User-friendly text explaining the medical condition, injury, or diagnosis represented by the code.
 	column Description
 		dataType: string
 		lineageTag: 91fbefb3-6ad0-42cd-879e-ae0239c61810
@@ -17,6 +20,7 @@ table icd_10_vemd_atr_code
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Victorian Emergency Minimum Dataset code number. Victoria-specific emergency department coding system used to classify presentations and injuries.
 	column 'VEMD Code'
 		dataType: int64
 		formatString: 0
@@ -26,6 +30,7 @@ table icd_10_vemd_atr_code
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Australian Trauma Registry code number. ATR-specific coding value used to classify trauma cases, mapped from ICD-10 and VEMD codes for consistency.
 	column 'ATR Code'
 		dataType: int64
 		formatString: 0

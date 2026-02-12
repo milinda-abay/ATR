@@ -1,6 +1,8 @@
+/// Dimension table containing injury severity classifications. Used to categorize trauma cases by severity level for analysis and resource planning.
 table DIM_INJURY_SEVERITY
 	lineageTag: 1f6c12fa-165b-4ef6-a8d6-73305f39ba70
 
+	/// Injury Severity Score identifier. Primary key representing ISS ranges or categories.
 	column iss_id
 		dataType: int64
 		formatString: 0
@@ -12,6 +14,7 @@ table DIM_INJURY_SEVERITY
 
 		annotation __PBI_SemanticLinks = [{"LinkTarget":{"TableName":"DIM_INJURY_SEVERITY","TableItemName":"severity","ObjectType":4},"LinkType":"UsedInGroup"}]
 
+	/// Numerical order for severity levels. Used to sort severity categories from minor to critical in reports.
 	column severity_order
 		dataType: int64
 		formatString: 0
@@ -21,6 +24,7 @@ table DIM_INJURY_SEVERITY
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Calculated severity classification label (e.g., Minor, Moderate, Serious, Severe, Critical). Groups ISS scores into meaningful categories for analysis and communication.
 	column severity =
 			SWITCH(
 			  TRUE,

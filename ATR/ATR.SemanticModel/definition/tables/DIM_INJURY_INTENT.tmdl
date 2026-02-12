@@ -1,6 +1,8 @@
+/// Dimension table containing the intent behind injuries (e.g., unintentional, assault, self-harm, undetermined). Used to analyze injury circumstances and patterns.
 table DIM_INJURY_INTENT
 	lineageTag: 69d4d3af-b501-4e3a-a876-d8f10f24cf70
 
+	/// Injury intent code identifier. Primary key indicating the circumstances or intent behind the injury.
 	column injury_intent_code_id
 		dataType: int64
 		formatString: 0
@@ -10,6 +12,7 @@ table DIM_INJURY_INTENT
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Descriptive label for injury intent (e.g., Unintentional, Assault, Intentional self-harm, Undetermined, Legal intervention). Used for intent-based analysis and prevention strategies.
 	column description
 		dataType: string
 		lineageTag: 93378001-4524-43b6-9894-9b44b3ebb321

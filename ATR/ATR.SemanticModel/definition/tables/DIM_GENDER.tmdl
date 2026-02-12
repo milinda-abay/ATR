@@ -1,6 +1,8 @@
+/// Dimension table containing gender categories. Used to analyze trauma data by patient gender.
 table DIM_GENDER
 	lineageTag: 0ae4c4ec-3eaf-4226-9740-0cd8db420aa6
 
+	/// Gender code identifier. Primary key used to link to fact table for gender-based analysis.
 	column pat_gender_code_id
 		dataType: int64
 		formatString: 0
@@ -10,6 +12,7 @@ table DIM_GENDER
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Descriptive label for gender (e.g., Male, Female, Other, Unknown). User-friendly text for display in reports and slicers.
 	column description
 		dataType: string
 		lineageTag: 8b0ca44a-eb30-4260-b9ce-a7302798fad4

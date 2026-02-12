@@ -1,6 +1,8 @@
+/// Main fact table containing individual trauma case records from the Australian Trauma Registry (ATR). Stores detailed information about each injury event including injury dates, severity scores (ISS), patient demographics, timing metrics (time to ED, time in ED, length of stay), and links to dimension tables.
 table FACT_ATR
 	lineageTag: cf5fb583-fad1-460b-bba1-284a8ef1dcc4
 
+	/// Date and time when the injury occurred. This is the primary date field for analyzing trauma trends over time.
 	column InjuryDt
 		dataType: dateTime
 		formatString: dd-mmm-yy
@@ -14,6 +16,7 @@ table FACT_ATR
 
 		annotation PBI_FormatHint = {"isDateTimeCustom":true}
 
+	/// Injury Severity Score - a numerical value from 0 to 75 that measures the overall severity of traumatic injuries. Higher scores indicate more severe injuries. Calculated by squaring the three most severe injuries across different body regions and adding them together.
 	column ISS
 		dataType: int64
 		formatString: 0
@@ -23,6 +26,7 @@ table FACT_ATR
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Australian Trauma Registry specific Injury Severity Score. A variant or adjusted version of the standard ISS score used specifically within the ATR system.
 	column ATR_ISS
 		dataType: int64
 		formatString: 0
@@ -32,6 +36,7 @@ table FACT_ATR
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Country where the injury occurred or where the patient is from. Used for geographic analysis and filtering.
 	column country
 		dataType: string
 		lineageTag: 43b53163-99d5-4d85-9b2a-9b37689e3bec
@@ -40,6 +45,7 @@ table FACT_ATR
 
 		annotation SummarizationSetBy = Automatic
 
+	/// The primary body region affected by the injury (e.g., head, chest, abdomen, extremities). Links to the DIM_BODY_REGION dimension table.
 	column body_region
 		dataType: string
 		lineageTag: 6659b9c4-5fe5-466f-af64-bb8f4b0145b9
@@ -48,6 +54,7 @@ table FACT_ATR
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Registration ID - a unique identifier for each trauma case. This is the primary key used to count unique patients and link records.
 	column RegId
 		dataType: int64
 		formatString: 0
@@ -57,6 +64,7 @@ table FACT_ATR
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Time in minutes from when the injury occurred to when the patient arrived at the Emergency Department. Used to measure pre-hospital time and response efficiency.
 	column TimeToED
 		dataType: double
 		lineageTag: b5660c65-55ca-4d77-86aa-c705ce1af124
@@ -67,6 +75,7 @@ table FACT_ATR
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	/// Time in minutes that the patient spent in the Emergency Department from arrival to either admission, discharge, or transfer. Used to measure ED processing time and efficiency.
 	column TimeInED
 		dataType: double
 		lineageTag: c7080461-ba09-4e6c-bb8a-2102dd95b2b1
@@ -77,6 +86,7 @@ table FACT_ATR
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	/// Length of Stay - the total number of days the patient stayed in the hospital from admission to discharge. A key metric for resource utilization and patient outcomes.
 	column LOS
 		dataType: double
 		lineageTag: 291e4b76-483b-4128-9ae8-ab42c8c39f7d
@@ -87,6 +97,7 @@ table FACT_ATR
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	/// Index or sequence number for the record. May be used for ordering or tracking records within the dataset.
 	column Index
 		dataType: int64
 		formatString: 0
@@ -96,6 +107,7 @@ table FACT_ATR
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Type or category of patient transfer between facilities (e.g., inter-hospital transfer, retrieval service). Used to analyze patient movement patterns.
 	column TransferType
 		dataType: string
 		lineageTag: 1c8d47d5-4de7-43aa-937a-cd2dc9f8effb
@@ -104,6 +116,7 @@ table FACT_ATR
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Unique identifier for the hospital or medical institution where the patient was treated. Foreign key linking to the DIM_HOSPITAL dimension table.
 	column InstitutionID
 		dataType: string
 		lineageTag: 6da48e29-f741-40b8-b799-1a9f13822545
@@ -112,6 +125,7 @@ table FACT_ATR
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Patient's age in years at the time of injury. Used for demographic analysis and age-based filtering.
 	column Age
 		dataType: int64
 		formatString: 0
@@ -121,6 +135,7 @@ table FACT_ATR
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Patient's biological sex. Foreign key linking to the DIM_GENDER dimension table for gender-based analysis.
 	column Sex
 		dataType: int64
 		formatString: 0
@@ -130,6 +145,7 @@ table FACT_ATR
 
 		annotation SummarizationSetBy = Automatic
 
+	/// External cause of the injury (e.g., motor vehicle accident, fall, assault). Foreign key linking to the DIM_INJURY_CAUSE dimension table for cause-based analysis.
 	column InjuryCause
 		dataType: string
 		lineageTag: 7f804cd2-0b46-4556-b669-5a53c5b423b2
@@ -138,6 +154,7 @@ table FACT_ATR
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Type or nature of the injury sustained (e.g., fracture, laceration, burn). Foreign key linking to the DIM_INJURY_TYPE dimension table.
 	column InjuryType
 		dataType: int64
 		formatString: 0
@@ -147,6 +164,7 @@ table FACT_ATR
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Intent or circumstances behind the injury (e.g., unintentional, assault, self-harm). Foreign key linking to the DIM_INJURY_INTENT dimension table.
 	column InjuryIntent
 		dataType: int64
 		formatString: 0
@@ -156,6 +174,7 @@ table FACT_ATR
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Location where the injury occurred (e.g., home, workplace, road, sports venue). Foreign key linking to the DIM_INJURY_PLACE dimension table.
 	column InjuryPlace
 		dataType: string
 		lineageTag: 26b6d928-4b74-4fe8-803e-81c559d2db47
@@ -164,6 +183,7 @@ table FACT_ATR
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Mode of transportation used to bring the patient to the hospital (e.g., ambulance, helicopter, private vehicle). Foreign key linking to the DIM_TRANSPORT dimension table.
 	column TranspMode
 		dataType: string
 		lineageTag: 76f2ab78-9bf6-4155-9064-9e0254d83674
@@ -172,6 +192,7 @@ table FACT_ATR
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Indicator showing whether the patient was transferred from another hospital. Value of 1 or -99 typically indicates direct transport, other values indicate inter-hospital transfer.
 	column OtherHospTransfer
 		dataType: int64
 		formatString: 0
@@ -181,6 +202,7 @@ table FACT_ATR
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Destination after discharge from hospital (e.g., home, rehabilitation, another hospital, deceased). Foreign key linking to the DIM_DISCHAGRE dimension table.
 	column DischargeDest
 		dataType: int64
 		formatString: 0
@@ -190,6 +212,7 @@ table FACT_ATR
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Activity the patient was engaged in at the time of injury (e.g., sports, work, leisure). Foreign key linking to the DIM_INJURY_ACTIVITY dimension table for activity-based analysis.
 	column ActEngaged
 		dataType: string
 		lineageTag: 76b7387d-8195-4d6e-9e64-0fc25e2e303b

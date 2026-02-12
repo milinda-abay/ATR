@@ -46,7 +46,7 @@ annotation __PBI_TimeIntelligenceEnabled = 0
 
 annotation __TEdtr = 1
 
-annotation PBI_ProTooling = ["CalcGroup","DevMode"]
+annotation PBI_ProTooling = ["CalcGroup","DevMode","MCP-PBIModeling"]
 
 ref table Calendar
 ref table DIM_AGE
@@ -71,6 +71,7 @@ ref table ICD-10-AM
 ref table 'Apply filters'
 ref table FACT_NATIONAL
 ref table icd_10_vemd_atr_code
+ref table 'Data Dictionary'
 
 ref role 'Royal Hobart Hospital'
 ref role 'Royal Darwin Hospital'

@@ -1,3 +1,4 @@
+/// Helper table containing time intelligence parameters or calculations. Used to support date-based analysis and comparisons over time.
 table 'Time intelligence'
 	lineageTag: d5768129-e9a7-4d78-8368-cb9590915c2d
 
@@ -60,6 +61,7 @@ table 'Time intelligence'
 
 			formatStringDefinition = "0.0%"
 
+	/// DAX formula or expression used for time intelligence calculations. Contains the calculation logic for comparing data across different time periods.
 	column Formula
 		dataType: string
 		lineageTag: 6d555cfc-1ba7-4b7f-8aa2-8f917ebedeba
@@ -69,6 +71,7 @@ table 'Time intelligence'
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Sort order for time intelligence formulas. Ensures time comparison calculations are displayed in the correct sequence.
 	column Ordinal
 		dataType: int64
 		isHidden

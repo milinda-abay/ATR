@@ -1,6 +1,8 @@
+/// Dimension table containing transportation modes used to bring patients to hospital (e.g., ambulance, helicopter, private vehicle). Used to analyze pre-hospital transport patterns.
 table DIM_TRANSPORT
 	lineageTag: e544d893-de04-4208-ac71-3465cb51df4b
 
+	/// Transportation mode code identifier. Primary key for the method used to transport patient to hospital.
 	column trans_mode_code_id
 		dataType: int64
 		formatString: 0
@@ -10,6 +12,7 @@ table DIM_TRANSPORT
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Descriptive label for transport mode (e.g., Ambulance, Helicopter, Private vehicle, Walk-in, Police). User-friendly text for reports.
 	column description
 		dataType: string
 		lineageTag: d1559838-67a4-4c9d-9540-298c22ea541e

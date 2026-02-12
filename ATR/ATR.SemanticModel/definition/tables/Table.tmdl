@@ -1,6 +1,8 @@
+/// General reference or lookup table. Contains supporting data used in calculations or filtering.
 table Table
 	lineageTag: d7e7b4c6-1c77-49f9-bc9a-b3c379da4745
 
+	/// Registration ID for trauma cases. Used as a lookup or reference identifier in helper calculations.
 	column RegId
 		formatString: 0
 		lineageTag: 81d8e0cb-8d44-4738-8f47-59629999b431
@@ -10,6 +12,7 @@ table Table
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Time to Emergency Department in minutes. Helper field used in outlier detection or calculation logic.
 	column TimeToED
 		lineageTag: a3602d08-0f37-4b93-ac72-769422de7ba7
 		summarizeBy: sum
@@ -20,6 +23,7 @@ table Table
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	/// Hospital institution identifier. Used in lookup calculations or data validation processes.
 	column InstitutionID
 		lineageTag: 25cbf731-ae6f-497e-8beb-16853c7f0dfb
 		summarizeBy: none

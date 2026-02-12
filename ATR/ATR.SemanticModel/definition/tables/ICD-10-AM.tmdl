@@ -1,7 +1,9 @@
+/// Reference table containing ICD-10-AM (International Classification of Diseases, 10th Revision, Australian Modification) codes. Used to classify and code diagnoses and medical conditions in the trauma data.
 table ICD-10-AM
 	excludeFromModelRefresh
 	lineageTag: 95f44289-ae58-40ef-83be-c73ad90dfe26
 
+	/// ICD-10-AM diagnosis code. Standardized medical classification code used in Australian healthcare for diagnoses and medical conditions.
 	column icd_code
 		dataType: string
 		lineageTag: a5cc4bb8-2e86-4c81-9e0c-1d986e15a7bf
@@ -10,6 +12,7 @@ table ICD-10-AM
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Description of the ICD-10-AM code. User-friendly explanation of the medical diagnosis or condition represented by the code.
 	column icd_code_description
 		dataType: string
 		lineageTag: 461d76f9-235c-4019-a927-88962ff22ea6

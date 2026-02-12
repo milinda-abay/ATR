@@ -1,7 +1,9 @@
+/// Date dimension table containing calendar dates and related attributes like year, month, quarter, and day of week. Used to analyze trauma data across different time periods and enable time-based filtering.
 table Calendar
 	lineageTag: 0eacafb2-20e6-4e5d-bc6a-0795aaaa3553
 	dataCategory: Time
 
+	/// Full calendar date value. The primary date field used to link trauma records to the calendar dimension for time-based analysis.
 	column cal_date
 		dataType: dateTime
 		isKey
@@ -14,6 +16,7 @@ table Calendar
 
 		annotation UnderlyingDateTimeDataType = Date
 
+	/// Four-digit year number (e.g., 2023, 2024). Used for year-level filtering and aggregation.
 	column cal_year
 		dataType: int64
 		lineageTag: e92b0280-5796-4a09-a160-eb082cf70e36
@@ -24,6 +27,7 @@ table Calendar
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	/// Month number from 1 to 12. Used for month-level analysis and filtering.
 	column cal_month
 		dataType: int64
 		formatString: 0
@@ -35,6 +39,7 @@ table Calendar
 
 		annotation __PBI_SemanticLinks = [{"LinkTarget":{"TableName":"Calendar","TableItemName":"cal_qtr (groups)","ObjectType":4},"LinkType":"UsedInGroup"}]
 
+	/// Full name of the month (e.g., January, February). Used for user-friendly month display in reports.
 	column cal_month_name
 		dataType: string
 		lineageTag: eb66c68d-a339-4699-a3a7-b70a0a812951
@@ -43,6 +48,7 @@ table Calendar
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Combined month and year label (e.g., 'Jan 2023'). Useful for displaying time series on x-axis in charts.
 	column MonthYear
 		dataType: string
 		lineageTag: 2ba2d1b5-1087-4b77-abf4-dc2e8749530a
@@ -51,6 +57,7 @@ table Calendar
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Integer representation of month-year combination for sorting purposes (e.g., 202301 for January 2023). Ensures correct chronological ordering.
 	column cal_mon_yeat_int
 		dataType: int64
 		formatString: 0
@@ -60,6 +67,7 @@ table Calendar
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Day of the week name (e.g., Monday, Tuesday). Used for day-of-week analysis and patterns.
 	column Day
 		dataType: string
 		lineageTag: f04f0979-e9e6-407f-95ec-398ad5ad3302
@@ -71,6 +79,7 @@ table Calendar
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Date as an integer value. May be used for numeric date calculations or sorting.
 	column Date
 		dataType: int64
 		formatString: 0
@@ -80,6 +89,7 @@ table Calendar
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Day of week number (1-7, where 1 is typically Sunday or Monday). Used for weekday analysis and filtering.
 	column 'Day of Week'
 		dataType: int64
 		formatString: 0
@@ -89,6 +99,7 @@ table Calendar
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Calendar quarter grouping (Q1, Q2, Q3, Q4). Calculated column used for quarterly analysis and reporting.
 	column 'cal_qtr (groups)' =
 			SWITCH(
 			  TRUE,
@@ -137,6 +148,7 @@ table Calendar
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Sequential day number within the year (1-365 or 366). Used for day-of-year analysis and seasonality patterns.
 	column 'Day of Year'
 		dataType: int64
 		formatString: 0

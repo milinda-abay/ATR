@@ -1,6 +1,8 @@
+/// Dimension table containing locations where injuries occurred (e.g., home, workplace, road, sports facility). Used to analyze injury patterns by location.
 table DIM_INJURY_PLACE
 	lineageTag: f197a711-df9f-43c5-ad6a-af9d56b84b20
 
+	/// Injury place code identifier. Primary key indicating where the injury occurred.
 	column injury_place_code_id
 		dataType: string
 		lineageTag: 02838ef0-a89d-4b5d-9539-5b5e0c91edb3
@@ -11,6 +13,7 @@ table DIM_INJURY_PLACE
 
 		annotation __PBI_SemanticLinks = [{"LinkTarget":{"TableName":"DIM_INJURY_PLACE","TableItemName":"injury_place_code_id (groups)","ObjectType":4},"LinkType":"UsedInGroup"}]
 
+	/// ICD-10 code description for the place of injury. Standardized medical classification text.
 	column icd_code_description
 		dataType: string
 		lineageTag: bf65ae1f-4b75-44b1-a287-5a6b79c71f30
@@ -19,6 +22,7 @@ table DIM_INJURY_PLACE
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Categorized grouping of injury places (e.g., Home, Workplace, Road, Sports/recreation, Public place). Simplified categories for analysis.
 	column icd_place_category
 		dataType: string
 		lineageTag: d0b31185-a511-47ef-ba34-71f67491648d
@@ -27,6 +31,7 @@ table DIM_INJURY_PLACE
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Calculated grouping of injury place codes. Used for aggregating similar locations into broader categories for reporting.
 	column 'injury_place_code_id (groups)' =
 			SWITCH(
 				TRUE,

@@ -1,0 +1,97 @@
+table 'Data Dictionary'
+	lineageTag: a60f7fdd-693b-4ce3-bec8-79a9c95299dc
+
+	column Type
+		lineageTag: 3d7eed3f-2a84-4371-b578-297d6f392af5
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Type]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Name
+		lineageTag: 60367cfb-8f20-4047-9cdc-a28fd4522d45
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Name]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Description
+		lineageTag: ff387a77-0b44-484d-93e8-013dd09e2de2
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Description]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Location
+		lineageTag: 44ba8786-9ee7-4f82-b4f0-b6d5f572eac4
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Location]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Expression
+		lineageTag: c687b9c2-0c75-4fec-a376-670bb1dc3c05
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Expression]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Data Dictionary' = calculated
+		mode: import
+		source =
+				
+				VAR _columns = SELECTCOLUMNS(
+				    FILTER(
+				        INFO.VIEW.COLUMNS(),
+				        [Table] <> "Data Dictionary" && NOT([IsHidden])
+				    ),
+				    "Type", "Column",
+				    "Name", [Name],
+				    "Description", [Description],
+				    "Location", [Table],
+				    "Expression", [Expression]
+				)
+				
+				VAR _measures = SELECTCOLUMNS(
+				    FILTER(
+				        INFO.VIEW.MEASURES(),
+				        [Table] <> "Data Dictionary" && NOT([IsHidden])
+				    ),
+				    "Type", "Measure",
+				    "Name", [Name],
+				    "Description", [Description],
+				    "Location", [Table],
+				    "Expression", [Expression]
+				)
+				
+				VAR _tables = SELECTCOLUMNS(
+				    FILTER(
+				        INFO.VIEW.TABLES(),
+				        [Name] <> "Data Dictionary" && [Name] <> "Calculations" && NOT([IsHidden])
+				    ),
+				    "Type", "Table",
+				    "Name", [Name],
+				    "Description", [Description],
+				    "Location", BLANK(),
+				    "Expression", [Expression]
+				)
+				
+				VAR _relationships = SELECTCOLUMNS(
+				    INFO.VIEW.RELATIONSHIPS(),
+				    "Type", "Relationship",
+				    "Name", [Relationship],
+				    "Description", BLANK(),
+				    "Location", [FromTable],
+				    "Expression", [Relationship]
+				)
+				
+				RETURN
+				UNION(_columns, _measures, _tables, _relationships)
+
+	annotation PBI_Id = ab5b60722cf84bd9a2360454250d9f68
+

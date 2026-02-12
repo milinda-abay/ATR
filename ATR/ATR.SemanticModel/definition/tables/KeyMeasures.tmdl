@@ -1,6 +1,8 @@
+/// Calculation table containing all key performance measures and metrics used throughout the report. This table has no data rows - it exists solely to organize and store DAX measures for trauma analysis including patient counts, mortality rates, timing metrics, and hospital-specific calculations.
 table KeyMeasures
 	lineageTag: 9b349d70-db67-490c-a8a7-959e6815a7ef
 
+	/// Calculates the average time (in minutes) it took for patients to reach the Emergency Department from the time of injury. The calculation averages the TimeToED values across unique patient registration IDs to ensure each patient is counted once.
 	measure 'Average TimeToED' =
 			CALCULATE(
 			    AVERAGE(FACT_ATR[TimeToED]),
@@ -9,15 +11,18 @@ table KeyMeasures
 		formatString: 0.0
 		lineageTag: 66797954-3738-4667-8c57-0b03bf7983c6
 
+	/// Counts the total number of unique trauma cases by counting distinct patient registration IDs (RegId). This is the primary measure for counting patients in the trauma registry.
 	measure 'Number of cases' = DISTINCTCOUNT(FACT_ATR[RegId])
 		formatString: 0
 		lineageTag: 728a6a72-bacb-4162-b3dd-81956398a241
 
+	/// Counts the number of trauma cases that resulted in death. This filters the total number of cases to only include records where the discharge status indicates mortality (Deaths).
 	measure Deaths = CALCULATE([Number of cases], DIM_DISCHAGRE[Mortality] = "Deaths")
 		lineageTag: 48816487-e768-47df-8eb9-cda0974dfa87
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	/// Calculates the mortality rate as a percentage. The formula divides the number of deaths by the total number of cases. For example, if there are 10 deaths out of 100 cases, the result is 10%.
 	measure 'Death %' =
 			
 			VAR
@@ -36,11 +41,13 @@ table KeyMeasures
 
 		changedProperty = FormatString
 
+	/// Indicates whether a patient was transported directly to the hospital or was transferred from another facility. Returns 'Direct' if the patient came directly (OtherHospTransfer = 1 or -99), otherwise returns 'Transfer'.
 	measure 'Direct Transport' = IF(SELECTEDVALUE(FACT_ATR[OtherHospTransfer]) in { 1,-99},"Direct", "Transfer")
 		lineageTag: 3ea327f3-0e48-4bf0-92c8-e590a5f0bd12
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	/// Calculates the percentage of cases for each discharge category. The formula divides cases in the selected discharge category by the total cases across all discharge types. This shows the distribution of discharge outcomes (e.g., home, rehabilitation, death).
 	measure 'Discharge %' = ```
 			
 			 VAR
@@ -58,11 +65,13 @@ table KeyMeasures
 		formatString: 0.0
 		lineageTag: e1660d34-aedb-4063-b7aa-04843986b2fe
 
+	/// Returns the most recent date in the calendar that has at least one trauma case recorded. This helps identify the latest data available in the dataset.
 	measure last_date = LASTNONBLANK('CALENDAR'[cal_date],[Number of cases])
 		lineageTag: d5b6f0ac-f19a-42b0-bfd5-c03119d76c1d
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	/// Calculates the average Length of Stay (LOS) in hospital, measured in days, using a robust outlier-removal method. The formula uses the Interquartile Range (IQR) to identify and exclude extreme outliers (values beyond 1.5 times the IQR from Q1/Q3), then calculates the average of the remaining values. This provides a more accurate average that isn't skewed by unusually long or short stays.
 	measure LOS =
 			
 			VAR initial_table = SUMMARIZE(ALLSELECTED(FACT_ATR),FACT_ATR[RegId],FACT_ATR[LOS])
@@ -99,11 +108,13 @@ table KeyMeasures
 		formatString: 0.0
 		lineageTag: 67aa61d6-e744-4b0a-b1a1-26a43f6e4d17
 
+	/// Returns the maximum (latest) date available in the Calendar table. This shows the end date of the date range covered by the data model.
 	measure max_day = {max('CALENDAR'[cal_date])}
 		lineageTag: 2c67b1c3-5982-4e08-972c-bb166eeb53ef
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	/// Calculates the average time patients spent in the Emergency Department (in minutes) using outlier-removal logic. The formula uses the Interquartile Range (IQR) method to exclude extreme values that fall outside 1.5 times the IQR from the first and third quartiles (Q1 and Q3), then averages the remaining values for a more reliable measure.
 	measure 'Time in ED' =
 			
 			VAR initial_table = CALCULATETABLE(
@@ -145,6 +156,7 @@ table KeyMeasures
 		formatString: 0.0
 		lineageTag: 0a3a09f7-cb61-4980-bf8b-02ecf3aa3e3f
 
+	/// Calculates the average time (in minutes) from injury to Emergency Department arrival, using robust outlier-removal. The formula identifies outliers using the IQR method (values beyond 1.5 times the IQR from Q1/Q3), excludes them, then calculates the average of the remaining values to avoid skewing from extreme cases.
 	measure 'Time to ED' =
 			
 			VAR initial_table = CALCULATETABLE(
@@ -184,6 +196,7 @@ table KeyMeasures
 		formatString: 0.0
 		lineageTag: 892cca68-9253-4922-a2e0-6314aa5731a6
 
+	/// Security measure that checks if the currently selected hospital is in the restricted list. Returns 1 if the hospital should be accessible to the current user, otherwise returns blank. This is used to control row-level security and determine which hospital data users can view.
 	measure 'Restricted hospital id' = ```
 			
 			VAR hospital_id = SELECTEDVALUE(DIM_HOSPITAL[InstCodeId])
@@ -203,6 +216,7 @@ table KeyMeasures
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	/// Looks up and displays the hospital name based on the selected hospital ID from the restricted hospital list. If no match is found, it returns 'ALL'. This helps display user-friendly hospital names instead of codes.
 	measure hospital_name =
 			LOOKUPVALUE (
 			    DIM_HOSPITAL[HospitalName],
@@ -213,6 +227,7 @@ table KeyMeasures
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	/// Checks if the selected hospital from the restricted list matches a hospital in the main hospital dimension. Returns 'show' if there's a match, indicating the hospital exists in the current dataset. Used for conditional formatting or visibility controls.
 	measure CurrentHospital =
 			
 			IF (
@@ -223,6 +238,7 @@ table KeyMeasures
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	/// Looks up the hospital name from the restricted hospital list based on the selected hospital ID from the hospital dimension. Returns 'ALL' if no match is found. This is useful for displaying hospital names in charts and visuals while respecting security restrictions.
 	measure PlotHospital =
 			
 			LOOKUPVALUE (
@@ -234,6 +250,7 @@ table KeyMeasures
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	/// Counts the total number of unique trauma cases in the national dataset by counting distinct patient registration IDs (RegId) from the FACT_NATIONAL table. This provides national-level injury statistics for comparison with regional data.
 	measure 'National Injuries' = DISTINCTCOUNT(FACT_NATIONAL[RegId])
 		lineageTag: 1318937b-0b78-4c0a-805d-aba6c31999bc
 

@@ -1,6 +1,8 @@
+/// Dimension table containing age group classifications for patients. Used to analyze trauma patterns across different age demographics.
 table DIM_AGE
 	lineageTag: bbda7cb2-f964-4241-817d-d7bd147de2cf
 
+	/// Patient age in years. Primary key for age-based analysis and demographic filtering.
 	column age
 		dataType: int64
 		formatString: 0
@@ -10,6 +12,7 @@ table DIM_AGE
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Age grouped into 5-year bands (e.g., 0-4, 5-9, 10-14). Standard age grouping for demographic analysis.
 	column age_5y
 		dataType: string
 		lineageTag: 24148776-8f16-42ed-93f7-f6defd77ac8d
@@ -21,6 +24,7 @@ table DIM_AGE
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Sort order for 5-year age groups. Ensures age bands display in correct ascending sequence.
 	column order_age_5y
 		dataType: int64
 		formatString: 0
@@ -30,6 +34,7 @@ table DIM_AGE
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Age grouped into 10-year bands (e.g., 0-9, 10-19, 20-29). Broader age grouping for high-level analysis.
 	column age_10y
 		dataType: string
 		lineageTag: ee47d7e7-579d-4b01-9fcf-4944c1e571ed
@@ -41,6 +46,7 @@ table DIM_AGE
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Sort order for 10-year age groups. Ensures age bands display in correct ascending sequence.
 	column order_age_10y
 		dataType: int64
 		formatString: 0
@@ -50,6 +56,7 @@ table DIM_AGE
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Binary classification of patients as Adult or Child. Typically uses 18 years as the threshold for pediatric vs adult trauma analysis.
 	column adult_child
 		dataType: string
 		lineageTag: d2336203-ce9f-415c-b5ba-cdf38bfb21ff
@@ -61,6 +68,7 @@ table DIM_AGE
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Sort order for adult/child classification. Used to control display sequence (typically child first, then adult).
 	column order_adult_child
 		dataType: int64
 		formatString: 0

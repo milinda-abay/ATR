@@ -1,6 +1,8 @@
+/// Dimension table containing discharge destinations and mortality status (e.g., home, rehabilitation facility, deaths, transferred). Used to analyze patient outcomes after hospital treatment.
 table DIM_DISCHAGRE
 	lineageTag: 1433fcf5-b67e-478d-ba83-2ff01f5845f8
 
+	/// Discharge destination identifier. Primary key for where patient went after hospital treatment.
 	column destination_id
 		dataType: int64
 		formatString: 0
@@ -10,6 +12,7 @@ table DIM_DISCHAGRE
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Descriptive label for discharge destination (e.g., Home, Rehabilitation, Transferred, Other hospital, Died). User-friendly text for outcome analysis.
 	column discharge_description
 		dataType: string
 		lineageTag: 95804127-a147-4def-9d86-d10cae2e5230
@@ -18,6 +21,7 @@ table DIM_DISCHAGRE
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Mortality classification flag. Categorizes outcomes as either 'Deaths' or 'Survivors' for mortality analysis and key performance indicators.
 	column Mortality
 		dataType: string
 		lineageTag: 52ab8039-26c1-4ef2-b640-d2d441a3a745

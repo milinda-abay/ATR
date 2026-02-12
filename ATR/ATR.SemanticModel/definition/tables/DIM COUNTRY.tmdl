@@ -1,6 +1,8 @@
+/// Dimension table containing country information. Used for geographic analysis and filtering of trauma data.
 table 'DIM COUNTRY'
 	lineageTag: 040ee51b-e479-4456-b9de-32547dde189f
 
+	/// Country name. Used for geographic filtering and international comparison of trauma data.
 	column country
 		dataType: string
 		lineageTag: 34d199b0-935d-49eb-844f-2f18cef45e92

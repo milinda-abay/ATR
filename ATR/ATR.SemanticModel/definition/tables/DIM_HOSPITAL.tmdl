@@ -1,6 +1,8 @@
+/// Dimension table containing hospital information including hospital codes, names, and related attributes. Central reference for analyzing trauma cases by treating facility.
 table DIM_HOSPITAL
 	lineageTag: ca130987-a201-4982-809c-76b08d10b11a
 
+	/// Unique hospital institution code identifier. Primary key for the hospital dimension, used to link trauma cases to their treating facility.
 	column InstCodeId
 		dataType: string
 		lineageTag: 9f83bec9-c29a-4f25-96e2-4a89a2a23df5
@@ -9,6 +11,7 @@ table DIM_HOSPITAL
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Full name of the hospital or medical facility. Used for displaying hospital names in reports and filtering.
 	column HospitalName
 		dataType: string
 		lineageTag: 29aa2a85-3aeb-4234-a422-c7f0a113380e
@@ -17,6 +20,7 @@ table DIM_HOSPITAL
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Geographic latitude coordinate of the hospital location. Used for mapping and geographic analysis.
 	column lat
 		dataType: double
 		lineageTag: 8776ae72-8b30-4535-b22b-5061bc6e2f81
@@ -28,6 +32,7 @@ table DIM_HOSPITAL
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	/// Geographic longitude coordinate of the hospital location. Used for mapping and geographic analysis.
 	column long
 		dataType: double
 		lineageTag: 220e30e2-8dd4-4e36-a552-05d3a4dd165a
@@ -39,6 +44,7 @@ table DIM_HOSPITAL
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	/// Postal code where the hospital is located. Used for geographic categorization and analysis.
 	column postcode
 		dataType: string
 		lineageTag: 06b2479e-da4f-4835-ac44-ea4df87dbdec
@@ -48,6 +54,7 @@ table DIM_HOSPITAL
 
 		annotation SummarizationSetBy = Automatic
 
+	/// State or territory where the hospital is located (e.g., VIC, NSW, QLD). Used for state-level analysis and comparison.
 	column state
 		dataType: string
 		lineageTag: d088b118-4777-4365-907c-dee09479964e
@@ -57,6 +64,7 @@ table DIM_HOSPITAL
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Country where the hospital is located. Used for national-level grouping and filtering.
 	column country
 		dataType: string
 		lineageTag: 6469d87e-2898-41e6-96a6-085066c00c6a
@@ -66,6 +74,7 @@ table DIM_HOSPITAL
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Sequential index number for the hospital record. Used for ordering or internal reference.
 	column Index
 		dataType: int64
 		formatString: 0
